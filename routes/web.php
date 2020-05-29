@@ -22,3 +22,6 @@ Route::view('/','auth.login');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//sell
+Route::get('/sell', 'SellController@index')->name('sell');
