@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+   <!-- CSRF Token -->
+	<meta name="csrf-token" content="{{ csrf_token() }}">
+
+	<title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
     <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('assets/plugins/fontawesome-free/css/all.min.css')}}">
   <!-- Ionicons -->
@@ -27,8 +30,14 @@
       element.classList.add("active")
     }
   </script>
+
+  <style>
+    .pull-right {
+      float: right !important;
+    }
+  </style>
 </head>
-<body class="hold-transition sidebar-mini layout-navbar-fixed">
+<body class="hold-transition sidebar-mini layout-navbar-fixed" style="font-size: 0.8rem">
    <!-- Site wrapper -->
 <div class="wrapper">
     <!-- Navbar -->
@@ -202,7 +211,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-          <a href="{{route('home')}}" class="nav-link">
+           <a href="{{route('home')}}"  class="nav-link @yield('dashboard')">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -211,7 +220,7 @@
             </a>
           </li>
           <li class="nav-item has-treeview ">
-            <a href="#" class="nav-link ">
+            <a href="#" class="nav-link @yield('POS')">
               <i class="nav-icon fas fa-copy"></i>
               <p>
                POS
@@ -221,14 +230,24 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('sell')}}" class="nav-link">
+                <a href="{{route('sell')}}" class="nav-link @yield('POS-sell')">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>sell</p>
+                  <p>Sales</p>
                 </a>
               </li>
-              
             </ul>
           </li>
+          
+          <li class="nav-item">
+          <a href="{{route('customers')}}" class="nav-link @yield('clients')">
+               <i class="nav-icon fas fa-tachometer-alt"></i>
+               <p>
+                Clients
+                 {{-- <i class="right fas fa-angle-left"></i> --}}
+               </p>
+             </a>
+           </li>
+
          </li>
         </ul>
       </nav>
@@ -243,10 +262,10 @@
 
   <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.0.6-pre
+      <b>Version</b> 1.0.0
 
     </div>
-    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+    <strong>Copyright &copy; 2020  All rights
     reserved.
   </footer>
 

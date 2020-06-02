@@ -1,5 +1,15 @@
 @extends('layouts.home')
 
+@section('title','Sales')
+
+@section('POS')
+    active
+@endsection
+
+@section('POS-sell')
+    active
+@endsection
+
 @section('content')
 
  <!-- Content Wrapper. Contains page content -->
@@ -14,7 +24,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-            <li class="breadcrumb-item active">sell</li>
+            <li class="breadcrumb-item active">Sales</li>
             {{-- <li class="breadcrumb-item"><a href="#">Layout</a></li> --}}
             </ol>
           </div>
@@ -30,10 +40,11 @@
             <!-- Default box -->
             <div class="card">
     <div class="card-header">
-      <h3 class="card-title">Sales</h3>
+      <h3 class="card-title text-secondary">Sales</h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
+      <div class="table-responsive">
       <table id="example1" class="table table-bordered table-striped">
         <thead>
         <tr>
@@ -45,15 +56,7 @@
         </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Trident</td>
-                <td>Internet
-                  Explorer 4.0
-                </td>
-                <td>Win 95+</td>
-                <td> 4</td>
-                <td>X</td>
-              </tr>
+            
         </tbody>
         <tfoot>
         <tr>
@@ -65,6 +68,7 @@
         </tr>
         </tfoot>
       </table>
+    </div>
     </div>
     <!-- /.card-body -->
 </div>

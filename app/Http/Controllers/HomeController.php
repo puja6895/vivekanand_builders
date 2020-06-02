@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
+use View;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('app.dashboard');
+        $customers_count = DB::table('customers')->count();
+        return view::make('app.dashboard')->with(['c_count'=>$customers_count]);
     }
 }

@@ -25,3 +25,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //sell
 Route::get('/sell', 'SellController@index')->name('sell');
+
+
+//customer
+Route::get('/customer', 'CustomerController@index')->name('customers');
+Route::get('/customer/add', 'CustomerController@create')->name('customer.add');
+Route::post('/customer/store', 'CustomerController@store')->name('customer.store');
+Route::get('/customer/edit/{id}', 'CustomerController@edit')->name('customer.edit');
+Route::post('/customer/update/', 'CustomerController@update')->name('customer.update');
+
+
+
