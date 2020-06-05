@@ -35,6 +35,10 @@
     .pull-right {
       float: right !important;
     }
+
+    .card-border{
+      border-top: 2px solid #4e88bb ;
+    }
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-navbar-fixed" style="font-size: 0.8rem">
@@ -239,14 +243,33 @@
           </li>
           
           <li class="nav-item">
-          <a href="{{route('customers')}}" class="nav-link @yield('clients')">
+            <a href="{{route('customers')}}" class="nav-link @yield('clients')">
                <i class="nav-icon fas fa-tachometer-alt"></i>
                <p>
                 Clients
                  {{-- <i class="right fas fa-angle-left"></i> --}}
                </p>
-             </a>
+            </a>
            </li>
+
+           <li class="nav-item has-treeview ">
+            <a href="#" class="nav-link @yield('Master')">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+               Master Data
+                <i class="fas fa-angle-left right"></i>
+                {{-- <span class="badge badge-info right">6</span> --}}
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+              <a href="{{route('units')}}" class="nav-link @yield('Master-unit')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Unit</p>
+                </a>
+              </li>
+            </ul>
+          </li>
 
          </li>
         </ul>
@@ -299,8 +322,8 @@
     $('#example1').DataTable()
     $('#example2').DataTable({
       'paging': true,
-      'lengthChange': false,
-      'searching': false,
+      'lengthChange': true,
+      'searching': true,
       'ordering': true,
       'info': true,
       'autoWidth': true

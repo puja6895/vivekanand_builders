@@ -18,9 +18,10 @@ class CustomerController extends Controller
     public function index()
     {
         //
-        $customers = Customer::all();
+        $customers = DB::table('customers')->where('isDeleted','0')->get();
+        $customers_disabled = Customer::where('isDeleted','1')->get();
 
-        return View::make('app.customer.list')->with(['customers'=>$customers]);
+        return View::make('app.customer.list')->with(['customers'=>$customers,'customers_disabled'=>$customers_disabled]);
         // return view::make('app.customer.list');
     }
 
@@ -51,8 +52,7 @@ class CustomerController extends Controller
                 // ]);
                 Validator::make($request->all(), [
                     'customer_name'     => 'required',
-                    'customer_mobile'     => 'required|unique:customers|digits:10',
-                    'customer_email'    => 'email:rfc,dns'
+                    'customer_mobile'     => 'required|unique:customers|digits:10'
                 ])->validate();
 
         try{
@@ -154,8 +154,51 @@ class CustomerController extends Controller
      * @param  \App\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer)
-    {
-        //
+    public function destroy(Customer $customer,$id)
+   {
+        try{
+            // DB Transection Begin
+            DB::beginTransaction();
+            $customer=Customer::find($id);
+            if($customer){
+                $customer->isDeleted=1;
+                $customer->save();
+        
+                DB::commit();
+
+                // Return To Listing Page
+                return redirect()->route('customers')->with('success','Customer Disabled');
+            }else{
+                return back()->with('error','Invalid customer Id');
+            }
+
+        }catch(Exception $exception){
+            DB::rollBack();
+            return back()->with('error',$exception->getMessage())->withInput();
+        }
+
+    }
+    public function enable($id){
+        try{
+            // DB Transection Begin
+            DB::beginTransaction();
+            $customer=Customer::find($id);
+            if($customer){
+                $customer->isDeleted=0;
+                $customer->save();
+        
+                DB::commit();
+
+                // Return To Listing Page
+                return redirect()->route('customers')->with('success','Customer Enable');
+            }else{
+                return back()->with('error','Invalid customer Id');
+            }
+
+        }catch(Exception $exception){
+            DB::rollBack();
+            return back()->with('error',$exception->getMessage())->withInput();
+        }
+
     }
 }

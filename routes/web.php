@@ -33,6 +33,19 @@ Route::get('/customer/add', 'CustomerController@create')->name('customer.add');
 Route::post('/customer/store', 'CustomerController@store')->name('customer.store');
 Route::get('/customer/edit/{id}', 'CustomerController@edit')->name('customer.edit');
 Route::post('/customer/update/', 'CustomerController@update')->name('customer.update');
+Route::get('/customer/destroy/{id}', 'CustomerController@destroy')->name('customer.destroy');
+Route::get('/customer/enable/{id}', 'CustomerController@enable')->name('customer.enable');
+
+//Unit
+Route::get('/unit', 'UnitController@index')->name('units');
+Route::get('/unit/add', 'UnitController@create')->name('unit.add');
+Route::post('/unit/store', 'UnitController@store')->name('unit.store');
+Route::get('/unit/edit/{id}', 'UnitController@edit')->name('unit.edit');
+Route::post('/unit/update', 'UnitController@update')->name('unit.update');
+Route::get('/unit/destroy/{id}', 'UnitController@destroy')->name('unit.destroy');
+Route::get('/unit/enable/{id}', 'UnitController@enable')->name('unit.enable');
+
+
 
 
 

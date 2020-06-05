@@ -20,6 +20,7 @@ class CreateCustomersTable extends Migration
             $table->string('customer_email')->nullable();
             $table->string('customer_address')->nullable();
             $table->string('gst_no')->nullable();
+            
             $table->timestamps();
         });
     }
