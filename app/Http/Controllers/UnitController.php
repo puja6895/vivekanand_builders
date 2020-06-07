@@ -17,7 +17,7 @@ class UnitController extends Controller
     public function index()
     {
         //
-        $unit = Unit::withTrashed()->orderBy('deleted_at','asc')->get();
+        $unit = Unit::withTrashed()->latest('deleted_at')->get();
         return view::make('app.unit.list')->with(['unit'=>$unit]);
     }
 

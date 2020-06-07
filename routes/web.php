@@ -45,6 +45,13 @@ Route::post('/unit/update', 'UnitController@update')->name('unit.update');
 Route::get('/unit/destroy/{id}', 'UnitController@destroy')->name('unit.destroy');
 Route::get('/unit/enable/{id}', 'UnitController@enable')->name('unit.enable');
 
+//Categories
+Route::get('/categorie', 'CategorieController@index')->name('categories');
+
+//Product
+Route::get('/product', 'ProductController@index')->name('products');
+Route::get('/product/add', 'ProductController@create')->name('product.add');
+Route::post('/product/store', 'ProductController@store')->name('product.store');
 
 
 

@@ -252,7 +252,17 @@
             </a>
            </li>
 
-           <li class="nav-item has-treeview ">
+           <li class="nav-item">
+           <a href="{{route('products')}}"  class="nav-link @yield('Product')">
+               <i class="nav-icon fas fa-tachometer-alt"></i>
+               <p>
+                 Products
+                 {{-- <i class="right fas fa-angle-left"></i> --}}
+               </p>
+             </a>
+           </li>
+
+          <li class="nav-item has-treeview ">
             <a href="#" class="nav-link @yield('Master')">
               <i class="nav-icon fas fa-copy"></i>
               <p>
@@ -266,6 +276,14 @@
               <a href="{{route('units')}}" class="nav-link @yield('Master-unit')">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Unit</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+              <a href="{{route('categories')}}" class="nav-link @yield('Master-unit')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Categories</p>
                 </a>
               </li>
             </ul>
