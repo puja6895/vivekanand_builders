@@ -59,13 +59,15 @@
                       <thead>
                       <tr>
                         <th>Product Name</th>
+                        <th>Categories Name</th>
                         <th>Action</th>
                       </tr>
                       </thead>
                       <tbody>
                         @foreach($products as $product)
                           <tr>
-                          <td>{{$product->product_name}}</td>
+                          <td>{{$product->product_name}}</td> 
+                          <td>{{$product->categorie_name}}</td>             
                           <td>
                             @if($product->deleted_at==null)   
                           <a href="{{route('product.edit',['id'=>$product->product_id])}}" class="mr-2"><button class="btn btn-info btn-sm">Edit</button></a>

@@ -15,6 +15,8 @@ class AddCategorieNameToProducts extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
             //
+            $table->string('categorie_name');
+
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Categorie;
 use Illuminate\Http\Request;
 use DB;
 use View;
@@ -18,6 +19,7 @@ class ProductController extends Controller
     {
         //
         $product = Product::withTrashed()->get();
+        // $categorie = Categorie::with
         return view::make('app.product.list')->with(['products'=>$product]);;
 
     }
@@ -30,7 +32,8 @@ class ProductController extends Controller
     public function create()
     {
         //
-        return view::make('app.product.add');
+        $categorie=Categorie::all();
+        return view::make('app.product.add')->with(['categories'=>$categorie]);
     }
 
     /**
@@ -44,6 +47,7 @@ class ProductController extends Controller
         //
         $this->validate($request, [
             'product_name'     => 'required',
+            'categorie_id'   => 'required|exists:categories',
            
         ]);
     
@@ -51,9 +55,10 @@ class ProductController extends Controller
             //DB Transection
             DB::beginTransaction();
 
-            $unit = new Product;
-            $unit->product_name=$request->product_name;
-            $unit->save();
+            $product = new Product;
+            $product->product_name=$request->product_name;
+            $product->categorie_id=$request->categorie_id;
+            $product->save();
 
             DB::commit();
             return redirect()->route('products')->with('success','Product Added');
@@ -106,6 +111,7 @@ class ProductController extends Controller
         $this->validate($request, [
             'product_id'    => 'required|exists:products',
             'product_name'     => 'required|unique:products',
+            'categorie_name'   => 'required'
             
             ]);
         try{    
@@ -114,6 +120,7 @@ class ProductController extends Controller
 
             $product = Product::find($request->product_id);
             $product->product_name=$request->product_name;
+            $product->categorie_name=$request->categorie_name;
             $product->save();
 
             DB::commit();

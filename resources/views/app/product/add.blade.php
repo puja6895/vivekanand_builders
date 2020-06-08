@@ -59,12 +59,24 @@
                     <label for="exampleInputEmail1">Product Name
                         <span style="color: red;">*</span>
                     </label>
-                    <input type="text" name="product_name" required class="form-control  {{$errors->has('product_name') ? 'is-invalid' : ''}}" id="customer_name" placeholder="Enter unit" value="{{ old('unit_name')}}">
+                    <input type="text" name="product_name" required class="form-control  {{$errors->has('product_name') ? 'is-invalid' : ''}}" id="customer_name" placeholder="Enter Product" value="{{ old('unit_name')}}">
                     {{-- Error handling --}}
                     {{-- @if($errors->has('customer_name'))
                         <span class="text-danger">{{$errors->first('customer_name')}}</span>
                     @endif --}}
                     
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Select Category</label>
+                    <select class="form-control" name="category_id">
+                      <option selected="" disabled="">Please Select Category</option>
+                      @foreach($categories as $categorie)
+                        <option value="{{$categorie->categorie_id}}">
+                          {{$categorie->categorie_name}}
+                        </option>
+                      @endforeach
+                    </select>
                   </div>
                   
                   
@@ -77,7 +89,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Add unit</button>
+                  <button type="submit" class="btn btn-info">Add Product</button>
                 </div>
               </form>
             </div>
