@@ -56,7 +56,7 @@ class CustomerController extends Controller
                 ])->validate();
 
         try{
-            // DB Transection Begin
+            // DB Transaction Begin
             DB::beginTransaction();
 
             // Save Customer

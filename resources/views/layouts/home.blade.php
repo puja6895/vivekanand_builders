@@ -244,7 +244,7 @@
           
           <li class="nav-item">
             <a href="{{route('customers')}}" class="nav-link @yield('clients')">
-               <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="fa fa-users" aria-hidden="true"></i>
                <p>
                 Clients
                  {{-- <i class="right fas fa-angle-left"></i> --}}
@@ -281,7 +281,7 @@
             </ul>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-              <a href="{{route('categories')}}" class="nav-link @yield('Master-unit')">
+              <a href="{{route('categories')}}" class="nav-link @yield('Master-categories')">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Categories</p>
                 </a>

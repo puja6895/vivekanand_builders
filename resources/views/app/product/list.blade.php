@@ -68,7 +68,7 @@
                           <td>{{$product->product_name}}</td>
                           <td>
                             @if($product->deleted_at==null)   
-                            <a href="" class="mr-2"><button class="btn btn-info btn-sm">Edit</button></a>
+                          <a href="{{route('product.edit',['id'=>$product->product_id])}}" class="mr-2"><button class="btn btn-info btn-sm">Edit</button></a>
                             <a href=""><button class="btn btn-danger btn-sm">Disable</button></a>
                           @else
                           <a href=""><button class="btn btn-success btn-sm">Enable</button></a>

@@ -1,8 +1,12 @@
 @extends('layouts.home')
 
-@section('title','Product')
+@section('title','Categories')
 
-@section('Product')
+@section('Master')
+    active    
+@endsection
+
+@section('Master-Categories')
     active    
 @endsection
 
@@ -15,13 +19,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h3>Product</h3>
+            <h3>Categories</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-              <li class="breadcrumb-item "><a href="{{route('products')}}">Product</a></li>
-              <li class="breadcrumb-item active">Edit</li>
+              <li class="breadcrumb-item "><a href="{{route('categories')}}">Categories</a></li>
+              <li class="breadcrumb-item active">Add</li>
             </ol>
           </div>
         </div>
@@ -47,26 +51,25 @@
             
             <div class="card card-muted">
               <div class="card-header card-border">
-                <h3 class="card-title text-secondary"> Product </h3>
-              <a href="{{route('products')}}"><button type="submit" class="btn btn-info pull-right">Back</button></a>
+                <h3 class="card-title text-secondary">Add Unit </h3>
+              <a href="{{route('categories')}}"><button type="submit" class="btn btn-info pull-right">Back</button></a>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-            <form role="form" id="quickForm" method="POST" action="{{route('product.update')}}" >
+              <form role="form" id="quickForm" method="POST" action="{{route('categorie.store')}}" >
                 @csrf
                 <div class="card-body">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Product Name
-                        <span style="color: red;">*</span>
+                    <label for="exampleInputEmail1">Categorie Name
+                        {{-- <span style="color: red;">*</span> --}}
                     </label>
-                    <input type="text" name="product_name" required class="form-control  {{$errors->has('product_name') ? 'is-invalid' : ''}}" id="customer_name" placeholder="Enter unit" value="{{ $product->product_name }}">
+                    <input type="text" name="categorie_name" required class="form-control  {{$errors->has('categorie_name') ? 'is-invalid' : ''}}" id="categorie_name" placeholder="Enter categorie" value="{{ old('categorie_name')}}">
                     {{-- Error handling --}}
                     {{-- @if($errors->has('customer_name'))
                         <span class="text-danger">{{$errors->first('customer_name')}}</span>
                     @endif --}}
                     
                   </div>
-                <input type="hidden" name="product_id" value="{{$product->product_id}}">
                   
                   
                   {{-- <div class="form-group mb-0">
@@ -78,7 +81,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-info">Update</button>
+                  <button type="submit" class="btn btn-primary">Add unit</button>
                 </div>
               </form>
             </div>

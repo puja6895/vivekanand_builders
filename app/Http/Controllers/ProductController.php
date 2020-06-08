@@ -82,9 +82,16 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(Product $product,$id)
     {
         //
+        $result = Product::find($id);
+        if($result){
+        return view::make('app.product.edit')->with(['product'=>$result]);
+        }else {
+            return back()->with('error','Invalid id');
+        }
+
     }
 
     /**
@@ -96,7 +103,28 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $this->validate($request, [
+            'product_id'    => 'required|exists:products',
+            'product_name'     => 'required|unique:products',
+            
+            ]);
+        try{    
+            //DB Transaction
+            DB::beginTransaction();
+
+            $product = Product::find($request->product_id);
+            $product->product_name=$request->product_name;
+            $product->save();
+
+            DB::commit();
+            return redirect()->route('products')->with('success','Product updated');
+
+        }catch(Exception $exception){
+            DB::rollBack();
+            return back()->with('error',$exception->getMessage())->withInput();
+        }
+
+
     }
 
     /**

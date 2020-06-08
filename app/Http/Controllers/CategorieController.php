@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Categorie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use DB;
 use View;
 
@@ -17,7 +18,8 @@ class CategorieController extends Controller
     public function index()
     {
         //
-        return view::make('app.categories.list');
+        $categorie = Categorie::withTrashed()->get();
+        return view::make('app.categories.list')->with(['categories'=>$categorie]);
     }
 
     /**
@@ -28,6 +30,7 @@ class CategorieController extends Controller
     public function create()
     {
         //
+        return view::make('app.categories.add');
     }
 
     /**
@@ -39,6 +42,25 @@ class CategorieController extends Controller
     public function store(Request $request)
     {
         //
+        Validator::make($request->all(), [
+            'categorie_name'     => 'required',
+        ])->validate();
+        try{
+        //DB Transaction
+        DB::beginTransaction();
+        
+        $categorie = new Categorie;
+        $categorie->categorie_name=$request->categorie_name;
+        $categorie->save();
+
+            DB::commit();
+            return redirect()->route('categories')->with('success','Categorie Added');
+            
+        }catch(Exception $exception){
+            DB::rollBack();
+            return back()->with('error',$exception->getMessage())->withInput();
+
+        }   
     }
 
     /**
@@ -58,9 +80,16 @@ class CategorieController extends Controller
      * @param  \App\Categorie  $categorie
      * @return \Illuminate\Http\Response
      */
-    public function edit(Categorie $categorie)
+    public function edit(Categorie $categorie,$id)
     {
-        //
+        $result= Categorie::find($id);
+        if($result){
+            return view::make('app.categories.edit')->with(['categorie'=>$result]);
+        }else{
+            return back()->with('error','Invalid Id');
+        }
+
+
     }
 
     /**
@@ -72,7 +101,29 @@ class CategorieController extends Controller
      */
     public function update(Request $request, Categorie $categorie)
     {
-        //
+            $this->validate($request, [
+            'categorie_id'       =>'required|exists:categories',
+            'categorie_name'     => 'required|unique:categories',
+            ]);
+            try {
+            //DB Transaction
+                DB::beginTransaction();
+
+                $categorie = Categorie::find($request->categorie_id);
+                $categorie->categorie_name = $request->categorie_name;
+                $categorie->save();
+                
+                DB::commit();
+
+                return redirect()->route('categories')->with('success','Categorie Updated');
+
+            }catch(Exception $exception){
+                DB::rollBack();
+                return back()->with('error',$exception->getMessage())->withInput();
+    
+            }  
+
+
     }
 
     /**
@@ -81,8 +132,45 @@ class CategorieController extends Controller
      * @param  \App\Categorie  $categorie
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Categorie $categorie)
+    public function destroy(Categorie $categorie,$id)
     {
         //
+        try{
+            //DB Transaction Begin
+            DB:: beginTransaction();
+            $categorie=Categorie::find($id);
+
+            if($categorie){
+                $categorie->delete();
+                // $categorie->save();
+
+                DB::commit();
+                return redirect()->route('categories')->with('success','Categorie Disable');
+            }else{
+                return back()->with('error','Invalid unit Id');
+            }    
+
+        }catch(Exception $exception){
+                DB::rollBack();
+                return back()->with('error',$exception->getMessage())->withInput();
+            }
     }
+
+    public function enable($id){
+        try{
+            // DB Transaction Begin
+            DB::beginTransaction();
+            $categorie=Categorie::withTrashed()->where('categorie_id', $id)->restore();
+                DB::commit();
+
+                // Return To Listing Page
+                return redirect()->route('categories')->with('success','Categories Enable');
+          
+
+        }catch(Exception $exception){
+            DB::rollBack();
+            return back()->with('error',$exception->getMessage())->withInput();
+        }
+    }    
+
 }
