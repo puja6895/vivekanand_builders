@@ -46,19 +46,19 @@ Route::get('/unit/destroy/{id}', 'UnitController@destroy')->name('unit.destroy')
 Route::get('/unit/enable/{id}', 'UnitController@enable')->name('unit.enable');
 
 //Categories
-Route::get('/categorie', 'CategorieController@index')->name('categories');
-Route::get('/categorie/add', 'CategorieController@create')->name('categorie.add');
-Route::post('/categorie/store', 'CategorieController@store')->name('categorie.store');
-Route::get('/categorie/add/{id}', 'CategorieController@edit')->name('categorie.edit');
-Route::post('/categorie/update', 'CategorieController@update')->name('categorie.update');
-Route::get('/categorie/destroy/{id}', 'CategorieController@destroy')->name('categorie.destroy');
-Route::get('/categorie/enable/{id}', 'CategorieController@enable')->name('categorie.enable');
+Route::get('/category', 'CategoryController@index')->name('categories');
+Route::get('/category/add', 'CategoryController@create')->name('category.add');
+Route::post('/category/store', 'CategoryController@store')->name('category.store');
+Route::get('/category/edit/{id}', 'CategoryController@edit')->name('category.edit');
+Route::post('/category/update', 'CategoryController@update')->name('category.update');
+Route::get('/category/destroy/{id}', 'CategoryController@destroy')->name('category.destroy');
+Route::get('/category/enable/{id}', 'CategoryController@enable')->name('category.enable');
 
 //Product
 Route::get('/product', 'ProductController@index')->name('products');
 Route::get('/product/add', 'ProductController@create')->name('product.add');
 Route::post('/product/store', 'ProductController@store')->name('product.store');
-Route::get('/product/add/{id}', 'ProductController@edit')->name('product.edit');
+Route::get('/product/edit/{id}', 'ProductController@edit')->name('product.edit');
 Route::post('/product/update', 'ProductController@update')->name('product.update');
 Route::get('/product/destroy/{id}', 'ProductController@destroy')->name('product.destroy');
 Route::get('/product/enable/{id}', 'ProductController@enable')->name('product.enable');

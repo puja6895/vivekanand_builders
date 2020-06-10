@@ -64,8 +64,19 @@
                     {{-- @if($errors->has('customer_name'))
                         <span class="text-danger">{{$errors->first('customer_name')}}</span>
                     @endif --}}
-                    
                   </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Select Category</label>
+                    <select class="form-control" name="category_id">
+                      <option selected="" disabled="">Please Select Category</option>
+                      @foreach($categories as $category)
+                        <option {{$category->category_id == $product->category_id ? 'selected' : ''}} value="{{$category->category_id}}"> {{$category->category_name}} </option>
+                        </option>
+                      @endforeach
+                    </select>
+                  </div>
+
                 <input type="hidden" name="product_id" value="{{$product->product_id}}">
                   
                   

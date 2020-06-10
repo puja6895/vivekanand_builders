@@ -5,11 +5,10 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
-class Categorie extends Model
+class Category extends Model
 {
     //
-    protected $primaryKey = 'categorie_id';
+    protected $primaryKey = 'category_id';
 
     use SoftDeletes;
 }

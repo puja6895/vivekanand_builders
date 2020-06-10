@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DropIsDeletedToUnits extends Migration
+class Categories extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class DropIsDeletedToUnits extends Migration
      */
     public function up()
     {
-        Schema::table('units', function (Blueprint $table) {
-            $table->dropColumn(['isDeleted']);
+        //
+        Schema::create('categories', function (Blueprint $table) {
+            $table->increments('category_id')->unsigned();
+            $table->string('category_name');
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ class DropIsDeletedToUnits extends Migration
      */
     public function down()
     {
-        Schema::table('units', function (Blueprint $table) {
-            //
-        });
+        //
     }
 }

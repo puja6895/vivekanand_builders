@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Categorie;
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use DB;
 use View;
 
-class CategorieController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +18,8 @@ class CategorieController extends Controller
     public function index()
     {
         //
-        $categorie = Categorie::withTrashed()->get();
-        return view::make('app.categories.list')->with(['categories'=>$categorie]);
+        $categories=Category::withTrashed()->get();
+        return view::make('app.categories.list')->with(['categories'=>$categories]);
     }
 
     /**
@@ -43,18 +43,18 @@ class CategorieController extends Controller
     {
         //
         Validator::make($request->all(), [
-            'categorie_name'     => 'required',
+            'category_name'     => 'required',
         ])->validate();
         try{
         //DB Transaction
         DB::beginTransaction();
         
-        $categorie = new Categorie;
-        $categorie->categorie_name=$request->categorie_name;
-        $categorie->save();
+        $category = new Category;
+        $category->category_name=$request->category_name;
+        $category->save();
 
             DB::commit();
-            return redirect()->route('categories')->with('success','Categorie Added');
+            return redirect()->route('categories')->with('success','Category Added');
             
         }catch(Exception $exception){
             DB::rollBack();
@@ -66,10 +66,10 @@ class CategorieController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Categorie  $categorie
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Categorie $categorie)
+    public function show(Category $category)
     {
         //
     }
@@ -77,75 +77,73 @@ class CategorieController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Categorie  $categorie
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Categorie $categorie,$id)
+    public function edit(Category $category,$id)
     {
-        $result= Categorie::find($id);
+        //
+        $result= Category::find($id);
         if($result){
-            return view::make('app.categories.edit')->with(['categorie'=>$result]);
+            return view::make('app.categories.edit')->with(['categories'=>$result]);
         }else{
             return back()->with('error','Invalid Id');
         }
-
-
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Categorie  $categorie
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Categorie $categorie)
+    public function update(Request $request, Category $category)
     {
-            $this->validate($request, [
-            'categorie_id'       =>'required|exists:categories',
-            'categorie_name'     => 'required|unique:categories',
+        //
+        $this->validate($request, [
+            'category_id'       =>'required|exists:categories',
+            'category_name'     => 'required|unique:categories',
             ]);
             try {
             //DB Transaction
                 DB::beginTransaction();
 
-                $categorie = Categorie::find($request->categorie_id);
-                $categorie->categorie_name = $request->categorie_name;
-                $categorie->save();
+                $category = Category::find($request->category_id);
+                $category->category_name = $request->category_name;
+                $category->save();
                 
                 DB::commit();
 
-                return redirect()->route('categories')->with('success','Categorie Updated');
+                return redirect()->route('categories')->with('success','Category Updated');
 
             }catch(Exception $exception){
                 DB::rollBack();
                 return back()->with('error',$exception->getMessage())->withInput();
     
             }  
-
-
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Categorie  $categorie
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Categorie $categorie,$id)
+    public function destroy(Category $category,$id)
     {
         //
         try{
             //DB Transaction Begin
             DB:: beginTransaction();
-            $categorie=Categorie::find($id);
+            $categories=Category::find($id);
 
-            if($categorie){
-                $categorie->delete();
+            if($categories){
+                $categories->delete();
                 // $categorie->save();
 
                 DB::commit();
-                return redirect()->route('categories')->with('success','Categorie Disable');
+                return redirect()->route('categories')->with('success','Category Disable');
             }else{
                 return back()->with('error','Invalid unit Id');
             }    
@@ -160,11 +158,11 @@ class CategorieController extends Controller
         try{
             // DB Transaction Begin
             DB::beginTransaction();
-            $categorie=Categorie::withTrashed()->where('categorie_id', $id)->restore();
+            $categories=Category::withTrashed()->where('category_id', $id)->restore();
                 DB::commit();
 
                 // Return To Listing Page
-                return redirect()->route('categories')->with('success','Categories Enable');
+                return redirect()->route('categories')->with('success','Category Enable');
           
 
         }catch(Exception $exception){
@@ -172,5 +170,4 @@ class CategorieController extends Controller
             return back()->with('error',$exception->getMessage())->withInput();
         }
     }    
-
 }

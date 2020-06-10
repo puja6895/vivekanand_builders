@@ -51,7 +51,7 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title text-secondary">Categories</h3>
-              <a href="{{route('categorie.add')}}" class="pull-right">
+              <a href="{{route('category.add')}}" class="pull-right">
                   <button class="btn btn-info"><b>Add New+</b></button>
               </a>
               </div>
@@ -61,21 +61,21 @@
                     <table id="example1" class="table table-bordered table-striped table-hover ">
                       <thead>
                       <tr>
-                        <th>Categorie Name</th>
+                        <th>Category Name</th>
                         <th>Action</th>
                       </tr>
                       </thead>
                       <tbody>
-                        @foreach($categories as $categorie)
+                        @foreach($categories as $category)
                           <tr>
-                          <td>{{$categorie->categorie_name}}</td>
+                          <td>{{$category->category_name}}</td>
                           <td>
-                            @if($categorie->deleted_at==null)   
-                            <a href="{{route('categorie.edit',['id'=>$categorie->categorie_id])}}" class="mr-2"><button class="btn btn-info btn-sm">Edit</button></a>
-                            <a href="{{route('categorie.destroy',['id'=>$categorie->categorie_id])}}"><button class="btn btn-danger btn-sm">Disable</button></a>
-                          @else
-                          <a href="{{route('categorie.enable',['id'=>$categorie->categorie_id])}}"><button class="btn btn-success btn-sm">Enable</button></a>
-                          @endif
+                            @if($category->deleted_at==null)   
+                              <a href="{{route('category.edit',['id'=>$category->category_id])}}" class="mr-2"><button class="btn btn-info btn-sm">Edit</button></a>
+                              <a href="{{route('category.destroy',['id'=>$category->category_id])}}"><button class="btn btn-danger btn-sm">Disable</button></a>
+                            @else
+                              <a href="{{route('category.enable',['id'=>$category->category_id])}}"><button class="btn btn-success btn-sm">Enable</button></a>
+                            @endif
                           </td>
                           </tr>
                         @endforeach                      

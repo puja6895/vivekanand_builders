@@ -66,24 +66,25 @@
                       <tbody>
                         @foreach($products as $product)
                           <tr>
-                          <td>{{$product->product_name}}</td> 
-                          <td>{{$product->categorie_name}}</td>             
-                          <td>
-                            @if($product->deleted_at==null)   
-                          <a href="{{route('product.edit',['id'=>$product->product_id])}}" class="mr-2"><button class="btn btn-info btn-sm">Edit</button></a>
-                            <a href=""><button class="btn btn-danger btn-sm">Disable</button></a>
-                          @else
-                          <a href=""><button class="btn btn-success btn-sm">Enable</button></a>
-                          @endif
-                          </td>
+                            <td>{{$product->product_name}}</td> 
+                            <td>{{$product->category_name}}</td>
+                            <td>
+                              @if($product->deleted_at==null)   
+                                <a href="{{route('product.edit',['id'=>$product->product_id])}}" class="mr-2"><button class="btn btn-info btn-sm">Edit</button></a>
+                                <a href="{{route('product.destroy',['id'=>$product->product_id])}}"><button class="btn btn-danger btn-sm">Disable</button></a>
+                              @else
+                                <a href="{{route('product.enable',['id'=>$product->product_id])}}"><button class="btn btn-success btn-sm">Enable</button></a>
+                              @endif
+                            </td>
                           </tr>
                         @endforeach
                       </tbody>
                       <tfoot>
-                      <tr>
-                        <th>Product Name</th>
-                        <th>Action</th>
-                      </tr>
+                        <tr>
+                          <th>Product Name</th>
+                          <th>Categories Name</th>
+                          <th>Action</th>
+                        </tr>
                       </tfoot>
                     </table>
                   </div>

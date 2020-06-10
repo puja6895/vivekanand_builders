@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
-use App\Categorie;
+use App\Category;
 use Illuminate\Http\Request;
 use DB;
 use View;
@@ -18,7 +18,7 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $product = Product::withTrashed()->get();
+        $product = Product::withTrashed()->join('categories','products.category_id', '=', 'categories.category_id')->select('product_id','product_name','products.deleted_at','category_name')->get();
         // $categorie = Categorie::with
         return view::make('app.product.list')->with(['products'=>$product]);;
 
@@ -32,8 +32,8 @@ class ProductController extends Controller
     public function create()
     {
         //
-        $categorie=Categorie::all();
-        return view::make('app.product.add')->with(['categories'=>$categorie]);
+        $categories=Category::all();
+        return view::make('app.product.add')->with(['categories'=>$categories]);
     }
 
     /**
@@ -47,7 +47,7 @@ class ProductController extends Controller
         //
         $this->validate($request, [
             'product_name'     => 'required',
-            'categorie_id'   => 'required|exists:categories',
+            'category_id'   => 'required|exists:categories',
            
         ]);
     
@@ -57,7 +57,7 @@ class ProductController extends Controller
 
             $product = new Product;
             $product->product_name=$request->product_name;
-            $product->categorie_id=$request->categorie_id;
+            $product->category_id=$request->category_id;
             $product->save();
 
             DB::commit();
@@ -92,7 +92,8 @@ class ProductController extends Controller
         //
         $result = Product::find($id);
         if($result){
-        return view::make('app.product.edit')->with(['product'=>$result]);
+            $categories=Category::all();
+            return view::make('app.product.edit')->with(['product'=>$result,'categories'=>$categories]);
         }else {
             return back()->with('error','Invalid id');
         }
@@ -111,7 +112,7 @@ class ProductController extends Controller
         $this->validate($request, [
             'product_id'    => 'required|exists:products',
             'product_name'     => 'required|unique:products',
-            'categorie_name'   => 'required'
+            'category_id'   => 'required'
             
             ]);
         try{    
@@ -120,7 +121,7 @@ class ProductController extends Controller
 
             $product = Product::find($request->product_id);
             $product->product_name=$request->product_name;
-            $product->categorie_name=$request->categorie_name;
+            $product->category_id=$request->category_id;
             $product->save();
 
             DB::commit();
@@ -140,8 +141,45 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product,$id)
     {
         //
+         //
+         try{
+            //DB Transaction Begin
+            DB:: beginTransaction();
+            $products=Product::find($id);
+
+            if($products){
+                $products->delete();
+                // $categorie->save();
+
+                DB::commit();
+                return redirect()->route('products')->with('success','Product Disable');
+            }else{
+                return back()->with('error','Invalid unit Id');
+            }    
+
+        }catch(Exception $exception){
+                DB::rollBack();
+                return back()->with('error',$exception->getMessage())->withInput();
+            }
     }
+
+    public function enable($id){
+        try{
+            // DB Transaction Begin
+            DB::beginTransaction();
+            $products=Product::withTrashed()->where('product_id', $id)->restore();
+                DB::commit();
+
+                // Return To Listing Page
+                return redirect()->route('products')->with('success','Product Enable');
+          
+
+        }catch(Exception $exception){
+            DB::rollBack();
+            return back()->with('error',$exception->getMessage())->withInput();
+        }
+    }    
 }

@@ -51,26 +51,26 @@
             
             <div class="card card-muted">
               <div class="card-header card-border">
-                <h3 class="card-title text-secondary">Add Unit </h3>
+                <h3 class="card-title text-secondary">Add Category </h3>
               <a href="{{route('categories')}}"><button type="submit" class="btn btn-info pull-right">Back</button></a>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" id="quickForm" method="POST" action="{{route('categorie.update')}}" >
+              <form role="form" id="quickForm" method="POST" action="{{route('category.update')}}" >
                 @csrf
                 <div class="card-body">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Categorie Name
+                    <label for="exampleInputEmail1">Category Name
                         {{-- <span style="color: red;">*</span> --}}
                     </label>
-                    <input type="text" name="categorie_name" required class="form-control  {{$errors->has('categorie_name') ? 'is-invalid' : ''}}" id="categorie_name" placeholder="Enter categorie" value="{{$categorie->categorie_name}}">
+                    <input type="text" name="category_name" required class="form-control  {{$errors->has('category_name') ? 'is-invalid' : ''}}" id="category_name" placeholder="Enter Category" value="{{$categories->category_name}}">
                     {{-- Error handling --}}
                     {{-- @if($errors->has('customer_name'))
                         <span class="text-danger">{{$errors->first('customer_name')}}</span>
                     @endif --}}
                     
                   </div>
-                  <input type="hidden" name="categorie_id" value="{{$categorie->categorie_id}}">
+                  <input type="hidden" name="category_id" value="{{$categories->category_id}}">
                   
                   {{-- <div class="form-group mb-0">
                     <div class="custom-control custom-checkbox">
@@ -81,7 +81,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Update</button>
+                  <button type="submit" class="btn btn-info">Update</button>
                 </div>
               </form>
             </div>

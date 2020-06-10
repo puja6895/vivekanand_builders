@@ -71,9 +71,9 @@
                     <label for="exampleInputEmail1">Select Category</label>
                     <select class="form-control" name="category_id">
                       <option selected="" disabled="">Please Select Category</option>
-                      @foreach($categories as $categorie)
-                        <option value="{{$categorie->categorie_id}}">
-                          {{$categorie->categorie_name}}
+                      @foreach($categories as $category)
+                        <option value="{{$category->category_id}}">
+                          {{$category->category_name}}
                         </option>
                       @endforeach
                     </select>
