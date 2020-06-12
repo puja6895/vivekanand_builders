@@ -13,6 +13,10 @@ class Sell extends Model
     // use SoftDeletes;
 
     public function customer() {
-		return $this->belogsTo('App\Customer');
+		return $this->belongsTo('App\Customer','customer_id');
+  }
+  
+  public function sell_products() {
+		return $this->hasMany('App\Sell_Product','sell_id');
 	}
 }

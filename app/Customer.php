@@ -10,7 +10,7 @@ class Customer extends Model
     // protected $table = 'customer';
     protected $primaryKey = 'customer_id';
 
-    public function sell() {
-		return $this->hasMany('App\Sell');
+    public function sells() {
+		return $this->hasMany('App\Sell','customer_id');
 	}
 }

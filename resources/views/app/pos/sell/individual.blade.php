@@ -16,7 +16,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h3>Sells</h3>
+          <h3>{{$customer->customer_name}}</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -49,9 +49,9 @@
           @endif
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title text-secondary">Sells</h3>
-              <a href="{{route('sell.add')}}" class="pull-right">
-                  <button class="btn btn-info"><b>Add New+</b></button>
+                <h3 class="card-title text-secondary">Sell</h3>
+              <a href="{{route('sell')}}" class="pull-right">
+                  <button class="btn btn-info"><b>Back</b></button>
               </a>
               
               </div>
@@ -61,40 +61,39 @@
                     <table id="example1" class="table table-bordered table-striped table-hover ">
                       <thead>
                       <tr>
+                        {{-- <th>Customer Name</th> --}}
                         <th>Sell Date</th>
-                        <th>Sell Id</th>
-                        <th>Customer Name</th>
-                        <th>Amount</th>
-                        {{-- <th>Total Amount</th> --}}
+                        <th>Product name</th>
+                        <th>Unit</th>
+                        <th>Quantity</th>
+                        <th>Rate</th>
+                        <th>Total Amount</th>
+                        <th>Payment Recevied</th>
                       </tr>
                       </thead>
                       <tbody>
-                         {{-- @foreach($customer->sells as $sell) --}}
-                         @foreach($sells as $sell)
-                          <tr>
-                            <td> <a href="{{route('sell.individual',['id'=>$sell->customer_id])}}">{{$sell->customer->customer_name }}</a></td> 
-                            <td>{{$sell->sell_date}}</td>
-                            <td></td>
-                            {{-- <td></td> --}}
-                            <td>{{$sell->total_amount}}</td>
-                             {{-- <td>
-                              @if($product->deleted_at==null)   
-                                <a href="{{route('product.edit',['id'=>$product->product_id])}}" class="mr-2"><button class="btn btn-info btn-sm">Edit</button></a>
-                                <a href="{{route('product.destroy',['id'=>$product->product_id])}}"><button class="btn btn-danger btn-sm">Disable</button></a>
-                              @else
-                                <a href="{{route('product.enable',['id'=>$product->product_id])}}"><button class="btn btn-success btn-sm">Enable</button></a>
-                              @endif
-                            </td>  --}}
-                          </tr>
-                        @endforeach 
+                      @foreach($customer->sells as $sell)
+                         <tr>
+                         <td>{{$sell->sell_date}}</td>
+                         <td></td>
+                         <td></td>
+                         <td></td>
+                         <td></td>
+                         <td></td>
+                         <td></td>
+                         </tr>
+                       @endforeach   
                       </tbody>
                       <tfoot>
                         <tr>
+                          {{-- <th>Customer Name</th> --}}
                           <th>Sell Date</th>
-                          <th>Sell Id</th>
-                          <th>Customer Name</th>
-                          <th>Amount</th>
-                          {{-- <th>Total Amount</th> --}}
+                          <th>Product name</th>
+                          <th>Unit</th>
+                          <th>Quantity</th>
+                          <th>Rate</th>
+                          <th>Toatal Amount</th>
+                          <th>Payment Recevied</th>
                         </tr>
                       </tfoot>
                     </table>

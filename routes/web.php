@@ -27,6 +27,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/sell', 'SellController@index')->name('sell');
 Route::get('/sell/add', 'SellController@create')->name('sell.add');
 Route::post('/sell/store', 'SellController@store')->name('sell.store');
+Route::get('/sell/individual/{id}', 'SellController@individual')->name('sell.individual');
 
 
 //customer

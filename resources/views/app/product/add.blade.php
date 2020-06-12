@@ -96,6 +96,6 @@
           </div>
         </div>
     </section>
-            </div>
+  </div>
             <!-- /.card -->
 @endsection             

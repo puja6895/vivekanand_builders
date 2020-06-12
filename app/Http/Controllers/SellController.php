@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Sell;
 use App\Customer;
+use App\Product;
+use App\Unit;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DB;
@@ -18,12 +20,29 @@ class SellController extends Controller
      */
     public function index()
     {
-        //
-        $customer=Customer::find(1);
-        return view::make('app.pos.sell.list')->with('sells',$customer->sells);
+        
+        // $sell=Sell::join('customers','sells.customer_id', '=', 'customers.customer_id')->select('sell_id','customer_name','sell_date','payment_recived','total_amount')->get();;
+        // if(isset($customer_id)){
+
+        //     $sell = Sell::where('customer_id',$customer_id)->with(['customer'])->get();
+        // }else{
+        //     $sell = Sell::with(['customer'])->get(); 
+        // }
+        // // dd($sell);
+
+        // return view::make('app.pos.sell.list')->with('sells',$sell);
+
+        // $customer = Customer::find(1);
+        // return view :: make('app.pos.sell.list')->with('customer',$customer);
+        $sells = Sell::orderBy('sell_date', 'desc')->get();
+        return view :: make('app.pos.sell.list')->with('sells',$sells);
         
 
     }
+    // public function index(){
+    //     $customer = Customer::find(1);
+    //     return view :: make('app.pos.sell.list')->with('sells',$customer->sells);
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -34,7 +53,15 @@ class SellController extends Controller
     {
         //
         $customers=Customer::all();
-        return view::make('app.pos.sell.add')->with(['customers'=>$customers]);
+        // $customers = Customer::where('customer_status', 1)->orderBy('customer_name')->get();
+
+		$products = Product::all();
+
+		$units = Unit::all();
+
+		return View::make('app.pos.sell.add')->with(['customers' => $customers, 'products' => $products, 'units' => $units]);
+	
+        // return view::make('app.pos.sell.add')->with(['customers'=>$customers]);
     }
 
     /**
@@ -48,7 +75,7 @@ class SellController extends Controller
         //
         $this->validate($request, [
             // 'product_name'     => 'required',
-            // 'customer_id'   => 'required|exists:customers',
+             'customer_id'   => 'required|exists:customers',
            
         ]);
     
@@ -60,7 +87,7 @@ class SellController extends Controller
             // $product->product_name=$request->product_name;
             $sell->customer_id=$request->customer_id;
             $sell->sell_date = Carbon::parse($request->sell_date)->format('Y-m-d');
-            $sell->payment_recived=$request->payment_recived;
+            // $sell->payment_received=$request->payment_received;
             $sell->total_amount=$request->total_amount;
             $sell->save();
 
@@ -117,5 +144,10 @@ class SellController extends Controller
     public function destroy(Sell $sell)
     {
         //
+    }
+
+    public function individual($customer_id){
+        $customer = Customer::find($customer_id);
+        return view :: make('app.pos.sell.individual')->with('customer',$customer);
     }
 }
