@@ -236,7 +236,7 @@
               <li class="nav-item">
                 <a href="{{route('sell')}}" class="nav-link @yield('POS-sell')">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Sales</p>
+                  <p>Sell</p>
                 </a>
               </li>
             </ul>
