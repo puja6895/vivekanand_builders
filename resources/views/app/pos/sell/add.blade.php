@@ -47,12 +47,13 @@
             
             <div class="card card-muted">
               <div class="card-header card-border">
-                <h3 class="card-title text-secondary"> Product </h3>
+                <h3 class="card-title text-secondary"> Sell </h3>
               <a href="{{route('sell')}}"><button type="submit" class="btn btn-info pull-right">Back</button></a>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
             <form  method="POST" action="{{route('sell.store')}}" >
+              @csrf
               <div class="box-body">
 
                 <div class="row">

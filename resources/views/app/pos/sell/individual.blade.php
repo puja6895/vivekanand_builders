@@ -62,38 +62,26 @@
                       <thead>
                       <tr>
                         {{-- <th>Customer Name</th> --}}
+                        <th>Sell Id</th>
                         <th>Sell Date</th>
-                        <th>Product name</th>
-                        <th>Unit</th>
-                        <th>Quantity</th>
-                        <th>Rate</th>
-                        <th>Total Amount</th>
-                        <th>Payment Recevied</th>
+                        <th>Amount</th>
                       </tr>
                       </thead>
                       <tbody>
                       @foreach($customer->sells as $sell)
                          <tr>
-                         <td>{{$sell->sell_date}}</td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
+                         <td>{{$sell->sell_id}}</td>
+                         <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id])}}">{{$sell->sell_id}}</td>
+                         <td>{{$sell->total_amount}}</td>
                          </tr>
                        @endforeach   
                       </tbody>
                       <tfoot>
                         <tr>
                           {{-- <th>Customer Name</th> --}}
-                          <th>Sell Date</th>
-                          <th>Product name</th>
-                          <th>Unit</th>
-                          <th>Quantity</th>
-                          <th>Rate</th>
-                          <th>Toatal Amount</th>
-                          <th>Payment Recevied</th>
+                        <th>Sell Id</th>
+                        <th>Sell Date</th>
+                        <th>Amount</th>
                         </tr>
                       </tfoot>
                     </table>

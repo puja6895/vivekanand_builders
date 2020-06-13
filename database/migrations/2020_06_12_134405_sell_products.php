@@ -21,7 +21,7 @@ class SellProducts extends Migration
             $table->integer('quantity');
             $table->double('rate',10,2);
             $table->float('gst',10,2)->default(0);
-            $table->double('total_amount',10,2);
+            $table->double('amount',10,2)->default(0);
             $table->timestamps();
         });
     }

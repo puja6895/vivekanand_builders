@@ -6,12 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    <!-- CSRF Token -->
 	<meta name="csrf-token" content="{{ csrf_token() }}">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
 	<title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
     <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('assets/plugins/fontawesome-free/css/all.min.css')}}">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Date Picker -->
+	<link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.min.css')}}">
+  	<!-- Daterange picker -->
+	<link rel="stylesheet" href="{{asset('css/daterangepicker.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('assets/dist/css/adminlte.min.css')}}">
   {{-- <!-- Google Font: Source Sans Pro -->
@@ -334,6 +338,10 @@
 <script src="{{asset('assets/dist/js/adminlte.min.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('assets/dist/js/demo.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+<!-- bootstrap datepicker -->
+<script src="{{asset('js/bootstrap-datepicker.min.js')}}"></script>
+
 
 <script>
   $(function() {
