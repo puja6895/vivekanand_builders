@@ -16,12 +16,16 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-          {{-- <h3>{{$customer->customer_name}}</h3> --}}
+          <h3>
+            {{($sell->customer->customer_name)}}
+          <small >{{$sell->sell_id}}</small>
+            <h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-            <li class="breadcrumb-item active">Sells</li>
+            <li class="breadcrumb-item active"><a href="{{route('sell')}}">Sales</a></li>
+            <li class="breadcrumb-item active">Sales Detail</li>
             {{-- <li class="breadcrumb-item"><a href="#">Layout</a></li> --}}
             </ol>
           </div>
@@ -49,8 +53,8 @@
           @endif
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title text-secondary">Sell</h3>
-              <a href="" class="pull-right">
+                <h3 class="card-title text-secondary">Sales Detail</h3>
+              <a href="{{route('sell')}}" class="pull-right">
                   <button class="btn btn-info"><b>Back</b></button>
               </a>
               
@@ -62,36 +66,36 @@
                       <thead>
                       <tr>
                         {{-- <th>Customer Name</th> --}}
-                        <th>Sell Id</th>
+                        {{-- <th>Sell Id</th> --}}
                         <th>Sell Date</th>
                         <th>Product Name</th>
-                        <th>Unit</th>
-                        <th>Rate</th>
                         <th>Quantity</th>
+                        {{-- <th>Unit</th> --}}
+                        <th>Rate</th>
                         <th>Amount</th>
                       </tr>
                       </thead>
                       <tbody>
-                      @foreach($sell->$sell_products as $sell_product)
+                      @foreach($sell->sell_products as $sell_product)
                          <tr>
-                         <td>{{$sell_product->sell_id}}</td>
-                         <td>{{$sell_product->unit_name}}</td>
-                         <td>{{$sell_product->product_id}}</td>
-                         <td>{{$sell_product->unit_name}}</td>
+                         {{-- <td>{{$sell_product->sell_id}}</td> --}}
+                         <td>{{$sell->sell_date}}</td>
+                         <td>{{$sell_product->product->product_name}}</td>
+                         <td>{{$sell_product->quantity}}({{$sell_product->unit_name}})</td>
+                         {{-- <td></td> --}}
                          <td>{{$sell_product->rate}}</td>
-                         <td>{{$sell_product->quantity}}</td>
-                         <td>{{$sell_product->amonut}}</td>
+                         <td>{{$sell_product->amount}}</td>
                          </tr>
                        @endforeach   
                       </tbody>
                       <tfoot>
                         <tr>
-                          <th>Sell Id</th>
+                          {{-- <th>Sell Id</th> --}}
                           <th>Sell Date</th>
                           <th>Product Name</th>
-                          <th>Unit</th>
-                          <th>Rate/th>
                           <th>Quantity</th>
+                          {{-- <th>Unit</th> --}}
+                          <th>Rate</th>
                           <th>Amount</th>
                         </tr>
                       </tfoot>

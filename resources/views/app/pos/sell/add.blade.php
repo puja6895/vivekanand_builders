@@ -2,7 +2,7 @@
 
 @section('title','Product')
 
-@section('Product')
+@section('POS-sell')
     active    
 @endsection
 
@@ -15,12 +15,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h3>Product</h3>
+            <h3>Sell</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-              <li class="breadcrumb-item "><a href="{{route('products')}}">Product</a></li>
+              <li class="breadcrumb-item "><a href="{{route('sell')}}">Sales</a></li>
               <li class="breadcrumb-item active">Add</li>
             </ol>
           </div>
@@ -47,14 +47,14 @@
             
             <div class="card card-muted">
               <div class="card-header card-border">
-                <h3 class="card-title text-secondary"> Sell </h3>
+                <h3 class="card-title text-secondary">Add Sell </h3>
               <a href="{{route('sell')}}"><button type="submit" class="btn btn-info pull-right">Back</button></a>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
             <form  method="POST" action="{{route('sell.store')}}" >
               @csrf
-              <div class="box-body">
+              <div class="card-body">
 
                 <div class="row">
                   {{-- Sell To Name --}}
@@ -62,21 +62,23 @@
                     <div class="form-group {{ $errors->has('customer_id') ? ' has-error' : '' }}">
                       <label>Customer <span style="color: red;">*</span></label>
                       <div class="input-group">
-                        <div class="input-group-addon">
-                          <i class="fa fa-user"></i>
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="customer_id">
+                              <i class="fa fa-user"></i>
+                          </label>
                         </div>
-                          <select class="form-control select2" name="customer_id">
-                            <option selected="" disabled="">Select Customer</option>
-                            @foreach($customers as $customer)
-                            <option value="{{$customer->customer_id}}">{{$customer->customer_name}}</option>
-                            @endforeach
-                          </select>
+                        <select required class="form-control" id="customer_id" name="customer_id">
+                          <option selected="" disabled="">Select Customer</option>
+                          @foreach($customers as $customer)
+                          <option value="{{$customer->customer_id}}">{{$customer->customer_name}}</option>
+                          @endforeach
+                        </select>
 
-                          @if ($errors->has('customer_id'))
+                          {{-- @if ($errors->has('customer_id'))
                           <span class="help-block">
                               <strong>{{ $errors->first('customer_id') }}</strong>
                           </span>
-                          @endif
+                          @endif --}}
                       </div>
                     </div>
                   </div>
@@ -86,8 +88,10 @@
                     <div class="form-group {{ $errors->has('sell_date') ? ' has-error' : '' }}">
                       <label>Sell Date <span style="color: red;">*</span></label>
                       <div class="input-group">
-                        <div class="input-group-addon">
-                          <i class="fa fa-calendar"></i>
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="datepicker">
+                            <i class="fa fa-calendar"></i>
+                          </label>
                         </div>
                         <input type="text" name="sell_date" class="form-control datepicker" id="datepicker" required="" placeholder="dd-mm-yyyy">
                         @if ($errors->has('sell_date'))
@@ -107,33 +111,43 @@
                 </div>
 
                 <div class="row">
-                  <div class="col-md-12 table-responsive">
+                  <div class=" table-responsive">
+
                     <div class="row">
                       <div class="col-md-6">
-                        <h4> ADD Products/Material</h4>
+                        <h6> ADD Products/Material</h6>
                       </div>
                       <div class="col-md-6 pull-right">
 
                       </div>
                     </div>
-                    <table class="table table-bordered" id="">
+
+                    {{-- <div class="row border table p-3" id="thead">
+                        <div class="col-md-4">Product</div>
+                        <div class="col-md-2">Quantity</div>
+                        <div class="col-md-2">Rate</div>
+                    </div>
+                    <div class="row border table p-3" id="tbody">
+                      <div class="col-md-4">Product</div>
+                      <div class="col-md-2">Quantity</div>
+                      <div class="col-md-2">Rate</div>
+                    </div> --}}
+
+                    <table class="table table-bordered col-md-12" id="">
                       <thead>
                         <tr>
-                          <th class="col-md-2">Product</th>
-                          <th class="col-md-1">Unit</th>
-                          <th class="col-md-2">Rate</th>
-                          <th class="col-md-2">Quantity(
-                            <span id="available_stock">
-                              0
-                            </span>)</th>
-                          <th class="col-md-2">GST</th>
-                          <th class="col-md-2">Total</th>
-                          <th class="col-md-1">Action</th>
+                          <th class="" style="width:20%">Product</th>
+                          <th class="" style="width:10%">Unit</th>
+                          <th class="">Quantity</th>
+                          <th class="" style="width:15%">Rate</th>
+                          <th class="">GST</th>
+                          <th class="" style="width:15%">Total</th>
+                          <th class="">Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <td class="col-md-2">
+                          <td class="" style="width:20%">
                             <select required name="product_id0" id="product_id0" class="form-control select2" onchange="setDefault()">
                               <option value="0"> Product </option>
                               @foreach($products as $product)
@@ -141,7 +155,7 @@
                               @endforeach
                             </select>
                           </td>
-                          <td class="col-md-1">
+                          <td class="" style="width:10%">
                             <select required name="unit_id0" id="unit_id0" class="form-control select2" >
                               <option value="0"> Unit </option>
                               @foreach($units as $unit)
@@ -149,40 +163,47 @@
                               @endforeach
                             </select>
                           </td>
-                          <td class="col-md-2">
-                             <div class="input-group">
-                                <span class="input-group-addon">
-                                  <i class="fa fa-inr"></i>
-                                </span>
-                                <input type="text" class="form-control" name="rate0" id="rate0" onchange="claculateTotal()" required value="0">
-                              </div>
-                          </td>
-                          <td class="col-md-2">
-                            <input class="col-sm-12" type="number" name="quantity0" id="quantity0" value="1" required onkeyup="claculateTotal()">
+                          <td class="">
+                            <input class="form-control" type="number" name="quantity0" id="quantity0" value="1" required onchange="calculateTotal()">
 
                           </td>
-                          <td class="col-md-2">
+                          <td class="" style="width:15%">
                             <div class="input-group">
-                              <input type="text" class="form-control" name="gst0" id="gst0" onkeyup="claculateTotal()" required value="0">
-                              <span class="input-group-addon">%</span>
+                               <span class="input-group-prepend">
+                                 <label for="rate0" class="input-group-text">
+                                   <i class="fa fa-inr"></i>
+                                 </label>
+                               </span>
+                               <input type="text" class="form-control" name="rate0" id="rate0" onchange="calculateTotal()" required value="0">
+                             </div>
+                         </td>
+                          <td class="">
+                            <div class="input-group">
+                              <input type="text" class="form-control" name="gst0" id="gst0" onchange="calculateTotal()" required value="0">
+                              <span class="input-group-append">
+                                <label for="" class="input-group-text">
+                                  <i class="fa fa-percent" aria-hidden="true"></i>
+                                </label>
+                              </span>
                             </div>
                           </td>
-                          <td class="col-md-2">
+                          <td class="" style="width:15%">
                             <div class="input-group">
-                                <span class="input-group-addon">
-                                  <i class="fa fa-inr"></i>
+                                <span class="input-group-prepend">
+                                  <label for="total0" class="input-group-text">
+                                    <i class="fa fa-inr"></i>
+                                  </label>
                                 </span>
                                 <input type="text" class="form-control" name="total0" id="total0" readonly value="0">
                               </div>
                           </td>
-                          <td class="col-md-1">
-                            <!-- <button type="button" class="btn btn-xs btn-danger ibtnDel">
-                              <i class="fa fa-trash"></i>
-                            </button> -->
-                            <button type="button" id="addrow" class="btn  btn-success pull-right">
-                              <i class="fa fa-plus"></i> Add
+                          
+                          <td>
+                            <button type="button" data-toggle="tooltip" title="Add Product" class="btn btn-success pull-right" id="addrow"> 
+                                <i class="fa fa-plus"></i>
+                                Add
                             </button>
-                          </td>
+                        </td>
                         </tr>
                       </tbody>
                     </table>
@@ -192,16 +213,16 @@
                 <hr>
 
                 <div class="row">
-                  <div class="col-md-12 table-responsive">
-                    <table class="table table-bordered" id="purchaseTable">
+                  <div class=" table-responsive">
+                    <table class="table table-bordered col-md-12" id="purchaseTable">
                       <tr>
-                        <th class="col-md-2">Product</th>
-                        <th class="col-md-2">Unit</th>
-                        <th class="col-md-2">Rate</th>
-                        <th class="col-md-2">Quantity</th>
-                        <th class="col-md-2">GST</th>
-                        <th class="col-md-2">Total</th>
-                        <th class="col-md-2">Action</th>
+                        <th class="" style="width:20%">Product</th>
+                          <th class="" style="width:10%">Unit</th>
+                          <th class="">Quantity</th>
+                          <th class="" style="width:15%">Rate</th>
+                          <th class="">GST</th>
+                          <th class="" style="width:15%">Total</th>
+                          <th class="">Action</th>
                       </tr>
                     </table>
                   </div>
@@ -238,7 +259,7 @@
               </div> -->
               <!-- /.box-body -->
 
-              <div class="box-footer">
+              <div class="card-footer">
                 <button type="submit" class="btn btn-success"> <i class="fa fa-save"></i> Save</button>
                 <a href=""><button type="button" class="btn btn-primary"> <i class="fa fa-times"></i> Cancel</button></a>
               </div>

@@ -21,8 +21,8 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-            <li class="breadcrumb-item active">Sells</li>
-            {{-- <li class="breadcrumb-item"><a href="#">Layout</a></li> --}}
+            <li class="breadcrumb-item active"><a href="{{route('sell')}}">Sales</a></li>
+            <li class="breadcrumb-item active">Individual_Customer</li>
             </ol>
           </div>
         </div>
@@ -70,8 +70,8 @@
                       <tbody>
                       @foreach($customer->sells as $sell)
                          <tr>
-                         <td>{{$sell->sell_id}}</td>
-                         <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id])}}">{{$sell->sell_id}}</td>
+                           <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id])}}">{{$sell->sell_id}}</td>
+                            <td>{{$sell->sell_date}}</td>
                          <td>{{$sell->total_amount}}</td>
                          </tr>
                        @endforeach   

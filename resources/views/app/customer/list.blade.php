@@ -176,7 +176,7 @@
         </tr>
         </tfoot>
       </table>
-    </div>
+      </div>
     </div>
     <!-- /.card-body -->
     </div>

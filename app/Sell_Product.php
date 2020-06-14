@@ -11,6 +11,10 @@ class Sell_Product extends Model
     protected $primarykey = 'sell_product_id';
 
     public function sells(){
-        return $this->belongsTo('App\Sell');
+        return $this->belongsTo('App\Sell','sell_id');
     }
+    public function product() {
+		return $this->belongsTo('App\Product', 'product_id');
+    }
+   
 }

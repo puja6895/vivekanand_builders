@@ -22,29 +22,12 @@ class SellController extends Controller
     public function index()
     {
         
-        // $sell=Sell::join('customers','sells.customer_id', '=', 'customers.customer_id')->select('sell_id','customer_name','sell_date','payment_recived','total_amount')->get();;
-        // if(isset($customer_id)){
-
-        //     $sell = Sell::where('customer_id',$customer_id)->with(['customer'])->get();
-        // }else{
-        //     $sell = Sell::with(['customer'])->get(); 
-        // }
-        // // dd($sell);
-
-        // return view::make('app.pos.sell.list')->with('sells',$sell);
-
-        // $customer = Customer::find(1);
-        // return view :: make('app.pos.sell.list')->with('customer',$customer);
         $sells = Sell::orderBy('sell_date', 'desc')->get();
         return view :: make('app.pos.sell.list')->with('sells',$sells);
         
 
     }
-    // public function index(){
-    //     $customer = Customer::find(1);
-    //     return view :: make('app.pos.sell.list')->with('sells',$customer->sells);
-    // }
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -130,7 +113,7 @@ class SellController extends Controller
                 // echo $sell_id;
                 // dd($sell); 
             DB::commit();
-            return redirect()->route('sell')->with('success','Sell Added');
+            return redirect()->route('sell.add')->with('success','Sell Added');
             
         }catch(Exception $exception){
             DB::rollBack();
@@ -191,6 +174,7 @@ class SellController extends Controller
 
     public function individual_sell($sell_id){
         $sell = Sell::find($sell_id);
+        // $sell_product = Sell_Product::all();
         return view :: make('app.pos.sell.individual_sell')->with('sell',$sell);
     }
 }
