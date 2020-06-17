@@ -18,7 +18,7 @@
           <div class="col-sm-6">
           <h3>
             {{($sell->customer->customer_name)}}
-          <small >{{$sell->sell_id}}</small>
+            <small class="text-secondary" style="font-size:1rem">(Sell Id -> {{$sell->sell_id}})</small>
             <h3>
           </div>
           <div class="col-sm-6">
@@ -55,7 +55,12 @@
               <div class="card-header">
                 <h3 class="card-title text-secondary">Sales Detail</h3>
               <a href="{{route('sell')}}" class="pull-right">
-                  <button class="btn btn-info"><b>Back</b></button>
+                <input
+                action="action"
+                onclick="window.history.go(-1); return false;"
+                type="submit"
+                value="Back"
+                class="btbn btn-info pull-right">
               </a>
               
               </div>
@@ -72,6 +77,7 @@
                         <th>Quantity</th>
                         {{-- <th>Unit</th> --}}
                         <th>Rate</th>
+                        <th>GST%</th>
                         <th>Amount</th>
                       </tr>
                       </thead>
@@ -84,6 +90,7 @@
                          <td>{{$sell_product->quantity}}({{$sell_product->unit_name}})</td>
                          {{-- <td></td> --}}
                          <td>{{$sell_product->rate}}</td>
+                         <td>{{$sell_product->gst}}</td>
                          <td>{{$sell_product->amount}}</td>
                          </tr>
                        @endforeach   
@@ -94,8 +101,8 @@
                           <th>Sell Date</th>
                           <th>Product Name</th>
                           <th>Quantity</th>
-                          {{-- <th>Unit</th> --}}
                           <th>Rate</th>
+                          <th>GST%</th>
                           <th>Amount</th>
                         </tr>
                       </tfoot>

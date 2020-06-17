@@ -7,6 +7,7 @@ use App\Customer;
 use App\Product;
 use App\Unit;
 use App\Sell_Product;
+use App\Payment;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DB;
@@ -23,7 +24,9 @@ class SellController extends Controller
     {
         
         $sells = Sell::orderBy('sell_date', 'desc')->get();
-        return view :: make('app.pos.sell.list')->with('sells',$sells);
+        return view :: make('app.pos.sell.list')->with('sells',$sells); 
+
+       
         
 
     }
@@ -90,19 +93,20 @@ class SellController extends Controller
                 
                 
                 // $total_amount=0;
-                // $gst=0;
+                $gst_amount=0;
                 $total_amount=0;
                 for ($i = 0; $i < count($product_id); $i++){
                     $amount = $rate[$i] * $quantity[$i];
-                    // $gst=$amount*($gst*100);
-                    
+                    $gst_amount=$amount*($gst[$i]/100);
+                    $amount+=$gst_amount;
+
                     $sell_product= new Sell_Product;
                     $sell_product->sell_id=$sell_id;
                     $sell_product->product_id=$product_id[$i];
                     $sell_product->unit_name=$unit_name[$i];
                     $sell_product->rate=$rate[$i];
                     $sell_product->quantity=$quantity[$i];
-                    // $sell_product->gst=$gst[$i];
+                    $sell_product->gst=$gst[$i];
                     $sell_product->amount=$amount;
                     $sell_product->save();
                     
@@ -112,6 +116,8 @@ class SellController extends Controller
                 $sell->save(); 
                 // echo $sell_id;
                 // dd($sell); 
+
+
             DB::commit();
             return redirect()->route('sell.add')->with('success','Sell Added');
             
@@ -169,7 +175,9 @@ class SellController extends Controller
 
     public function individual($customer_id){
         $customer = Customer::find($customer_id);
-        return view :: make('app.pos.sell.individual')->with('customer',$customer);
+        $grand_total = DB::table('sells')->where('customer_id',$customer_id)->sum('total_amount');
+        $payment = DB::table('pay_amounts')->where('customer_id',$customer_id)->sum('pay_received');
+        return view :: make('app.pos.sell.individual')->with(['customer'=>$customer,'grand_total'=>$grand_total,'payment'=>$payment]);
     }
 
     public function individual_sell($sell_id){
@@ -177,4 +185,8 @@ class SellController extends Controller
         // $sell_product = Sell_Product::all();
         return view :: make('app.pos.sell.individual_sell')->with('sell',$sell);
     }
+
+    
+
+   
 }

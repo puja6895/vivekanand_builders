@@ -49,16 +49,19 @@
           @endif
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title text-secondary">Sales</h3>
-              <a href="{{route('sell.add')}}" class="pull-right">
-                  <button class="btn btn-info"><b>Add New+</b></button>
-              </a>
-              
+                <h3 class="card-title text-secondary mr-4">Sales</h3>
+                <a href="{{route('payment.add')}}" class="pull-right">
+                  <button class="btn btn-success"><b>Add Payment</b></button>
+                </a>
+                <a href="{{route('sell.add')}}" class="pull-right">
+                    <button class="btn btn-info mr-3"><b>Add New+</b></button>
+                </a>
+                <input type="text" name="date" id="datepicker" class="form-inline datepicker" placeholder="Select Date...">
               </div>
                 <!-- /.card-header -->
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table id="example1" class="table table-bordered table-striped table-hover ">
+                    <table id="example1" class="table table-bordered table-striped table-hover">
                       <thead>
                       <tr>
                         <th>Customer Name</th>
@@ -72,11 +75,12 @@
                           <tr>
                             <td> <a href="{{route('sell.individual',['id'=>$sell->customer_id])}}">{{$sell->customer->customer_name }}</a></td> 
                             <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id])}}">{{$sell->sell_id}}</td>
-                            <td>{{$sell->sell_date}}</td>
+                            <td>{{\Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y')}}</td>
                             {{-- <td></td> --}}
                             <td>{{$sell->total_amount}}</td>
                           </tr>
                         @endforeach 
+
                       </tbody>
                       <tfoot>
                         <tr>
@@ -94,10 +98,8 @@
             </div>
             <!-- /.card -->
           </div>
-
-          
         </div>
-      </div><hr>
+      </div>
     </section>
     <!-- /.content -->
 </div>

@@ -265,6 +265,16 @@
                         </li>
 
                         <li class="nav-item">
+                            <a href="{{ route('payments') }}" class="nav-link @yield('Payment')">
+                                <i class="nav-icon fa fa-tachometer"></i>
+                                <p>
+                                    Payment
+                                   
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="{{ route('customers') }}" class="nav-link @yield('clients')">
                                 <i class="fa fa-users nav-icon" aria-hidden="true"></i>
                                 <p>Clients</p>
@@ -372,7 +382,7 @@
 
 <script>
   $(function() {
-    $('#example1').DataTable()
+     $('#example1').DataTable()
     $('#example2').DataTable({
       'paging': true,
       'lengthChange': true,
@@ -391,6 +401,12 @@
       todayHighlight: true
     })
   })
+
+    var table = $('#example1').DataTable()
+    // #myInput is a <input type="text"> element
+    $('#datepicker').on( 'change', function () {
+        table.search( this.value ).draw();
+    } );
 </script>
 @yield('scripts')
 </body>

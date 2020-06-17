@@ -30,6 +30,10 @@ Route::post('/sell/store', 'SellController@store')->name('sell.store');
 Route::get('/sell/individual/{id}', 'SellController@individual')->name('sell.individual');
 Route::get('/sell/individual_sell/{id}', 'SellController@individual_sell')->name('sell.individual_sell');
 
+//Payment
+Route::get('/sell/payment', 'PaymentController@index')->name('payments');
+Route::get('/sell/payment/add', 'PaymentController@create')->name('payment.add');
+Route::post('/sell/payment/store', 'PaymentController@store')->name('payment.store');
 
 //customer
 Route::get('/customer', 'CustomerController@index')->name('customers');

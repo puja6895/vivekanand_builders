@@ -13,7 +13,7 @@ class Sell extends Model
     // use SoftDeletes;
 
     public function customer() {
-		return $this->belongsTo('App\Customer','customer_id');
+		return $this->belongsTo('App\Customer','customer_id','customer_id');
   }
   
   public function sell_products() {

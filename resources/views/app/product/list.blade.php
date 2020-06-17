@@ -51,6 +51,7 @@
               <a href="{{route('product.add')}}" class="pull-right">
                   <button class="btn btn-info"><b>Add New+</b></button>
               </a>
+            </div>
               </div>
                 <!-- /.card-header -->
                 <div class="card-body">

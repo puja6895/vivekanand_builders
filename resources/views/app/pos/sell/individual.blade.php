@@ -49,11 +49,17 @@
           @endif
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title text-secondary">Sell</h3>
+                <h3 class="card-title text-secondary mr-4">Sell</h3>
               <a href="{{route('sell')}}" class="pull-right">
-                  <button class="btn btn-info"><b>Back</b></button>
+                <input
+                action="action"
+                onclick="window.history.go(-1); return false;"
+                type="submit"
+                value="Back"
+                class="btbn btn-info pull-right"
+            />
               </a>
-              
+              <input type="text" name="date" id="datepicker" class="form-inline datepicker" placeholder="Select Date...">
               </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -71,10 +77,16 @@
                       @foreach($customer->sells as $sell)
                          <tr>
                            <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id])}}">{{$sell->sell_id}}</td>
-                            <td>{{$sell->sell_date}}</td>
+                            <td>{{\Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y')}}</td>
                          <td>{{$sell->total_amount}}</td>
                          </tr>
-                       @endforeach   
+                       @endforeach  
+                       {{-- <tr colspan="2">
+                         Grand Total
+                       </tr> 
+                       <tr>
+                         payment Received
+                       </tr> --}}
                       </tbody>
                       <tfoot>
                         <tr>
@@ -92,7 +104,47 @@
             <!-- /.card -->
           </div>
         </div>
-      </div>
+      </div><hr>
+
+      {{-- Payment Detail --}}
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <!-- Default box -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title text-success font-weight-bolder">Payment Detail</h3>
+              <a href="{{route('payment.add')}}" class="pull-right">
+                  <button class="btn btn-success"><b>Add Payment</b></button>
+              </a>
+              </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table id="example1" class="table table-bordered table-striped table-hover ">
+                      <thead>
+                      <tr>
+                      <th>Grand Total </th>
+                      <th>{{$grand_total}}</th>
+                      </tr>
+                      <tr>
+                      <th>Payment Received</th>
+                      <th>{{$payment}}</th>
+                      </tr>
+                      <tr>
+                        <th>Balance</th>
+                        <th>{{$grand_total-$payment}}</th>
+                        </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+      
+      
     </section>
     <!-- /.content -->
 </div>
