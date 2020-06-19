@@ -47,6 +47,31 @@
                 <strong>Error!</strong> {{Session::get('error')}}
             </div>
           @endif
+          {{-- List Of Selected Date --}}
+          <form action="{{route('sell.selected_date',['customer_id'=>$customer->customer_id])}}" method="POST">
+            @csrf
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group {{ $errors->has('sell_date') ? ' has-error' : '' }}">
+                  <label>Sell Date <span style="color: red;">*</span></label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="datepicker">
+                        <i class="fa fa-calendar"></i>
+                      </label>
+                    </div>
+                    <input type="text" name="from_date" class="form-control datepicker mr-3" id="datepicker" required="" placeholder="dd-mm-yyyy">
+                    <button class="btn btn-info">Submit</button>
+                    {{-- @if ($errors->has('sell_date'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('sell_date') }}</strong>
+                    </span>
+                    @endif --}}
+                  </div>
+                </div>
+              </div>
+            </div>  
+          </form>  
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title text-secondary mr-4">Sell</h3>
@@ -56,10 +81,10 @@
                 onclick="window.history.go(-1); return false;"
                 type="submit"
                 value="Back"
-                class="btbn btn-info pull-right"
+                class="btn btn-info pull-right"
             />
               </a>
-              <input type="text" name="date" id="datepicker" class="form-inline datepicker" placeholder="Select Date...">
+              <input type="text" name="date" id="datepicker" class="form-inline datepicker list_date" placeholder="Select Date...">
               </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -114,6 +139,7 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title text-success font-weight-bolder">Payment Detail</h3>
+                 
               <a href="{{route('payment.add')}}" class="pull-right">
                   <button class="btn btn-success"><b>Add Payment</b></button>
               </a>

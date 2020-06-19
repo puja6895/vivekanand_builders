@@ -29,6 +29,7 @@ Route::get('/sell/add', 'SellController@create')->name('sell.add');
 Route::post('/sell/store', 'SellController@store')->name('sell.store');
 Route::get('/sell/individual/{id}', 'SellController@individual')->name('sell.individual');
 Route::get('/sell/individual_sell/{id}', 'SellController@individual_sell')->name('sell.individual_sell');
+Route::post('/sell/selected_date/{customer_id}', 'SellController@selected_date')->name('sell.selected_date');
 
 //Payment
 Route::get('/sell/payment', 'PaymentController@index')->name('payments');

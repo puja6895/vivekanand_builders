@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class PayAmounts extends Migration
+class SellPayAmounts extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class PayAmounts extends Migration
     public function up()
     {
         //
-        Schema::create('pay_amounts', function (Blueprint $table) {
+        Schema::create('sell_payAmounts', function (Blueprint $table) {
             $table->increments('pay_amount_id');
             $table->integer('customer_id')->unsigned();
             $table->date('pay_date');
@@ -22,7 +22,6 @@ class PayAmounts extends Migration
             $table->float('pay_received',10,2)->default(0);
             $table->timestamps();
         });
-    
     }
 
     /**

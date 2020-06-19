@@ -176,7 +176,7 @@ class SellController extends Controller
     public function individual($customer_id){
         $customer = Customer::find($customer_id);
         $grand_total = DB::table('sells')->where('customer_id',$customer_id)->sum('total_amount');
-        $payment = DB::table('pay_amounts')->where('customer_id',$customer_id)->sum('pay_received');
+        $payment = DB::table('sell_payAmounts')->where('customer_id',$customer_id)->sum('pay_received');
         return view :: make('app.pos.sell.individual')->with(['customer'=>$customer,'grand_total'=>$grand_total,'payment'=>$payment]);
     }
 
@@ -185,8 +185,41 @@ class SellController extends Controller
         // $sell_product = Sell_Product::all();
         return view :: make('app.pos.sell.individual_sell')->with('sell',$sell);
     }
-
     
+    // Selected Date List
+    public function selected_date(Request $request,$customer_id){
+       
+        // $date = Carbon::createFromDate($year, $month, $day, $tz);
+        $from_date  = Carbon::parse($request->from_date)->format('Y-m-d');
+        // $to_date = Carbon::parse($request->to_date)->format('Y-m-d');
+
+        // $opening1 = Sell::where('customer_id',$customer_id)->whereMonth('sell_date', $from_date)->sum('total_amount');
+
+        $opening1= DB::table('sells')->
+        select(DB::raw('sum(total_amount) as opening1'))
+        ->whereRaw('month(sell_date) < month(?) and customer_id=?',[$from_date,$customer_id])->get();
+        // dd($opening1[0]->opening1);
+
+        $opening2 = DB::table('sell_payAmounts')->
+        select(DB::raw('sum(pay_received) as opening2'))
+        ->whereRaw('month(pay_date) < month(?) and customer_id=?',[$from_date,$customer_id])->get();
+        
+
+        
+
+        $total_amount = DB::table('sells')->
+        select(DB::raw('sum(total_amount) as total_amount'))
+        ->whereRaw('year(sell_date) = year(?) and month(sell_date) = month(?) and customer_id=?',[$from_date,$from_date,$customer_id] )->get();
+        // $total_amount = Sell::where('customer_id',$customer_id)->whereBetween('sell_date', [$from_date, $to_date])->sum('total_amount');
+        // dd($total_amount);
+        $total_payamount = DB::table('sell_payAmounts')->
+        select(DB::raw('sum(pay_received) as total_payamount'))
+        ->whereRaw('year(pay_date) = year(?) and month(pay_date) = month(?) and customer_id=?',[$from_date,$from_date,$customer_id] )->get();
+        
+
+        $customer=Customer::find($customer_id);
+        return view :: make('app.pos.sell.selected_date')->with(['total_amount'=>$total_amount,'customer'=>$customer,'total_payamount'=>$total_payamount,'opening1'=>$opening1,'opening2'=>$opening2,'from_date'=>$from_date]);
+    }
 
    
 }

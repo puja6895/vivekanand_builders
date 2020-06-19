@@ -48,14 +48,7 @@
             <div class="card card-muted">
               <div class="card-header card-border">
                 <h3 class="card-title text-secondary">Add Sell </h3>
-              <a href="{{route('sell')}}">
-                <input
-                action="action"
-                onclick="window.history.go(-1); return false;"
-                type="submit"
-                value="Back"
-                class="btbn btn-info pull-right">
-              </a>
+              <a href="{{route('sell')}}"><button class="btn btn-info pull-right">Back</button></a>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
@@ -100,7 +93,7 @@
                             <i class="fa fa-calendar"></i>
                           </label>
                         </div>
-                        <input type="text" name="sell_date" class="form-control datepicker" id="datepicker" required="" placeholder="dd-mm-yyyy">
+                        <input type="text" name="sell_date" class="form-control datepicker list_date" id="datepicker" required="" placeholder="dd-mm-yyyy">
                         @if ($errors->has('sell_date'))
                         <span class="help-block">
                             <strong>{{ $errors->first('sell_date') }}</strong>

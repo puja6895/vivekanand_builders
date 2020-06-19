@@ -56,7 +56,7 @@
                 onclick="window.history.go(-1); return false;"
                 type="submit"
                 value="Back"
-                class="btbn btn-info pull-right">
+                class="btn btn-info pull-right">
               </a>
               </div>
               <!-- /.card-header -->

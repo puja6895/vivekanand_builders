@@ -404,7 +404,7 @@
 
     var table = $('#example1').DataTable()
     // #myInput is a <input type="text"> element
-    $('#datepicker').on( 'change', function () {
+    $('.list_date').on( 'change', function () {
         table.search( this.value ).draw();
     } );
 </script>

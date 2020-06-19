@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     //
-    protected $table = 'pay_amounts';
+    protected $table = 'sell_payAmounts';
     protected $primarykey = 'pay_amount_id';
 
     public function customer() {
