@@ -11,4 +11,8 @@ class Product extends Model
     protected $primaryKey = 'product_id';
 
     use SoftDeletes;
+
+    public function inventory() {
+		return $this->hasMany('App\Inventory','product_id');
+  }
 }

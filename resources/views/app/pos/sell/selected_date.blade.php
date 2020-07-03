@@ -66,35 +66,35 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table id="" class="table table-bordered table-striped table-hover">
+                    <table id="" class="table table-bordered table-striped table-hover ">
                       <thead>
                       <tr>
                         <th>Opening Balance</th>
                         <th>Total Amount</th>
                         <th>Payment Rreceived</th>
                         <th>Closing Balance</th>
-                        {{-- <th>Sell Date</th>
-                        <th>Amount</th> --}}
                       </tr>
                       </thead>
                       <tbody>
-                          <tr>
-                          <td>{{$opening1[0]->opening1 - $opening2[0]->opening2}}</td>
-                          <td>{{$total_amount[0]->total_amount }}</td>
+                        <tr>
+                          {{-- <td></td> --}}
+                          <td>{{($opening1 - $opening2)}}</td>
+                          <td>{{$total_amount[0]->total_amount}}</td>
                           <td>{{$total_payamount[0]->total_payamount}}</td>
-                          <td>{{$total_amount[0]->total_amount - $total_payamount[0]->total_payamount}}</td>
-                          </tr>
+                          @if($total_amount[0]->total_amount<$total_payamount[0]->total_payamount)
+                          <td class="bg-danger">{{abs($total_amount[0]->total_amount - $total_payamount[0]->total_payamount)}}</td>
+                          @else
+                          <td>{{abs($total_amount[0]->total_amount - $total_payamount[0]->total_payamount)}}</td>
+                          @endif
+                        </tr>
                       </tbody>
                       <tfoot>
-                        <tr>
-                          <th>Opening Balance</th>
+                          <tr>
+                            <th>Opening Balance</th>
                             <th>Total Amount</th>
                             <th>Payment Rreceived</th>
                             <th>Closing Balance</th>
-                          {{-- <th>Sell Date</th>
-                          <th>Amount</th> --}}
-                          {{-- <th>Total Amount</th> --}}
-                        </tr>
+                          </tr>
                       </tfoot>
                     </table>
                   </div>
@@ -104,7 +104,66 @@
             <!-- /.card -->
           </div>
         </div>
-      </div>
+      </div><hr>
+      {{-- Product Detail --}}
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <!-- Default box -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title text-muted font-weight-bolder">Summary of Sell</h3>
+                 
+              <a href="{{route('payment.add')}}" class="pull-right">
+                  {{-- <button class="btn btn-success"><b>Add Payment</b></button> --}}
+              </a>
+              </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table id="example1" class="table table-bordered table-striped table-hover ">
+                      <thead>
+                        <tr>
+                          {{-- <th>Customer Name</th> --}}
+                          {{-- <th>Sell Id</th> --}}
+                          <th>Sell Date</th>
+                          <th>Product Name</th>
+                          <th>Quantity</th>
+                          {{-- <th>Unit</th> --}}
+                          <th>Rate</th>
+                          <th>GST%</th>
+                          <th>Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($sell_products as $sell_product)
+                           <tr>
+                           <td>{{$sell_product->sell_date}}</td>
+                           {{-- <td></td> --}}
+                           <td>{{$sell_product->product_name}}</td>
+                           <td>{{$sell_product->quantity}}({{$sell_product->unit_name}})</td>
+                           <td>{{$sell_product->rate}}</td>
+                           <td>{{$sell_product->gst}}</td>
+                           <td>{{$sell_product->amount}}</td>
+                           </tr>
+                         @endforeach   
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <th>Sell Date</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Rate</th>
+                            <th>GST%</th>
+                            <th>Amount</th>
+                          </tr>
+                        </tfoot>
+                      
+                    </table>
+                  </div>
+                </div>
+            </div>
+          </div>
     </section>
     <!-- /.content -->
 </div>

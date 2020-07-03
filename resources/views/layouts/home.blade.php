@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
 	<title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
     <!-- Font Awesome -->
-    {{-- <script src="https://use.fontawesome.com/f0601e8490.js"></script> --}}
-    <link rel="stylesheet" href="{{asset('assets/plugins/fontawesome-free/css/all.min.css')}}">
+    <script src="https://use.fontawesome.com/f0601e8490.js"></script>
+    {{-- <link rel="stylesheet" href="{{asset('assets/plugins/fontawesome-free/css/all.min.css')}}"> --}}
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Date Picker -->
@@ -38,6 +38,8 @@
     <!-- Date Picker -->
     <link rel="stylesheet" href="{{ asset('assets/dist/css/bootstrap-datepicker.min.css') }}">
 
+    {{-- Invoice --}}
+  
 
     <script>
         function active(element) {
@@ -245,35 +247,56 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item has-treeview ">
-                            <a href="#" class="nav-link @yield('POS')">
+                        <li class="nav-item">
+                            <a href="{{ route('sell') }}" class="nav-link @yield('Sell')">
                                 <i class="nav-icon fa fa-money"></i>
                                 <p>
-                                    POS
-                                    <i class="fa fa-angle-left right"></i>
-                                    {{-- <span class="badge badge-info right">6</span> --}}
+                                    Sell
+                                    {{-- <i class="right fa fa-angle-left"></i> --}}
                                 </p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('sell') }}" class="nav-link @yield('POS-sell')">
-                                        <i class="fa fa-circle-thin nav-icon"></i>
-                                        <p>Sell</p>
-                                    </a>
-                                </li>
-                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="" class="nav-link @yield('Sell')">
+                                <i class="nav-icon fa fa-money"></i>
+                                <p>
+                                    Purchase
+                                    {{-- <i class="right fa fa-angle-left"></i> --}}
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                        <a href="{{route('invoice.add')}}" class="nav-link @yield('Sell')">
+                                <i class="nav-icon fa fa-file"></i>
+                                <p>
+                                    Invoice List
+                                    {{-- <i class="right fa fa-angle-left"></i> --}}
+                                </p>
+                            </a>
                         </li>
 
                         <li class="nav-item">
                             <a href="{{ route('payments') }}" class="nav-link @yield('Payment')">
-                                <i class="nav-icon fa fa-tachometer"></i>
+                                <i class="nav-icon fa fa-credit-card"></i>
                                 <p>
                                     Payment
                                    
                                 </p>
                             </a>
                         </li>
-
+                           
+                        <li class="nav-item">
+                            <a href="{{ route('inventories') }}" class="nav-link @yield('Product')">
+                                <i class="nav-icon fa fa-tags"></i>
+                                <p>
+                                    Inventory
+                                    {{-- <i class="right fa fa-angle-left"></i> --}}
+                                </p>
+                            </a>
+                        </li>
+                        
                         <li class="nav-item">
                             <a href="{{ route('customers') }}" class="nav-link @yield('clients')">
                                 <i class="fa fa-users nav-icon" aria-hidden="true"></i>
@@ -387,7 +410,7 @@
       'paging': true,
       'lengthChange': true,
       'searching': true,
-      'ordering': true,
+      'ordering': false,
       'info': true,
       'autoWidth': true
     });

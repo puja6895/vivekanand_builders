@@ -61,13 +61,14 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table id="example1" class="table table-bordered table-striped table-hover">
+                    <table id="example2" class="table table-bordered table-striped table-hover">
                       <thead>
                       <tr>
                         <th>Customer Name</th>
                         <th>Sell Id</th>
                         <th>Sell Date</th>
                         <th>Amount</th>
+                        <th>Status</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -78,6 +79,15 @@
                             <td>{{\Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y')}}</td>
                             {{-- <td></td> --}}
                             <td>{{$sell->total_amount}}</td>
+                            @if($sell->status==0)
+                            <td>
+                              <span class="badge badge-warning">Not Billed</span>
+                            </td>
+                            @else
+                            <td>
+                              <span class="badge badge-success">Billed</span>
+                            </td>
+                            @endif
                           </tr>
                         @endforeach 
 
@@ -88,6 +98,7 @@
                           <th>Sell Id</th>
                           <th>Sell Date</th>
                           <th>Amount</th>
+                          <th>Status</th>
                           {{-- <th>Total Amount</th> --}}
                         </tr>
                       </tfoot>

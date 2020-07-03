@@ -53,7 +53,7 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group {{ $errors->has('sell_date') ? ' has-error' : '' }}">
-                  <label>Sell Date <span style="color: red;">*</span></label>
+                  {{-- <label>Sell Date <span style="color: red;">*</span></label> --}}
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <label class="input-group-text" for="datepicker">
@@ -61,6 +61,7 @@
                       </label>
                     </div>
                     <input type="text" name="from_date" class="form-control datepicker mr-3" id="datepicker" required="" placeholder="dd-mm-yyyy">
+                    <input type="text" name="to_date" class="form-control datepicker mr-3" id="datepicker"  placeholder="dd-mm-yyyy">
                     <button class="btn btn-info">Submit</button>
                     {{-- @if ($errors->has('sell_date'))
                     <span class="help-block">
@@ -82,7 +83,7 @@
                 type="submit"
                 value="Back"
                 class="btn btn-info pull-right"
-            />
+              />
               </a>
               <input type="text" name="date" id="datepicker" class="form-inline datepicker list_date" placeholder="Select Date...">
               </div>
@@ -90,34 +91,40 @@
                 <div class="card-body">
                   <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped table-hover ">
-                      <thead>
+                      <thead> 
                       <tr>
                         {{-- <th>Customer Name</th> --}}
-                        <th>Sell Id</th>
                         <th>Sell Date</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        {{-- <th>Unit</th> --}}
+                        <th>Rate</th>
+                        <th>GST%</th>
                         <th>Amount</th>
                       </tr>
                       </thead>
                       <tbody>
-                      @foreach($customer->sells as $sell)
+                      @foreach($sells as $sell)  
+
+                      @foreach($sell->sell_products as $sell_product)
                          <tr>
-                           <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id])}}">{{$sell->sell_id}}</td>
+                            {{-- <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id])}}">{{$sell->sell_id}}</td> --}}
                             <td>{{\Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y')}}</td>
-                         <td>{{$sell->total_amount}}</td>
-                         </tr>
-                       @endforeach  
-                       {{-- <tr colspan="2">
-                         Grand Total
-                       </tr> 
-                       <tr>
-                         payment Received
-                       </tr> --}}
-                      </tbody>
-                      <tfoot>
+                            <td>{{$sell_product->product->product_name}}</td>
+                            <td>{{$sell_product->quantity}}({{$sell_product->unit_name}})</td>
+                            <td>{{$sell_product->rate}}</td>
+                            <td>{{$sell_product->gst}}</td>
+                            <td>{{$sell_product->amount}}</td>
+                            {{-- <td>{{$sell[0]->total_amount}}</td> --}}
                         <tr>
-                          {{-- <th>Customer Name</th> --}}
-                        <th>Sell Id</th>
+                          @endforeach 
+                          @endforeach  
                         <th>Sell Date</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        {{-- <th>Unit</th> --}}
+                        <th>Rate</th>
+                        <th>GST%</th>
                         <th>Amount</th>
                         </tr>
                       </tfoot>
@@ -147,7 +154,7 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table id="example1" class="table table-bordered table-striped table-hover ">
+                    <table id="" class="table table-bordered table-striped table-hover ">
                       <thead>
                       <tr>
                       <th>Grand Total </th>

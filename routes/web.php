@@ -72,6 +72,15 @@ Route::post('/product/update', 'ProductController@update')->name('product.update
 Route::get('/product/destroy/{id}', 'ProductController@destroy')->name('product.destroy');
 Route::get('/product/enable/{id}', 'ProductController@enable')->name('product.enable');
 
+//Inventory
+Route::get('/inventories', 'InventoryController@index')->name('inventories');
+Route::get('/inventory/add', 'InventoryController@create')->name('inventory.add');
+Route::post('/inventory/store', 'InventoryController@store')->name('inventory.store');
+
+//Invoice
+Route::get('/invoice/add', 'InvoiceController@add')->name('invoice.add');
+Route::post('/invoice/invoice', 'InvoiceController@invoice')->name('invoice.invoice');
+
 
 
 
