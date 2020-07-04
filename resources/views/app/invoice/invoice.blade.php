@@ -1,151 +1,188 @@
 @extends('layouts.home')
 @section('content')
 <div class="content-wrapper">
-		<section class="content">
-			<div class="content-fluid">
-				<div class="row">
-					<div class="col-12">
-						<div class="card">
-							<div class="card-body p-0">
-								<div class="row p-5">
-									<div class="col-md-6">
-										<span class="text-bold">Vivekanand Traders</span>
-									</div>
-			
-									<div class="col-md-6 text-right">
-										<p class="font-weight-bold text-muted mb-1">Bill No: </p>
-										<p class="font-weight-bold text-muted mb-1">Bill Date: </p>
-									</div>
-								</div>
-			
-								<hr class="my-2">
-								{{-- {{dd($sells)}} --}}
-								<div class="row pb-5 p-4">
-									<div class="col-md-6">
-										<p class="font-weight-bold text-muted mb-4">Client Information</p>
-										<p class="mb-1">{{$sells[0]->customer->customer_name}}</p>
-										<p>{{$sells[0]->customer->customer_mobile}}</p>
-										<p class="mb-1">{{$sells[0]->customer->customer_address}}</p>
-										{{-- <p class="mb-1">6781 45P</p> --}}
-									</div>
-			
-								</div>
-								<div class="card">
-									<div class="card-header text-bold text-muted">Product Summary</div>
-									<div class="card-body">
-										<div class="row">
-											<div class="col-md-12">
-												<table class="table">
-													<thead>
-														<tr>
-															<th class="border-0 text-uppercase small font-weight-bold">DATE</th>
-															<th class="border-0 text-uppercase small font-weight-bold">Item</th>
-															<th class="border-0 text-uppercase small font-weight-bold">Quantity</th>
-															<th class="border-0 text-uppercase small font-weight-bold">Unit </th>
-															<th class="border-0 text-uppercase small font-weight-bold">Rate</th>
-															<th class="border-0 text-uppercase small font-weight-bold">Amount</th>
-														</tr>
-													</thead>
-													<tbody>
-														@foreach($sells as $sell)
-														@foreach($sell->sell_products as $sell_product)
-														<tr>
-															<td>{{\Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y')}}</td>
-															<td>{{$sell_product->product->product_name}}</td>
-															<td>{{$sell_product->quantity}}</td>
-															<td>{{$sell_product->unit_name}}</td>
-															<td>{{$sell_product->rate}}</td>
-															<td >{{$sell_product->amount}}</td>
-														</tr>
-														@endforeach
-														@endforeach
-														<tr>
-															<td></td>
-															<td></td>
-															<td></td>
-															<td></td>
-															<td class=" font-weight-bold">Sub-Total Amount:</td>
-															<td class="text-bold">{{$sub_total}}</td>
-														</tr>
-													</tbody>
-												</table>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h3> Invoice</h3>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item active">Invoice</li>
+                        {{-- <li class="breadcrumb-item"><a href="#">Layout</a></li> --}}
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body p-0">
+                            <div class="container">
+                                <div class="row pl-5 pt-4 pb-2 pr-3">
+                                    <div class="col-md-6">
+                                        <h4 class="text-bold">Vivekanand Traders</h4>
+                                    </div>
+
+                                    <div class="col-md-6 text-right">
+                                        <p class="font-weight-bold text-muted mb-1">Bill No: </p>
+                                        <p class="font-weight-bold text-muted mb-1">Bill Date: </p>
+                                    </div>
+                                </div>
+
+                                <hr class="my-2">
+
+                                <div class="row pb-3 p-4 ">
+                                    <div class="col-md-6">
+                                        <p class="font-weight-bold text-muted mb-3">Client Information</p>
+                                        <p class="mb-1 text-bold">{{ $sells[0]->customer->customer_name }}</p>
+                                        <p class="text-bold">{{ $sells[0]->customer->customer_mobile }}</p>
+                                        <p class="mb-1 text-bold">{{ $sells[0]->customer->customer_address }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <hr class="my-2">
+
+                                <div class="row text-center">
+                                    <div class="col-2 text-uppercase small font-weight-bold">Date</div>
+                                    <div class="col-2 text-uppercase small font-weight-bold">Item</div>
+                                    <div class="col-2 text-uppercase small font-weight-bold">Unit</div>
+                                    <div class="col-2 text-uppercase small font-weight-bold">Quantity</div>
+                                    <div class="col-2 text-uppercase small font-weight-bold">Rate</div>
+                                    <div class="col-2 text-uppercase small font-weight-bold">Amount</div>
+                                </div>
+
+                                <hr class="my-2">
+
+                                <div class="row text-center">
+                                    @foreach($sells as $sell)
+                                        @foreach($sell->sell_products as $sell_product)
+                                            {{-- <tr> --}}
+                                            <div class="col-2 text-uppercase small ">
+                                                {{ \Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y') }}
+                                            </div>
+                                            <div class="col-2 text-uppercase small ">
+                                                {{ $sell_product->product->product_name }}</div>
+                                            <div class="col-2 text-uppercase small ">{{ $sell_product->unit_name }}
+                                            </div>
+                                            <div class="col-2 text-uppercase small ">{{ $sell_product->quantity }}
+                                            </div>
+                                            <div class="col-2 text-uppercase small ">{{ $sell_product->rate }}</div>
+                                            <div class="col-2 text-uppercase small ">{{ $sell_product->amount }}</div>
+                                            {{-- </tr> --}}
+                                        @endforeach
+                                    @endforeach
+                                    <br>
+                                    <div class="col-2 text-uppercase small "></div>
+                                    <div class="col-2 text-uppercase small "></div>
+                                    <div class="col-2 text-uppercase small "></div>
+                                    <div class="col-2 text-uppercase small "></div>
+                                    <div class="col-2 text-uppercase  font-weight-bold">Sub-Total</div>
+                                    <div class="col-2 text-uppercase  font-weight-bold">{{ $sub_total }}</div>
+                                </div>
+
+                                <hr class="my-2">
+
+                                <p class="ml-3 pt-2 text-bold text-muted">Previous Bill:</p>
+                                <div class="row text-center">
+                                    <div
+                                        class="col-1 pt-2 pb-2 border-top border-bottom text-uppercase small font-weight-bold">
+                                        Bill No</div>
+                                    <div
+                                        class="col-1 pt-2 pb-2 border-top border-bottom text-uppercase small font-weight-bold">
+                                        From</div>
+                                    <div
+                                        class="col-1 pt-2 pb-2 border-top border-bottom text-uppercase small font-weight-bold">
+                                        To</div>
+                                    <div
+                                        class="col-1 pt-2 pb-2 border-top border-bottom text-uppercase small font-weight-bold">
+                                        Amount</div>
+                                    <div class="col-8 text-uppercase small font-weight-bold"></div>
+                                </div>
+
+                                <div class="row text-center">
+                                    <div class="col-1 border-bottom pb-1 pt-1 text-uppercase small">
+                                        {{ $previous_bill->bill_no ?? "NIL" }}</div>
+                                    <div class="col-1 border-bottom pb-1 pt-1 text-uppercase small">
+										@if(!empty($previous_bill))
+											{{ \Carbon\Carbon::parse($previous_bill->from_date)->format('d-m-Y') ?? "NIL" }}</div>
+										@else
+											{{ $previous_bill->from_date ?? "NIL" }}</div>
+										@endif
+                                    <div class="col-1 border-bottom pb-1 pt-1 text-uppercase small">
+                                        {{ $previous_bill->to_date ?? "NIL" }}</div>
+                                    <div class="col-1 border-bottom pb-1 pt-1 text-uppercase small">
+                                        {{ $previous_bill->amount ?? "NIL" }}</div>
+                                    <div class="col-8 text-uppercase small font-weight-bold"></div>
+                                </div>
+
+                                <br class="my-1">
+
+                                <p class="ml-3 text-bold text-muted">Payment Details:</p>
+                                <div class="row text-center">
+                                    <div
+                                        class="col-1 pt-2 pb-2 border-top border-bottom text-uppercase small font-weight-bold">
+                                        Date</div>
+                                    <div
+                                        class="col-1 pt-2 pb-2 border-top border-bottom text-uppercase small font-weight-bold">
+                                        From</div>
+                                    <div
+                                        class="col-1 pt-2 pb-2 border-top border-bottom text-uppercase small font-weight-bold">
+                                        To</div>
+                                    <div class="col-9 text-uppercase small font-weight-bold"></div>
+                                </div>
+
+                                <div class="row text-center">
+									@if(!empty($payments))
+										@foreach($payments as $payment)
+											<div class="col-1 pb-1 pt-1 text-uppercase small">{{ \Carbon\Carbon::parse($payment->pay_date)->format('d-m-Y') }}
 											</div>
+											<div class="col-1 pb-1 pt-1 text-uppercase small">{{ $payment->pay_mode }}
+											</div>
+											<div class="col-1 pb-1 pt-1 text-uppercase small">{{ $payment->pay_received }}
+											</div>
+											<div class="col-9 text-uppercase small font-weight-bold"></div>
+										@endforeach
+									@else
+										<div class="col-1 pb-1 pt-1 text-uppercase small"> NIL
 										</div>
-									</div>
-								</div>
-								
-								{{-- <hr class="my-3"> --}}
-								<div class="row  ">
-									<div class="col-md-5">
-										<p class="ml-4 text-bold text-muted">Previous Bill:</p>
-										<table class="table">
-											<thead>
-												<tr>
-													<th class="border-0 text-uppercase small font-weight-bold"> Bill No</th>
-													<th class="border-0 text-uppercase small font-weight-bold">From Date</th>
-													<th class="border-0 text-uppercase small font-weight-bold">To Date</th>
-													<th class="border-0 text-uppercase small font-weight-bold">Amount</th>
-												</tr>
-											</thead>
-											<tbody>
-												
-												<tr>
-													<td>{{$previous_bill->bill_no}}</td>
-													<td>{{$previous_bill->from_date}}</td>
-													<td>{{$previous_bill->to_date}}</td>
-													<td>{{$previous_bill->amount}}</td>
-												</tr>
-												
-											</tbody>
-										</table>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-5">
-										<p class="ml-4 text-bold text-muted">Payment Details:</p>
-										<table class="table">
-											<thead>
-												<tr>
-													<th class="border-0 text-uppercase small font-weight-bold"> Date</th>
-													<th class="border-0 text-uppercase small font-weight-bold">Mode</th>
-													<th class="border-0 text-uppercase small font-weight-bold">Amount</th>
-												</tr>
-											</thead>
-											<tbody>
+										<div class="col-1 pb-1 pt-1 text-uppercase small"> NIL
+										</div>
+										<div class="col-1 pb-1 pt-1 text-uppercase small"> NIL
+										</div>
+										<div class="col-9 text-uppercase small font-weight-bold"></div>
+									@endif
+                                    {{-- <div class="col-1 border-bottom"></div>
+									<div class="col-1 border-bottom"></div>
+									<div class="col-1 border-bottom"></div> --}}
+                                    <div class="col-9 "></div>
+                                </div>
 
-												@foreach($payments as $payment)
-												<tr>
-													<td>{{$payment->pay_date}}</td>
-													<td>{{$payment->pay_mode}}</td>
-													<td>{{$payment->pay_received}}</td>
-												</tr>
-												@endforeach
-											</tbody>
-										</table>
-									</div>
-								</div>
-								<div class="row mb-4" style="margin-left:58%;">
-									<div class="col-md-5">
-										<table>
-											<th>
-												<tr>
-													<td class=" font-weight-bold">Due Amount:</td>
-													<td style="margin-left:20px  !important">{{$due_amount}}</td>
-												</tr>
-											</th>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	</div>
+                                <hr class="my-2">
+
+                                <div class="row text-center">
+                                    <div class="col-2 text-uppercase small font-weight-bold"></div>
+                                    <div class="col-2 text-uppercase small font-weight-bold"></div>
+                                    <div class="col-2 text-uppercase small font-weight-bold"></div>
+                                    <div class="col-2 text-uppercase small font-weight-bold"></div>
+                                    <div class="col-2 text-uppercase  font-weight-bold">Due Amount</div>
+                                    <div class="col-2 text-uppercase  font-weight-bold">{{ $due_amount }}</div>
+                                </div>
+
+                                <br class="my-1">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 @endsection
-
-
-
-
-

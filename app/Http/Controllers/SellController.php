@@ -134,12 +134,17 @@ class SellController extends Controller
                        
                         $last_close = Inventory :: where('product_id',$request->product_id[$i])
                                                   ->where('unit_name' ,$request->unit_name[$i])
-                                                  ->orderBy('date' ,'desc')
-                                                  ->get();
+                                                  ->orderBy('date' ,'desc');
+                                                //   ->first();
 
                         // dd($last_close[0]->closing_stock);                          
 
-                        $opening_stock = $last_close[0]->closing_stock;
+                        if($last_close->count() <= 0){
+                            $opening_stock    = 0;
+                        }else{
+                            $opening_stock = $last_close->first()->closing_stock;
+                        }
+
                         // dd($opening_stock);
                         
                         $inv->opening_stock  = $opening_stock;

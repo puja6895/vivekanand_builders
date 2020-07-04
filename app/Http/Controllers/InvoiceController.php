@@ -40,72 +40,78 @@ class InvoiceController extends Controller
 
             // if(count($exists_bill)<=0){
 
-                     
+                $record = BillDetail::latest()->first();
+                $invoice_number = explode('-',$record->bill_no);
+                // dd($invoice_number);
+                $current_timestamp = Carbon::now()->format('m-Y');
+                //  dd($current_timestamp); 
+                
+               
 
-                $current_amount = DB::table('sells')
-                                  ->whereBetween('sell_date',array($from_date,$to_date))
-                                  ->where('customer_id',$customer_id)
-                                  ->sum('total_amount');
-
-                $current_payment = DB::table('sell_payAmounts')  
-                                       ->where('customer_id',$customer_id) 
-                                       ->whereBetween('pay_date',array($from_date,$to_date))
-                                       ->sum('pay_received'); 
-                // dd($current_payment);  
                 $previous_bill = BillDetail::where('customer_id',$customer_id)
                                             ->whereDate('to_date' , '<' , $from_date)
                                             ->orderBy('to_date','desc');
-                                          
-                                            
+
+                $sell_query = Sell ::where('customer_id',$customer_id)
+                                       ->whereBetween('sell_date',array($from_date,$to_date))
+                                       ->orderBy('sell_date','desc');
+
+                $payment_query = Payment::where('customer_id',$customer_id)
+                                       ->whereBetween('pay_date',array($from_date , $to_date)) 
+                                       ->orderBy('pay_date','desc');
+
+                $sells = $sell_query->get();
+                $payments = $payment_query->get();
+
+                $sell_amount = $sell_query->sum('total_amount');
+                $payment_amount = $payment_query->sum('pay_received');
+
                 // dd($previous_bill);
                 if($previous_bill->count()<=0){
                     
-                
-                $previous_due_amount = 0;
-                // dd( $previous_due_amount);$current_payment; 
-                // dd($due_amount);           
-                
-                
+                    $previous_due_amount = 0;
 
                 }else{
-
                     $previous_due_amount = $previous_bill->first()->amount; 
                 }
 
-                $due_amount =   $current_amount  + $previous_due_amount -  $current_payment; 
-                // dd($due_amount);           
+                $due_amount =   $sell_amount  + $previous_due_amount -  $payment_amount; 
+                // dd($due_amount);  
+                
+                
 
                 $current_bill = new BillDetail;   
                 $current_bill->customer_id = $request->customer_id;
-                $current_bill->bill_no = 0;
+                if($current_timestamp==date("m-Y")){
+                    $nextinvioce_number = "VNB".'-01'. '-'.date("m-Y");     
+
+                    $current_bill->bill_no = $nextinvioce_number;
+                    // dd( $nextinvioce_number);               
+                }else{
+                    $nextinvioce_number = $invoice_number[0]. '-' .$invoice_number[1]+1 . '-' .$invoice_number[2];
+                    
+                    $current_bill->bill_no = $nextinvioce_number;
+                // dd( $nextinvioce_number); 
+                }
+                
                 $current_bill->from_date =  Carbon::parse($request->from_date)->format('Y-m-d');
                 $current_bill->to_date =   Carbon::parse($request->to_date)->format('Y-m-d');
                 $current_bill->amount = $due_amount;
                 $current_bill ->save(); 
             
 
-                $sells = Sell ::where('customer_id',$customer_id)
-                                ->whereBetween('sell_date',array($from_date,$to_date))
-                                ->get();
+                // $sub_total = DB::table('sells')
+                //                 ->join('sell_products', 'sell_products.sell_id', '=', 'sells.sell_id')
+                //                 ->where('sells.customer_id',$request->customer_id)
+                //                 ->whereBetween('sell_date',array($from_date,$to_date))
+                //                 ->sum('sell_products.amount');
 
-
-                $payments = Payment::where('customer_id',$customer_id)
-                                    ->whereBetween('pay_date',array($from_date , $to_date)) 
-                                    ->get(); 
-            
-            
-                $sub_total = DB::table('sells')
-                                ->join('sell_products', 'sell_products.sell_id', '=', 'sells.sell_id')
-                                ->where('sells.customer_id',$request->customer_id)
-                                ->whereBetween('sell_date',array($from_date,$to_date))
-                                ->sum('sell_products.amount');
-
-                                // dd($sub_total);
+                // $sub_total = $sell_query->sum('total_amount');
                        
                 
                 DB::commit();
                 // dd($previous_bill->first());
-                return view :: make('app.invoice.invoice')->with(['sells'=>$sells,'sub_total'=>$sub_total,'payments'=>$payments ,'previous_bill'=>$previous_bill->first(),'due_amount'=>$due_amount]);
+                return view :: make('app.invoice.invoice')->with(['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill->first(),'due_amount'=>$due_amount]);
             // }else{
             //     return back()->with('error','Sell Already Exits');
             // }    
