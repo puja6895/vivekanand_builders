@@ -268,12 +268,22 @@
                         </li>
 
                         <li class="nav-item">
-                        <a href="{{route('invoice.add')}}" class="nav-link @yield('Sell')">
+                        <a href="{{route('invoice.add')}}" class="nav-link @yield(' Genrate Invoice ')">
                                 <i class="nav-icon fa fa-file"></i>
                                 <p>
-                                    Invoice List
+                                    Genrate Invoice 
                                     {{-- <i class="right fa fa-angle-left"></i> --}}
                                 </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                        <a href="{{route('invoice')}}" class="nav-link @yield('Invoice List ')">
+                                    <i class="nav-icon fa fa-file"></i>
+                                    <p>
+                                        Invoice List 
+                                       
+                                    </p>
                             </a>
                         </li>
 

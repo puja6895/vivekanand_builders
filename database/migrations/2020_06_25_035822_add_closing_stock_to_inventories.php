@@ -15,7 +15,7 @@ class AddClosingStockToInventories extends Migration
     {
         Schema::table('inventories', function (Blueprint $table) {
             //
-            $table->dropColumn('opening_stock');
+            // $table->dropColumn('opening_stock');
             // $table->decimal('opening_stock' , 8 , 2)->default(0)->after('product_id');
             // $table->decimal('purchase_stock' ,8 ,2)->default(0)->change();
             // $table->integer('sell_stock')->default(0)->change();

@@ -78,8 +78,10 @@ Route::get('/inventory/add', 'InventoryController@create')->name('inventory.add'
 Route::post('/inventory/store', 'InventoryController@store')->name('inventory.store');
 
 //Invoice
+Route::get('/invoice', 'InvoiceController@index')->name('invoice');
+Route::get('/invoice/view/{bill_id}', 'InvoiceController@view')->name('invoice.view');
 Route::get('/invoice/add', 'InvoiceController@add')->name('invoice.add');
-Route::post('/invoice/invoice', 'InvoiceController@invoice')->name('invoice.invoice');
+Route::post('/invoice/store', 'InvoiceController@store')->name('invoice.store');
 
 
 

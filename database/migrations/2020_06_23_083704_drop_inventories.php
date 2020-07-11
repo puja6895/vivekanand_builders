@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ModifyColumnToBillDetails extends Migration
+class DropInventories extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class ModifyColumnToBillDetails extends Migration
      */
     public function up()
     {
-        Schema::table('bill_details', function (Blueprint $table) {
-            //
-            $table->string('bill_no')->change();
-        });
+        //
+        schema :: drop('inventories');
+        
     }
 
     /**
@@ -26,8 +25,6 @@ class ModifyColumnToBillDetails extends Migration
      */
     public function down()
     {
-        Schema::table('bill_details', function (Blueprint $table) {
-            //
-        });
+        //
     }
 }

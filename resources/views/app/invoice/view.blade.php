@@ -30,8 +30,8 @@
                                     </div>
 
                                     <div class="col-md-6 text-right">
-                                    <p class="font-weight-bold text-muted mb-1">Bill No:{{$bills->bill_no}} </p>
-                                        <p class="font-weight-bold text-muted mb-1">Bill Date: {{$bills->bill_date}}</p>
+                                    <p class="font-weight-bold text-muted mb-1">Bill No: </p>
+                                        <p class="font-weight-bold text-muted mb-1">Bill Date: </p>
                                     </div>
                                 </div>
 
@@ -40,9 +40,9 @@
                                 <div class="row pb-3 p-4 ">
                                     <div class="col-md-6">
                                         <p class="font-weight-bold text-muted mb-3">Client Information</p>
-                                        <p class="mb-1 text-bold">{{ $sells[0]->customer->customer_name }}</p>
-                                        <p class="text-bold">{{ $sells[0]->customer->customer_mobile }}</p>
-                                        <p class="mb-1 text-bold">{{ $sells[0]->customer->customer_address }}
+                                        <p class="mb-1 text-bold"></p>
+                                        <p class="text-bold"></p>
+                                        <p class="mb-1 text-bold">
                                         </p>
                                     </div>
                                 </div>
@@ -61,10 +61,10 @@
                                 <hr class="my-2">
 
                                 <div class="row text-center">
-                                    @foreach($sells as $sell)
-                                        @foreach($sell->sell_products as $sell_product)
+                                    {{-- @foreach($sells as $sell) --}}
+                                        {{-- @foreach($sell->sell_products as $sell_product) --}}
                                             {{-- <tr> --}}
-                                            <div class="col-2 text-uppercase small ">
+                                            {{-- <div class="col-2 text-uppercase small ">
                                                 {{ \Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y') }}
                                             </div>
                                             <div class="col-2 text-uppercase small ">
@@ -74,17 +74,17 @@
                                             <div class="col-2 text-uppercase small ">{{ $sell_product->quantity }}
                                             </div>
                                             <div class="col-2 text-uppercase small ">{{ $sell_product->rate }}</div>
-                                            <div class="col-2 text-uppercase small ">{{ $sell_product->amount }}</div>
+                                            <div class="col-2 text-uppercase small ">{{ $sell_product->amount }}</div> --}}
                                             {{-- </tr> --}}
-                                        @endforeach
-                                    @endforeach
+                                        {{-- @endforeach --}}
+                                    {{-- @endforeach --}}
                                     <br>
                                     <div class="col-2 text-uppercase small "></div>
                                     <div class="col-2 text-uppercase small "></div>
                                     <div class="col-2 text-uppercase small "></div>
                                     <div class="col-2 text-uppercase small "></div>
                                     <div class="col-2 text-uppercase  font-weight-bold">Sub-Total</div>
-                                    <div class="col-2 text-uppercase  font-weight-bold">{{$sub_total}}</div>
+                                    <div class="col-2 text-uppercase  font-weight-bold"></div>
                                 </div>
 
                                 <hr class="my-2">
@@ -107,7 +107,7 @@
                                 </div>
 
                                 <div class="row text-center">
-                                    <div class="col-1 border-bottom pb-1 pt-1 text-uppercase small">
+                                    {{-- <div class="col-1 border-bottom pb-1 pt-1 text-uppercase small">
                                         {{ $previous_bill->bill_no ?? "NIL" }}</div>
                                     <div class="col-1 border-bottom pb-1 pt-1 text-uppercase small">
 										@if(!empty($previous_bill))
@@ -123,7 +123,7 @@
 										@endif
                                     <div class="col-1 border-bottom pb-1 pt-1 text-uppercase small">
                                         {{ $previous_bill->due_amount ?? "NIL" }}</div>
-                                    <div class="col-8 text-uppercase small font-weight-bold"></div>
+                                    <div class="col-8 text-uppercase small font-weight-bold"></div> --}}
                                 </div>
 
                                 <br class="my-1">
@@ -145,11 +145,11 @@
                                 <div class="row text-center">
 									@if(!empty($payments))
 										@foreach($payments as $payment)
-											<div class="col-1 pb-1 pt-1 text-uppercase small">{{ \Carbon\Carbon::parse($payment->pay_date)->format('d-m-Y') }}
+											<div class="col-1 pb-1 pt-1 text-uppercase small">
 											</div>
-											<div class="col-1 pb-1 pt-1 text-uppercase small">{{ $payment->pay_mode }}
+											<div class="col-1 pb-1 pt-1 text-uppercase small">
 											</div>
-											<div class="col-1 pb-1 pt-1 text-uppercase small">{{ $payment->pay_received }}
+											<div class="col-1 pb-1 pt-1 text-uppercase small">
 											</div>
 											<div class="col-9 text-uppercase small font-weight-bold"></div>
 										@endforeach
@@ -176,7 +176,7 @@
                                     <div class="col-2 text-uppercase small font-weight-bold"></div>
                                     <div class="col-2 text-uppercase small font-weight-bold"></div>
                                     <div class="col-2 text-uppercase  font-weight-bold">Due Amount</div>
-                                    <div class="col-2 text-uppercase  font-weight-bold">{{$due_amount}}</div>
+                                    <div class="col-2 text-uppercase  font-weight-bold"></div>
                                 </div>
 
                                 <br class="my-1">

@@ -12,13 +12,19 @@ use View;
 
 class InvoiceController extends Controller
 {
+    public function index(){
+        $bill_details = BillDetail::all();
+        return view :: make('app.invoice.invoiceList')->with(['bill_details'=>$bill_details]);
+    }
+
     //
     public function add(){
         $customers = Customer::all();
         return view:: make('app.invoice.add')->with(['customers'=>$customers]);
     }
 
-    public function invoice(Request $request){
+
+    public function store(Request $request){
 
         $this->validate($request, [
             'customer_id' => 'required|exists:customers,customer_id',
@@ -38,19 +44,14 @@ class InvoiceController extends Controller
                                       ->get();
             
 
-            // if(count($exists_bill)<=0){
+            if(count($exists_bill)<=0){
 
-                $record = BillDetail::latest()->first();
-                $invoice_number = explode('-',$record->bill_no);
-                // dd($invoice_number);
-                $current_timestamp = Carbon::now()->format('m-Y');
-                //  dd($current_timestamp); 
-                
+               
                
 
-                $previous_bill = BillDetail::where('customer_id',$customer_id)
-                                            ->whereDate('to_date' , '<' , $from_date)
-                                            ->orderBy('to_date','desc');
+                // $previous_bill = BillDetail::where('customer_id',$customer_id)
+                //                             ->whereDate('to_date' , '<' , $from_date)
+                //                             ->orderBy('to_date','desc');
 
                 $sell_query = Sell ::where('customer_id',$customer_id)
                                        ->whereBetween('sell_date',array($from_date,$to_date))
@@ -58,6 +59,7 @@ class InvoiceController extends Controller
 
                 $payment_query = Payment::where('customer_id',$customer_id)
                                        ->whereBetween('pay_date',array($from_date , $to_date)) 
+                                       ->where('status', 0)
                                        ->orderBy('pay_date','desc');
 
                 $sells = $sell_query->get();
@@ -66,55 +68,60 @@ class InvoiceController extends Controller
                 $sell_amount = $sell_query->sum('total_amount');
                 $payment_amount = $payment_query->sum('pay_received');
 
-                // dd($previous_bill);
-                if($previous_bill->count()<=0){
-                    
-                    $previous_due_amount = 0;
+                $previous_bill = BillDetail::latest()->first();
 
+                if(!empty($previous_bill)){
+                    $invoice_number = explode('-',$previous_bill->bill_no);
+                    $previous_due_amount = $previous_bill->due_amount; 
                 }else{
-                    $previous_due_amount = $previous_bill->first()->amount; 
+                    $previous_due_amount = 0;
                 }
-
+                
+                // dd($previous_bill);
+                // if($previous_bill->count()<=0){
+                    
+                //     $previous_due_amount = 0;
+                    
+                // }else{
+                //     $previous_due_amount = $previous_bill->first()->amount; 
+                // }
+                
                 $due_amount =   $sell_amount  + $previous_due_amount -  $payment_amount; 
-                // dd($due_amount);  
                 
                 
+                $current_timestamp = Carbon::now()->format('m-Y');
+                $current_date = Carbon::now()->format('d-m-Y');
+                
+                // dd($current_timestamp!=date("m-Y"));  
+                if($current_timestamp!=date("m-Y") || empty($previous_bill)){
+                    $nextinvioce_number = "VNB".'-1'. '-'.date("m-y");
+                }else{
+                    $nextinvioce_number = $invoice_number[0].'-'.($invoice_number[1]+1).'-'.$invoice_number[2].'-'.$invoice_number[3];
+                }
+                // dd( $nextinvioce_number);               
 
                 $current_bill = new BillDetail;   
                 $current_bill->customer_id = $request->customer_id;
-                if($current_timestamp==date("m-Y")){
-                    $nextinvioce_number = "VNB".'-01'. '-'.date("m-Y");     
-
-                    $current_bill->bill_no = $nextinvioce_number;
-                    // dd( $nextinvioce_number);               
-                }else{
-                    $nextinvioce_number = $invoice_number[0]. '-' .$invoice_number[1]+1 . '-' .$invoice_number[2];
-                    
-                    $current_bill->bill_no = $nextinvioce_number;
-                // dd( $nextinvioce_number); 
-                }
-                
+                $current_bill->bill_date = Carbon::parse($current_date)->format('Y-m-d');
+                $current_bill->bill_no = $nextinvioce_number;
                 $current_bill->from_date =  Carbon::parse($request->from_date)->format('Y-m-d');
                 $current_bill->to_date =   Carbon::parse($request->to_date)->format('Y-m-d');
                 $current_bill->amount = $due_amount;
+                $current_bill->due_amount = $due_amount;
                 $current_bill ->save(); 
-            
-
-                // $sub_total = DB::table('sells')
-                //                 ->join('sell_products', 'sell_products.sell_id', '=', 'sells.sell_id')
-                //                 ->where('sells.customer_id',$request->customer_id)
-                //                 ->whereBetween('sell_date',array($from_date,$to_date))
-                //                 ->sum('sell_products.amount');
-
-                // $sub_total = $sell_query->sum('total_amount');
-                       
+          
+                $bill_status = Sell::where('customer_id',$customer_id)
+                                    ->whereBetween('sell_date',array($from_date , $to_date))
+                                    ->update(['status' => 1]);
+                // dd($bill_status);                    
+                                      
                 
                 DB::commit();
                 // dd($previous_bill->first());
-                return view :: make('app.invoice.invoice')->with(['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill->first(),'due_amount'=>$due_amount]);
-            // }else{
-            //     return back()->with('error','Sell Already Exits');
-            // }    
+                return view :: make('app.invoice.invoice')->with(['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill,'due_amount'=>$due_amount,'bill_no'=>$nextinvioce_number,'date'=>$current_date]);
+            }else{
+                return back()->with('error','Sell Already Exits');
+            }    
 
 
         }catch(Exception $exception){
@@ -125,5 +132,53 @@ class InvoiceController extends Controller
         
         
     }
+
+    public function view($bill_id) {
+
+        $bills = BillDetail :: find($bill_id);
+
+        $from_date = Carbon::parse($bills->from_date)->format('Y-m-d');
+        $to_date = Carbon::parse($bills->to_date)->format('Y-m-d');
+        // dd($bill);
+
+            $sell_query = Sell ::where('customer_id',$bills->customer_id)
+            ->whereBetween('sell_date',array($from_date,$to_date))
+            ->orderBy('sell_date','desc');
+
+            $payment_query = Payment::where('customer_id',$bills->customer_id)
+                    ->whereBetween('pay_date',array($from_date , $to_date)) 
+                    ->where('status', 0)
+                    ->orderBy('pay_date','desc');
+
+            $sells = $sell_query->get();
+            $payments = $payment_query->get();
+
+            $sell_amount = $sell_query->sum('total_amount');
+            $payment_amount = $payment_query->sum('pay_received');
+
+            $privious_bill_detail = BillDetail::whereDate('bill_date' ,'<',$bills->bill_date)
+                                               ->orderBy('bill_date','desc');
+
+            $previous_bill = $privious_bill_detail->first();
+            
+            // dd($previous_bill);
+
+            if(!empty($previous_bill)){
+                // $invoice_number = explode('-',$previous_bill->bill_no);
+                $previous_due_amount = $previous_bill->due_amount; 
+              
+            }else{
+                $previous_due_amount = 0;
+            }
+            // dd($previous_due_amount);
+
+            $due_amount =   $sell_amount  + $previous_due_amount -  $payment_amount;
+
+            return view :: make('app.invoice.invoice')->with(['bills'=>$bills,'sells'=>$sells,'payments'=>$payments,'sub_total'=>$sell_amount,'previous_bill'=> $previous_bill,'due_amount'=>$due_amount]);    
+
+
+    }
+
+    
 
 }

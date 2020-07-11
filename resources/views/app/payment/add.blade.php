@@ -61,7 +61,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-            <form role="form" id="quickForm" method="POST" action="{{route('payment.store')}}" >
+            <form role="form" id="quickForm" method="post" action="{{route('payment.store')}}" >
                 @csrf
                 <div class="card-body">
                     <div class="row">
@@ -105,14 +105,24 @@
                           </div>
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Payment Received</label>
-                            <input type="number" name="pay_received" class="form-control {{$errors->has('pay_received') ? 'is-invalid' : ''}}" id="pay_received" placeholder="Enter Payment Received" value="{{ old('pay_received')}}">
+                            <label for="exampleInputEmail1">Payment Received <span style="color: red;">*</span></label>
+                            <input type="number" name="pay_received" class="form-control {{$errors->has('pay_received') ? 'is-invalid' : ''}}" id="pay_received" required="" placeholder="Enter Payment Received" value="{{ old('pay_received')}}">
                         </div>
 
                         <div class="form-group">
-                          <label for="exampleInputEmail1">Payment Mode</label>
-                          <input type="text" name="pay_mode" class="form-control {{$errors->has('pay_mode') ? 'is-invalid' : ''}}" id="pay_mode" placeholder="Enter Payment Mode" value="{{ old('pay_mode')}}">
+                          <label for="exampleInputEmail1">Payment Mode <span style="color: red;">*</span></label>
+                          <input type="text" name="pay_mode" class="form-control {{$errors->has('pay_mode') ? 'is-invalid' : ''}}" id="pay_mode" required="" placeholder="Enter Payment Mode" value="{{ old('pay_mode')}}">
                       </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Bill Number </label>
+                        <select required class="form-control" id="bill_id" name="bill_id">
+                          <option selected="" disabled="">Select Bill Number</option>
+                          <option value="-1">Select Bill Number</option>
+                          @foreach($bill_details as $bill_detail)
+                          <option value="{{$bill_detail->bill_id}}">{{$bill_detail->bill_no}}</option>
+                          @endforeach
+                        </select>
+                    </div>
                 <!-- /.card-body -->
                         <div class="card-footer">
                             <button type="submit" class="btn btn-success">Add Payment</button>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Payment;
 use App\Customer;
 use Carbon\Carbon;
+use App\BillDetail;
 use Illuminate\Http\Request;
 use DB;
 use View;
@@ -20,26 +21,48 @@ class PaymentController extends Controller
 
     }
     public function create(){
-        
+        $bill_details = Billdetail::all();
         $customers = Customer::all();
-        return view :: make('app.payment.add')->with('customers',$customers);
+        return view :: make('app.payment.add')->with(['customers'=>$customers ,'bill_details'=>$bill_details]);
     }
 
     public function store(Request $request){
         
         $this->validate($request, [
             'customer_id' => 'required|exists:customers,customer_id',
-			'pay_date' => 'required',
+            'pay_date' => 'required',
+            'pay_received' => 'required'
         ]);
         try{
             DB::beginTransaction();
 
+                // dd($request->bill_id);
+                // $bill_detail = Billdetail::where()
+                 $r_pay_recevied = $request->pay_received;
+                // dd($r_pay_recevied);
+                $r_bill_id = $request->bill_id;
+
                 $payment = new Payment;
-                $payment->customer_id=$request->customer_id;
-                $payment->pay_date = Carbon::parse($request->pay_date)->format('Y-m-d');
-                $payment->pay_received=$request->pay_received;
-                $payment->pay_mode=$request->pay_mode;
-                $payment->save();
+                
+                if( $r_bill_id == -1){
+
+                    $payment->status = 0;
+                    
+                }else{
+                    $payment->status = 1;
+
+                    $due_amount = BillDetail::where('bill_id',$r_bill_id)->get();
+                    // dd( $due_amount[0]->due_amount - $pay_recevied);       
+                    $bill_due = BillDetail::where(['bill_id'=>$request->bill_id])
+                                            ->update(['due_amount'=> $due_amount[0]->due_amount -  $r_pay_recevied ]);
+
+                                            // dd($bill_due);   
+                }
+                    $payment->customer_id=$request->customer_id;
+                    $payment->pay_date = Carbon::parse($request->pay_date)->format('Y-m-d');
+                    $payment->pay_received=$r_pay_recevied;
+                    $payment->pay_mode=$request->pay_mode;
+                    $payment->save();
 
             DB::commit();
                 return redirect()->route('payment.add')->with('success','Payment Added');

@@ -13,5 +13,9 @@ class Customer extends Model
     public function sells() {
 		return $this->hasMany('App\Sell','customer_id');
   }
- 
+
+  public function bill_detail() {
+		return $this->hasMany('App\BillDetail','bill_id','bill_id');
+  }
+                                          
 }

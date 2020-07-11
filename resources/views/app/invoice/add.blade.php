@@ -48,7 +48,7 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                   {{-- {{dd($customers[0])}} --}}
-                <form action="{{route('invoice.invoice')}}" method = "POST">
+                <form action="{{route('invoice.store')}}" method = "POST">
                     @csrf
                     <div class="row">
                         {{-- Sell To Name --}}
@@ -114,7 +114,7 @@
                         </div>
                     </div>
                         <button class="btn btn-success" type="submit">Generate Invoice</button>
-                    </form>
+                </form>
                 </div>
                 <!-- /.card-body -->
             </div>
