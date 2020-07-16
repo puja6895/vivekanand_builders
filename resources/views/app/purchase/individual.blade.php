@@ -1,8 +1,8 @@
 @extends('layouts.home')
 
-@section('title','Sales')
+@section('title','Purchase')
 
-@section('Sell')
+@section('Purchase')
     active    
 @endsection
 
@@ -16,13 +16,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-          <h3>{{$customer->customer_name}}</h3>
+          <h3>{{$purchaser->purchaser_name}}</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-            <li class="breadcrumb-item active"><a href="{{route('sell')}}">Sales</a></li>
-            <li class="breadcrumb-item active">Individual_Customer</li>
+            <li class="breadcrumb-item active"><a href="{{route('sell')}}">Purchases</a></li>
+            <li class="breadcrumb-item active">Individual_Purchaser</li>
             </ol>
           </div>
         </div>
@@ -48,7 +48,7 @@
             </div>
           @endif
           {{-- List Of Selected Date --}}
-          <form action="{{route('sell.selected_date',['customer_id'=>$customer->customer_id])}}" method="POST">
+          <form action="" method="POST">
             @csrf
             <div class="row">
               <div class="col-md-6">
@@ -75,7 +75,7 @@
           </form>  
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title text-secondary mr-4">Sell</h3>
+                <h3 class="card-title text-secondary mr-4">Purchase</h3>
               <a href="{{route('sell')}}" class="pull-right">
                 <input
                 action="action"
@@ -94,7 +94,7 @@
                       <thead> 
                       <tr>
                         {{-- <th>Customer Name</th> --}}
-                        <th>Sell Date</th>
+                        <th>Purchase Date</th>
                         <th>Product Name</th>
                         <th>Quantity</th>
                         {{-- <th>Unit</th> --}}
@@ -104,24 +104,24 @@
                       </tr>
                       </thead>
                       <tbody>
-                      @foreach($sells as $sell)  
+                      @foreach($purchases as $purchase)  
 
-                      @foreach($sell->sell_products as $sell_product)
+                      @foreach($purchase->purchase_products as $purchase_product)
                          <tr>
                             {{-- <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id])}}">{{$sell->sell_id}}</td> --}}
-                            <td>{{\Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y')}}</td>
-                            <td>{{$sell_product->product->product_name}}</td>
-                            <td>{{$sell_product->quantity}}({{$sell_product->unit_name}})</td>
-                            <td>{{$sell_product->rate}}</td>
-                            <td>{{$sell_product->gst}}</td>
-                            <td>{{$sell_product->amount}}</td>
+                            <td>{{\Carbon\Carbon::parse($purchase->purchase_date)->format('d-m-Y')}}</td>
+                            <td>{{$purchase_product->product->product_name}}</td>
+                            <td>{{$purchase_product->quantity}}({{$purchase_product->unit->unit_name}})</td>
+                            <td>{{$purchase_product->rate}}</td>
+                            <td>{{$purchase_product->gst}}</td>
+                            <td>{{$purchase_product->amount}}</td>
                             {{-- <td>{{$sell[0]->total_amount}}</td> --}}
                         <tr>
                           @endforeach 
                           @endforeach
                         <tfoot>
                           <tr>
-                            <th>Sell Date</th>
+                            <th>Purchase Date</th>
                             <th>Product Name</th>
                             <th>Quantity</th>
                             {{-- <th>Unit</th> --}}
@@ -165,11 +165,11 @@
                       </tr>
                       <tr>
                       <th>Payment Received</th>
-                      <th>{{$payment}}</th>
+                      <th></th>
                       </tr>
                       <tr>
                         <th>Balance</th>
-                        <th>{{$grand_total-$payment}}</th>
+                        <th></th>
                         </tr>
                       </thead>
                     </table>

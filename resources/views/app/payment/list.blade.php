@@ -1,9 +1,9 @@
 @extends('layouts.home')
 
-@section('title','Customers')
+@section('title','Payment')
 
 
-@section('clients')
+@section('Payment')
     active
 @endsection
 

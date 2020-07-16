@@ -258,7 +258,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="" class="nav-link @yield('Sell')">
+                            <a href="{{route('purchase')}}" class="nav-link @yield('Purchase')">
                                 <i class="nav-icon fa fa-money"></i>
                                 <p>
                                     Purchase
@@ -268,10 +268,25 @@
                         </li>
 
                         <li class="nav-item">
-                        <a href="{{route('invoice.add')}}" class="nav-link @yield(' Genrate Invoice ')">
+                            <a href="{{ route('customers') }}" class="nav-link @yield('clients')">
+                                <i class="fa fa-users nav-icon" aria-hidden="true"></i>
+                                <p>Clients</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('purchasers') }}" class="nav-link @yield('Supliers')">
+                                <i class="fa fa-users nav-icon" aria-hidden="true"></i>
+                                <p>Supliers</p>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                        <a href="{{route('invoice.add')}}" class="nav-link @yield(' Generate Invoice ')">
                                 <i class="nav-icon fa fa-file"></i>
                                 <p>
-                                    Genrate Invoice 
+                                    Generate Invoice 
                                     {{-- <i class="right fa fa-angle-left"></i> --}}
                                 </p>
                             </a>
@@ -298,7 +313,7 @@
                         </li>
                            
                         <li class="nav-item">
-                            <a href="{{ route('inventories') }}" class="nav-link @yield('Product')">
+                            <a href="{{ route('inventories') }}" class="nav-link @yield('Inventory')">
                                 <i class="nav-icon fa fa-tags"></i>
                                 <p>
                                     Inventory
@@ -307,13 +322,7 @@
                             </a>
                         </li>
                         
-                        <li class="nav-item">
-                            <a href="{{ route('customers') }}" class="nav-link @yield('clients')">
-                                <i class="fa fa-users nav-icon" aria-hidden="true"></i>
-                                <p>Clients</p>
-                            </a>
-                        </li>
-
+                        
                         <li class="nav-item">
                             <a href="{{ route('products') }}" class="nav-link @yield('Product')">
                                 <i class="nav-icon fa fa-tags"></i>

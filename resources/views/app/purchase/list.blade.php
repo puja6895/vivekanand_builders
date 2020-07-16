@@ -1,8 +1,8 @@
 @extends('layouts.home')
 
-@section('title','Sales')
+@section('title','Purchase')
 
-@section('Sell')
+@section('Purchase')
     active    
 @endsection
 
@@ -16,12 +16,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h3>Sales</h3>
+            <h3>Purchase</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-            <li class="breadcrumb-item active">Sales</li>
+            <li class="breadcrumb-item active">Purchase</li>
             {{-- <li class="breadcrumb-item"><a href="#">Layout</a></li> --}}
             </ol>
           </div>
@@ -53,7 +53,7 @@
                 <a href="{{route('payment.add')}}" class="pull-right">
                   <button class="btn btn-success"><b>Add Payment</b></button>
                 </a>
-                <a href="{{route('sell.add')}}" class="pull-right">
+                <a href="{{route('purchase.add')}}" class="pull-right">
                     <button class="btn btn-info mr-3"><b>Add New+</b></button>
                 </a>
                 <input type="text" name="date" id="datepicker" class="form-inline datepicker list_date" placeholder="Select Date...">
@@ -64,22 +64,22 @@
                     <table id="example2" class="table table-bordered table-striped table-hover">
                       <thead>
                       <tr>
-                        <th>Customer Name</th>
-                        <th>Sell Id</th>
-                        <th>Sell Date</th>
+                        <th>Purchaser Name</th>
+                        <th>Purchase Id</th>
+                        <th>Purchase Date</th>
                         <th>Amount</th>
-                        <th>Status</th>
+                        {{-- <th>Status</th> --}}
                       </tr>
                       </thead>
                       <tbody>
-                         @foreach($sells as $sell)
+                         @foreach($purchases as $purchase)
                           <tr>
-                            <td> <a href="{{route('sell.individual',['id'=>$sell->customer_id])}}">{{$sell->customer->customer_name }}</a></td> 
-                            <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id])}}">{{$sell->sell_id}}</td>
-                            <td>{{\Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y')}}</td>
-                            {{-- <td></td> --}}
-                            <td>{{$sell->total_amount}}</td>
-                            @if($sell->status==0)
+                            <td> <a href="{{route('purchase.individual',['id'=>$purchase->purchaser_id])}}">{{$purchase->purchasers->purchaser_name }}</a></td> 
+                            {{-- {{dd($purchase->purchasers->purchaser_name)}} --}}
+                            <td><a href="{{route('sell.individual_sell',['id'=>$purchase->purchase_id])}}">{{$purchase->purchase_id}}</td>
+                            <td>{{\Carbon\Carbon::parse($purchase->purchase_date)->format('d-m-Y')}}</td>
+                            <td>{{$purchase->total_amount}}</td>
+                            {{-- @if($purchase->status==0)
                             <td>
                               <span class="badge badge-warning">Not Billed</span>
                             </td>
@@ -87,18 +87,17 @@
                             <td>
                               <span class="badge badge-success">Billed</span>
                             </td>
-                            @endif
+                            @endif --}}
                           </tr>
                         @endforeach 
-
                       </tbody>
                       <tfoot>
                         <tr>
-                          <th>Customer Name</th>
-                          <th>Sell Id</th>
-                          <th>Sell Date</th>
-                          <th>Amount</th>
-                          <th>Status</th>
+                            <th>Purchaser Name</th>
+                            <th>Purchase Id</th>
+                            <th>Purchase Date</th>
+                            <th>Amount</th>
+                            {{-- <th>Status</th> --}}
                           {{-- <th>Total Amount</th> --}}
                         </tr>
                       </tfoot>

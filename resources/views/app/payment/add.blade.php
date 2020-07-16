@@ -116,8 +116,8 @@
                       <div class="form-group">
                         <label for="exampleInputEmail1">Bill Number </label>
                         <select required class="form-control" id="bill_id" name="bill_id">
-                          <option selected="" disabled="">Select Bill Number</option>
-                          <option value="-1">Select Bill Number</option>
+                          {{-- <option selected="" disabled="">Select Bill Number</option> --}}
+                          <option selected  value="-1">Select Bill Number</option>
                           @foreach($bill_details as $bill_detail)
                           <option value="{{$bill_detail->bill_id}}">{{$bill_detail->bill_no}}</option>
                           @endforeach

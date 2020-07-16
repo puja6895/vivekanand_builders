@@ -43,20 +43,32 @@ class PaymentController extends Controller
                 $r_bill_id = $request->bill_id;
 
                 $payment = new Payment;
+                // dd($r_bill_id == '-1');
                 
-                if( $r_bill_id == -1){
+                if( $r_bill_id == '-1'){
 
                     $payment->status = 0;
                     
                 }else{
                     $payment->status = 1;
 
-                    $due_amount = BillDetail::where('bill_id',$r_bill_id)->get();
-                    // dd( $due_amount[0]->due_amount - $pay_recevied);       
-                    $bill_due = BillDetail::where(['bill_id'=>$request->bill_id])
-                                            ->update(['due_amount'=> $due_amount[0]->due_amount -  $r_pay_recevied ]);
+                    $due_amount = BillDetail::where('bill_id',$r_bill_id)->first();
+                    // $due_amount = $due_amounts->first();
 
-                                            // dd($bill_due);   
+                    // dd(empty($due_amount));
+                    // dd( $due_amount[0]->due_amount - $pay_recevied);  
+                    if(!empty($due_amount)){
+                        
+                    $bill_due = BillDetail::where(['bill_id'=>$request->bill_id])
+                                            ->update(['due_amount'=> $due_amount->due_amount -  $r_pay_recevied ]);
+
+                    }else{
+                        
+                        $due_amoun->due_amount = 0;
+                        
+                        $bill_due = BillDetail::where(['bill_id'=>$request->bill_id])
+                        ->update(['due_amount'=> $due_amount->due_amount -  $r_pay_recevied ]); 
+                    }                        // dd($bill_due);   
                 }
                     $payment->customer_id=$request->customer_id;
                     $payment->pay_date = Carbon::parse($request->pay_date)->format('Y-m-d');

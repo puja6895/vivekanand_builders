@@ -30,8 +30,8 @@
                                     </div>
 
                                     <div class="col-md-6 text-right">
-                                    <p class="font-weight-bold text-muted mb-1">Bill No:{{$bills->bill_no}} </p>
-                                        <p class="font-weight-bold text-muted mb-1">Bill Date: {{$bills->bill_date}}</p>
+                                    <p class="font-weight-bold text-muted mb-1">Bill No:{{$bill_no}} </p>
+                                        <p class="font-weight-bold text-muted mb-1">Bill Date: {{$date}}</p>
                                     </div>
                                 </div>
 

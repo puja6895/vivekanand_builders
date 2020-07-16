@@ -1,8 +1,8 @@
 @extends('layouts.home')
 
-@section('title','Product')
+@section('title','Purchase')
 
-@section('Sell')
+@section('Purchase')
     active    
 @endsection
 
@@ -15,12 +15,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h3>Sell</h3>
+            <h3>Purchase</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-              <li class="breadcrumb-item "><a href="{{route('sell')}}">Sales</a></li>
+              <li class="breadcrumb-item "><a href="{{('purchase')}}">Purchase</a></li>
               <li class="breadcrumb-item active">Add</li>
             </ol>
           </div>
@@ -47,30 +47,30 @@
             
             <div class="card card-muted">
               <div class="card-header card-border">
-                <h3 class="card-title text-secondary">Add Sell </h3>
-              <a href="{{route('sell')}}"><button class="btn btn-info pull-right">Back</button></a>
+                <h3 class="card-title text-secondary">Add Purchase </h3>
+              <a href="{{route('purchase')}}"><button class="btn btn-info pull-right">Back</button></a>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-            <form  method="POST" action="{{route('sell.store')}}" >
+            <form  method="POST" action="{{route('purchase.store')}}" >
               @csrf
               <div class="card-body">
 
                 <div class="row">
                   {{-- Sell To Name --}}
                   <div class="col-md-6">
-                    <div class="form-group {{ $errors->has('customer_id') ? ' has-error' : '' }}">
-                      <label>Customer <span style="color: red;">*</span></label>
+                    <div class="form-group {{ $errors->has('purchaser_id') ? ' has-error' : '' }}">
+                      <label>Purchaser Name <span style="color: red;">*</span></label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <label class="input-group-text" for="customer_id">
+                          <label class="input-group-text" for="purchaser_id">
                               <i class="fa fa-user"></i>
                           </label>
                         </div>
-                        <select required class="form-control" id="customer_id" name="customer_id">
-                          <option selected="" disabled="">Select Customer</option>
-                          @foreach($customers as $customer)
-                          <option value="{{$customer->customer_id}}">{{$customer->customer_name}}</option>
+                        <select required class="form-control" id="customer_id" name="purchaser_id">
+                          <option selected="" disabled="">Select Purchaser</option>
+                          @foreach($purchasers as $purchaser)
+                          <option value="{{$purchaser->purchaser_id}}">{{$purchaser->purchaser_name}}</option>
                           @endforeach
                         </select>
 
@@ -85,18 +85,18 @@
 
                   <!--Purchase DATE  -->
                   <div class="col-md-6">
-                    <div class="form-group {{ $errors->has('sell_date') ? ' has-error' : '' }}">
-                      <label>Sell Date <span style="color: red;">*</span></label>
+                    <div class="form-group {{ $errors->has('purchase_date') ? ' has-error' : '' }}">
+                      <label>Purchase Date <span style="color: red;">*</span></label>
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <label class="input-group-text" for="datepicker">
                             <i class="fa fa-calendar"></i>
                           </label>
                         </div>
-                        <input type="text" name="sell_date" class="form-control datepicker list_date" id="datepicker" required="" placeholder="dd-mm-yyyy">
-                        @if ($errors->has('sell_date'))
+                        <input type="text" name="purchase_date" class="form-control datepicker list_date" id="datepicker" required="" placeholder="dd-mm-yyyy">
+                        @if ($errors->has('purchase_date'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('sell_date') }}</strong>
+                            <strong>{{ $errors->first('purchase_date') }}</strong>
                         </span>
                         @endif
                       </div>
@@ -159,7 +159,7 @@
                             <select required name="unit_id0" id="unit_id0" class="form-control select2" >
                               <option value="0"> Unit </option>
                               @foreach($units as $unit)
-                                <option value="{{$unit->unit_name}}">{{$unit->unit_name}}</option>
+                                <option value="{{$unit->unit_id}}">{{$unit->unit_name}}</option>
                               @endforeach
                             </select>
                           </td>

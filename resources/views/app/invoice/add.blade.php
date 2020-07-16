@@ -1,4 +1,11 @@
 @extends('layouts.home')
+
+@section('title','Invoice')
+
+@section('Generate Invoice')
+    active    
+@endsection
+
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">

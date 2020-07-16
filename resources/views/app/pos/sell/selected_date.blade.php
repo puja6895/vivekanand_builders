@@ -2,7 +2,7 @@
 
 @section('title','Sales')
 
-@section('Pos')
+@section('Sell')
     active    
 @endsection
 

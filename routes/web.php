@@ -83,6 +83,21 @@ Route::get('/invoice/view/{bill_id}', 'InvoiceController@view')->name('invoice.v
 Route::get('/invoice/add', 'InvoiceController@add')->name('invoice.add');
 Route::post('/invoice/store', 'InvoiceController@store')->name('invoice.store');
 
+//Purchaser
+Route::get('/purchaser', 'PurchaserController@index')->name('purchasers');
+Route::get('/purchaser/add', 'PurchaserController@create')->name('purchaser.add');
+Route::post('/purchaser/store', 'PurchaserController@store')->name('purchaser.store');
+Route::get('/purchaser/edit/{id}', 'PurchaserController@edit')->name('purchaser.edit');
+Route::post('/purchaser/update/', 'PurchaserController@update')->name('purchaser.update');
+Route::get('/purchaser/destroy/{id}', 'PurchaserController@destroy')->name('purchaser.destroy');
+Route::get('/purchaser/enable/{id}', 'PurchaserController@enable')->name('purchaser.enable');
 
 
+//purchase
+Route::get('/purchase', 'PurchaseController@index')->name('purchase');
+Route::get('/purchase/add', 'PurchaseController@create')->name('purchase.add');
+Route::post('/purchase/store', 'PurchaseController@store')->name('purchase.store');
+Route::get('/purchase/individual/{id}', 'PurchaseController@individual')->name('purchase.individual');
+// Route::get('/sell/individual_sell/{id}', 'SellController@individual_sell')->name('sell.individual_sell');
+// Route::post('/sell/selected_date/{customer_id}', 'SellController@selected_date')->name('sell.selected_date');
 

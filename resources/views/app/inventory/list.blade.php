@@ -1,8 +1,8 @@
 @extends('layouts.home')
 
-@section('title','Unit')
+@section('title','Inventory')
 
-@section('Master')
+@section('Inventory')
     active    
 @endsection
 
