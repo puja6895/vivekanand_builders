@@ -73,7 +73,7 @@
                     <label for="exampleInputEmail1">Customer Mobile
                         <span style="color: red;">*</span>
                     </label>
-                    <input type="number" name="customer_mobile" required class="form-control {{$errors->has('customer_mobile') ? 'is-invalid' : ''}}" id="customer_mobile" placeholder="Enter number of customer" value="{{ old('customer_mobile')}}">
+                    <input type="number" name="customer_mobile"  class="form-control {{$errors->has('customer_mobile') ? 'is-invalid' : ''}}" id="customer_mobile" placeholder="Enter number of customer" value="{{ old('customer_mobile')}}">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Customer Address</label>

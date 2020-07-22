@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
     ],
+    'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
 
     /*
     |--------------------------------------------------------------------------

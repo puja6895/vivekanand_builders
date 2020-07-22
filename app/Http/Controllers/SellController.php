@@ -8,6 +8,8 @@ use App\Unit;
 use App\Sell_Product;
 use App\Payment;
 use App\Inventory;
+use App\GST_Sell;
+use App\GST_SellProduct;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DB;
@@ -331,5 +333,54 @@ class SellController extends Controller
         }
     }
 
-   
+    public function gstindex(){
+        
+        $sells = DB::table('sells')
+                    ->join('sell_products', 'sell_products.sell_id', '=' , 'sells.sell_id')
+                    ->join('customers' ,'sells.customer_id', '=' ,'customers.customer_id')
+                    ->where('gst' , '>' ,0)
+                    ->select('customers.customer_name','sells.customer_id','sells.sell_id','sells.sell_date' ,'sells.total_amount','sells.status')
+                    ->orderBy('sell_date', 'desc')
+                    ->get();
+                // dd($sells[0]);
+                    return view::make('app.pos.GST sell.list')->with('sells',$sells);
+    }
+
+    public function gstcreate()
+    {
+        //
+        $customers=Customer::all();
+        // $customers = Customer::where('customer_status', 1)->orderBy('customer_name')->get();
+
+        $products = Product::all();
+        // dd($products);
+
+		$units = Unit::all();
+
+		return View::make('app.pos.GST sell.add')->with(['customers' => $customers, 'products' => $products, 'units' => $units]);
+	
+        // return view::make('app.pos.sell.add')->with(['customers'=>$customers]);
+    }  
+    
+    public function gststore(Request $request)
+    {
+       
+    }
+
+    public function gstindividual($customer_id){
+        
+        
+        
+        // $sells = DB::table('sells')
+        //             ->join('sell_products', 'sell_products.sell_id', '=' , 'sells.sell_id')
+        //             ->join('products', 'sell_products.product_id' , '=' , 'products.product_id')
+        //             ->where('sells.customer_id',$customer_id)
+        //             ->where('gst' , '>' ,0)
+        //             ->select('products.product_name','sells.sell_date','sell_products.product_id','sell_products.quantity','sell_products.unit_name','sell_products.rate','sell_products.gst','sell_products.amount')
+
+        //             ->get();  
+        // dd($sells);                     
+
+    }   
+    
 }

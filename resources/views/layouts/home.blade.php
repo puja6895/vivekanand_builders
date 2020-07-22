@@ -258,6 +258,16 @@
                         </li>
 
                         <li class="nav-item">
+                            <a href="{{route('gst_sell')}}" class="nav-link @yield('GST Sell')">
+                                <i class="nav-icon fa fa-money"></i>
+                                <p>
+                                   GST Sell
+                                    {{-- <i class="right fa fa-angle-left"></i> --}}
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="{{route('purchase')}}" class="nav-link @yield('Purchase')">
                                 <i class="nav-icon fa fa-money"></i>
                                 <p>
@@ -302,14 +312,33 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="{{ route('payments') }}" class="nav-link @yield('Payment')">
+                        <li class="nav-item has-treeview ">
+                            <a href="#" class="nav-link @yield('Payment')">
                                 <i class="nav-icon fa fa-credit-card"></i>
                                 <p>
-                                    Payment
-                                   
+                                   Payment
+                                    <i class="fa fa-angle-left right"></i>
+                                    {{-- <span class="badge badge-info right">6</span> --}}
                                 </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('payments') }}"
+                                        class="nav-link @yield('Payment-Sell Payment')">
+                                        <i class="fa fa-circle-thin nav-icon"></i>
+                                        <p>Sell Payment</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('purchase_payments')}}"
+                                        class="nav-link @yield('Payment-Purchase Payment')">
+                                        <i class="fa fa-circle-thin nav-icon"></i>
+                                        <p>Purchase Payment</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                            
                         <li class="nav-item">

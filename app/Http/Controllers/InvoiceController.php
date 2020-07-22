@@ -6,6 +6,7 @@ use App\Sell;
 use App\Payment;
 use App\BillDetail;
 use Carbon\Carbon;
+use PDF;
 use Illuminate\Http\Request;
 use DB;
 use View;
@@ -128,9 +129,12 @@ class InvoiceController extends Controller
                 // dd($bill_status);                    
                                       
                 
-                DB::commit();
+                // DB::commit();
+
+                // $pdf = PDF::loadView('app.invoice.test',['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill,'due_amount'=>$due_amount,'bill_no'=>$nextinvioce_number,'date'=>$current_date]);
+                // return $pdf->stream();
                 // dd($previous_bill->first());
-                return view :: make('app.invoice.invoice')->with(['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill,'due_amount'=>$due_amount,'bill_no'=>$nextinvioce_number,'date'=>$current_date]);
+                return view :: make('app.invoice.test')->with(['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill,'due_amount'=>$due_amount,'bill_no'=>$nextinvioce_number,'date'=>$current_date]);
             }else{
                 return back()->with('error','Sell Already Exits');
             }    

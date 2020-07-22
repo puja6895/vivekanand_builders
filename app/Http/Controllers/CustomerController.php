@@ -52,7 +52,7 @@ class CustomerController extends Controller
                 // ]);
                 Validator::make($request->all(), [
                     'customer_name'     => 'required',
-                    'customer_mobile'     => 'required|unique:customers|digits:10'
+                    // 'customer_mobile'     => 'required|unique:customers|digits:10'
                 ])->validate();
 
         try{

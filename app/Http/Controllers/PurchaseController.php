@@ -210,19 +210,13 @@ class PurchaseController extends Controller
         $purchases = Purchase::where('purchaser_id',$purchaser_id)->get();  
         // dd($sells[0]->sell_products);                     
 
-        // $payment = DB::table('sell_payAmounts')
-        //               ->where('customer_id',$customer_id)
-        //               ->sum('pay_received');
+        $payment = DB::table('purchase_payments')
+                      ->where('purchaser_id',$purchaser_id)
+                      ->sum('final_paid');
 
-        // $sell_products = DB::table('sell_products')
-        //                      ->join('sells', 'sells.customer_id','=' ,'customers.customer_id') 
-        //                      ->join('sells','sell_product.sell_id','=','sells.sell_id')
-        //                      ->join('products' , 'sell_products.product_id','=','products.product_id')
-        //                      ->select('products.product_name','unit_name','quantity','rate','amount')
-        //                      ->get();  
-                            //  dd($sell_products);
+        
         $sell_products ;                    
-        return view :: make('app.purchase.individual')->with(['purchaser'=>$purchaser,'grand_total'=>$grand_total,'purchases'=>$purchases]);
+        return view :: make('app.purchase.individual')->with(['purchaser'=>$purchaser,'grand_total'=>$grand_total,'purchases'=>$purchases,'payment'=>$payment]);
     }
 
     public function individual_sell($sell_id){

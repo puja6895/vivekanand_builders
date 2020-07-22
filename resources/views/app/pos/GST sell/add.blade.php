@@ -1,8 +1,8 @@
 @extends('layouts.home')
 
-@section('title','Sell | Add')
+@section('title','GST Sell')
 
-@section('Sell')
+@section('GST Sell')
     active    
 @endsection
 
@@ -52,7 +52,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-            <form  method="POST" action="{{route('sell.store')}}" >
+            <form  method="POST" action="{{route('gst_sell.store')}}" >
               @csrf
               <div class="card-body">
 

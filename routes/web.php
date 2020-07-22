@@ -18,6 +18,10 @@ Route::view('/','auth.login');
 // Route::get('/nav', function () {
 //     return view('layouts.master');
 // });
+Route::get('/test',function(){
+    $pdf =PDF:: loadHTML('<h1>Hello</h1>');
+    return $pdf->stream();
+});
 
 Auth::routes();
 
@@ -30,6 +34,14 @@ Route::post('/sell/store', 'SellController@store')->name('sell.store');
 Route::get('/sell/individual/{id}', 'SellController@individual')->name('sell.individual');
 Route::get('/sell/individual_sell/{id}', 'SellController@individual_sell')->name('sell.individual_sell');
 Route::post('/sell/selected_date/{customer_id}', 'SellController@selected_date')->name('sell.selected_date');
+
+//GST sell
+Route::get('/gstsell', 'SellController@gstindex')->name('gst_sell');
+Route::get('/gstsell/add', 'SellController@gstcreate')->name('gst_sell.add');
+Route::post('/gstsell/store', 'SellController@gststore')->name('gst_sell.store');
+Route::get('/gstsell/individual/{id}', 'SellController@gstindividual')->name('gst_sell.individual');
+// Route::get('/sell/individual_sell/{id}', 'SellController@individual_sell')->name('sell.individual_sell');
+// Route::post('/sell/selected_date/{customer_id}', 'SellController@selected_date')->name('sell.selected_date');
 
 //Payment
 Route::get('/sell/payment', 'PaymentController@index')->name('payments');
@@ -100,4 +112,9 @@ Route::post('/purchase/store', 'PurchaseController@store')->name('purchase.store
 Route::get('/purchase/individual/{id}', 'PurchaseController@individual')->name('purchase.individual');
 // Route::get('/sell/individual_sell/{id}', 'SellController@individual_sell')->name('sell.individual_sell');
 // Route::post('/sell/selected_date/{customer_id}', 'SellController@selected_date')->name('sell.selected_date');
+
+//Purchase Payments
+Route::get('/purchase/puchase_payment', 'PurchasePaymentController@index')->name('purchase_payments');
+Route::get('/purchase/puchase_payment/add', 'PurchasePaymentController@create')->name('purchase_payment.add');
+Route::post('/purchase/puchase_payment/store', 'PurchasePaymentController@store')->name('purchase_payment.store');
 
