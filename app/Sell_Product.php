@@ -14,7 +14,7 @@ class Sell_Product extends Model
         return $this->belongsTo('App\Sell','sell_id');
     }
     public function product() {
-		return $this->belongsTo('App\Product', 'product_id');
+		return $this->belongsTo('App\Product', 'product_id','product_id');
     }
    
 }

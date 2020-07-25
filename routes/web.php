@@ -34,6 +34,9 @@ Route::post('/sell/store', 'SellController@store')->name('sell.store');
 Route::get('/sell/individual/{id}', 'SellController@individual')->name('sell.individual');
 Route::get('/sell/individual_sell/{id}', 'SellController@individual_sell')->name('sell.individual_sell');
 Route::post('/sell/selected_date/{customer_id}', 'SellController@selected_date')->name('sell.selected_date');
+Route::get('/sell/edit/{id}', 'SellController@edit')->name('sell.edit');
+Route::get('/sell/destroy/{id}', 'SellController@destroy')->name('sell.destroy');
+
 
 //GST sell
 Route::get('/gstsell', 'SellController@gstindex')->name('gst_sell');

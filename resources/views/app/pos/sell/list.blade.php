@@ -90,8 +90,8 @@
                             </td>
                             @endif
                             <td>
-                              <button class="btn  btn-sm btn-info">Edit</button>
-                              <button class="btn  btn-sm btn-danger">Delete</button>
+                              <a href="{{route('sell.edit',['id'=>$sell->sell_id])}}"><button class="btn  btn-sm btn-info">Edit</button></a>
+                            <a href="{{route('sell.destroy',['id'=>$sell->sell_id])}}"><button class="btn  btn-sm btn-danger">Delete</button></a>
                             </td>
                           </tr>
                         @endforeach 

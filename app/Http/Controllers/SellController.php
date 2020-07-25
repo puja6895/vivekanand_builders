@@ -196,9 +196,23 @@ class SellController extends Controller
      * @param  \App\Sell  $sell
      * @return \Illuminate\Http\Response
      */
-    public function edit(Sell $sell)
+    public function edit(Sell $sell,$id)
     {
         //
+        $sells = Sell::find($id);
+        
+       
+        if($sells){
+            // $sells = Sell::where('sell_id',$id)->get();
+            //  dd($sell);
+
+            // $customers = Customer::where('isDeleted',0)->get();
+            $products = Product::all();
+            $units = Unit ::all();
+            return view::make('app.pos.sell.edit')->with(['products'=>$products,'units'=>$units,'sells'=>$sells]);
+        }else{
+            return back()->with('error','Invalid Id');
+        }
     }
 
     /**
@@ -219,9 +233,28 @@ class SellController extends Controller
      * @param  \App\Sell  $sell
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Sell $sell)
+    public function destroy(Sell $sell, $sell_id)
     {
         //
+        try{
+            $sell = Sell::find($sell_id);
+            if($sell){
+                $sell->sell_products()->delete();
+                $sell->delete();
+
+                DB::commit();
+
+                // Return To Listing Page
+                return redirect()->route('sell')->with('success','Sell ID no '.$sell->sell_id.' Deleted');
+
+            }else{
+                return back()->with('error','Invalid Sell ID');
+            }
+
+        }catch(Exception $exception){
+            DB::rollBack();
+            return back()->with('error',$exception->getMessage())->withInput();
+        }
     }
 
     public function individual($customer_id){
@@ -232,8 +265,8 @@ class SellController extends Controller
                           ->where('customer_id',$customer_id)
                           ->sum('total_amount');
         
-        $sells = Sell::where('customer_id',$customer_id)->get();  
-        // dd($sells[0]->sell_products);                     
+        $sells = Sell::where('customer_id',$customer_id)->orderBy('sell_date','desc')->get();  
+        // dd($sells);                     
 
         $payment = DB::table('sell_payAmounts')
                       ->where('customer_id',$customer_id)
