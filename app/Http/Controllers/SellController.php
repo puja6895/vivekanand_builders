@@ -41,7 +41,7 @@ class SellController extends Controller
     public function create()
     {
         //
-        $customers=Customer::all();
+        $customers=Customer::where('isDeleted' ,0)->get();
         // $customers = Customer::where('customer_status', 1)->orderBy('customer_name')->get();
 
         $products = Product::all();

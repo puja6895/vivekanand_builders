@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use App\Sell;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use DB;
@@ -160,9 +161,17 @@ class CustomerController extends Controller
             // DB Transection Begin
             DB::beginTransaction();
             $customer=Customer::find($id);
+            
             if($customer){
                 $customer->isDeleted=1;
                 $customer->save();
+
+                $find_sell = Sell::where('customer_id', $customer->customer_id);
+                $sells = $find_sell->get();
+                foreach ($sells as $sell) {
+                    $sell->sell_products()->delete();
+                    $sell->delete();
+                }
         
                 DB::commit();
 

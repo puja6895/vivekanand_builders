@@ -95,11 +95,9 @@ active
                                 <table id="example1" class="table table-bordered table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            {{-- <th>Customer Name</th> --}}
                                             <th>Sell Date</th>
-                                            <th>Product Name</th>
-                                            <th>Quantity</th>
-                                            {{-- <th>Unit</th> --}}
+                                            <th>Product name</th>
+                                            <th>Quantitiy</th>
                                             <th>Rate</th>
                                             <th>GST%</th>
                                             <th>Amount</th>
@@ -108,11 +106,9 @@ active
                                     </thead>
                                     <tbody>
                                         @foreach($sells as $sell)
-
                                             @foreach($sell->sell_products as $sell_product)
                                                 <tr>
-                                                    {{-- <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id]) }}">{{ $sell->sell_id }}
-                                                    </td> --}}
+                                                    {{-- <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id]) }}">{{ $sell->sell_id }}</td> --}}
                                                     <td>{{ \Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y') }}
                                                     </td>
                                                     <td>{{ $sell_product->product->product_name }}</td>
@@ -121,25 +117,24 @@ active
                                                     <td>{{ $sell_product->rate }}</td>
                                                     <td>{{ $sell_product->gst }}</td>
                                                     <td>{{ $sell_product->amount }}</td>
-                                                    {{-- <td>{{$sell[0]->total_amount }}</td> --}}
                                                     <td>
                                                         <button class="btn btn-sm btn-info">Edit</button>
                                                     </td>
-                                                <tr>
+                                                 </tr>
                                             @endforeach
                                         @endforeach
+
+                                    </tbody>
                                     <tfoot>
                                         <tr>
                                             <th>Sell Date</th>
-                                            <th>Product Name</th>
-                                            <th>Quantity</th>
-                                            {{-- <th>Unit</th> --}}
+                                            <th>Product name</th>
+                                            <th>Quantitiy</th>
                                             <th>Rate</th>
                                             <th>GST%</th>
                                             <th>Amount</th>
                                             <th>Action</th>
                                         </tr>
-                                    </tfoot>
                                     </tfoot>
                                 </table>
                             </div>
