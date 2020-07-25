@@ -69,6 +69,7 @@
                         <th>Sell Date</th>
                         <th>Amount</th>
                         <th>Status</th>
+                        <th>Action</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -88,6 +89,10 @@
                               <span class="badge badge-success">Billed</span>
                             </td>
                             @endif
+                            <td>
+                              <button class="btn  btn-sm btn-info">Edit</button>
+                              <button class="btn  btn-sm btn-danger">Delete</button>
+                            </td>
                           </tr>
                         @endforeach 
 
@@ -99,6 +104,7 @@
                           <th>Sell Date</th>
                           <th>Amount</th>
                           <th>Status</th>
+                          <th>Action</th>
                           {{-- <th>Total Amount</th> --}}
                         </tr>
                       </tfoot>
