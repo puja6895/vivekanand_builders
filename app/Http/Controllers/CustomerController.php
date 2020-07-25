@@ -63,7 +63,7 @@ class CustomerController extends Controller
             $customer = new Customer;
             $customer->customer_name = $request->customer_name;
             $customer->customer_email = $request->customer_email;
-            $customer->customer_mobile = $request->customer_mobile;
+            $customer->customer_mobile = $request->customer_mobile || 0;
             $customer->customer_address = $request->customer_address;
             $customer->gst_no = $request->gst_no;
             $customer->save();
