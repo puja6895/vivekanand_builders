@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
 	<title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
     <!-- Font Awesome -->
-    <script src="https://use.fontawesome.com/f0601e8490.js"></script>
-    {{-- <link rel="stylesheet" href="{{asset('assets/plugins/fontawesome-free/css/all.min.css')}}"> --}}
+    {{-- <script src="https://use.fontawesome.com/f0601e8490.js"></script> --}}
+    <link rel="stylesheet" href="{{asset('assets/plugins/fontawesome-free/css/all.min.css')}}">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Date Picker -->
@@ -357,6 +357,16 @@
                                 <i class="nav-icon fa fa-tags"></i>
                                 <p>
                                     Products
+                                    {{-- <i class="right fa fa-angle-left"></i> --}}
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('lorries') }}"  class="nav-link @yield('Lorry')">
+                                <i class="nav-icon fa fa-tags"></i>
+                                <p>
+                                    Lorry
                                     {{-- <i class="right fa fa-angle-left"></i> --}}
                                 </p>
                             </a>

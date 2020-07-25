@@ -118,3 +118,12 @@ Route::get('/purchase/puchase_payment', 'PurchasePaymentController@index')->name
 Route::get('/purchase/puchase_payment/add', 'PurchasePaymentController@create')->name('purchase_payment.add');
 Route::post('/purchase/puchase_payment/store', 'PurchasePaymentController@store')->name('purchase_payment.store');
 
+// Lorry
+Route::get('/lorry', 'LorryController@index')->name('lorries');
+Route::get('/lorry/add', 'LorryController@create')->name('lorry.add');
+Route::post('/lorry/store', 'LorryController@store')->name('lorry.store');
+Route::get('/lorry/edit/{id}', 'LorryController@edit')->name('lorry.edit');
+Route::post('/lorry/update', 'LorryController@update')->name('lorry.update');
+Route::get('/lorry/destroy/{id}', 'LorryController@destroy')->name('lorry.destroy');
+Route::get('/lorry/enable/{id}', 'LorryController@enable')->name('lorry.enable');
+

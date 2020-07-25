@@ -84,6 +84,7 @@ class UnitController extends Controller
     public function edit(Unit $unit,$id)
     {
         //
+        
         $result= Unit::find($id);
         if($result){
             

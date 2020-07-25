@@ -1,8 +1,9 @@
+ 
 <!doctype html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>A simple, clean, and responsive HTML invoice template</title>
+    <title>Invoice</title>
     
     <style>
     .invoice-box {
@@ -69,7 +70,7 @@
         font-weight: bold;
     }
     
-    @media only screen and (max-width: 600px) {
+    /* @media only screen and (max-width: 600px) {
         .invoice-box table tr.top table td {
             width: 100%;
             display: block;
@@ -81,7 +82,7 @@
             display: block;
             text-align: center;
         }
-    }
+    } */
     
     /** RTL **/
     .rtl {
@@ -102,47 +103,56 @@
 <body>
     <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
-            <tr >
-                <td colspan="5">
+            <tr class="">
+                <td colspan="6">
                     <table>
                         <tr>
-                            <td class="title" style=" text-align:center">
-                               <h2>Ajit Singh</h2>
+                            <td class="title">
+                                {{-- <img src="https://www.sparksuite.com/images/logo.png" style="width:100%; max-width:300px;"> --}}
+                                <p style="font-size:35px;  "><b>Ajit Singh</b></p>
                             </td>
-                           
+                            
+                            <td style="margin-top: 20px !important; ">
+                                <b>Bill #:</b> {{$bill_no}}<br>
+                                <b>Bill Date: </b> {{$date}}<br>
+                               
+                            </td>
                         </tr>
                     </table>
                 </td>
             </tr>
             
-            <tr class="information">
+            <tr class="information" >
                 <td >
                     <table>
                         <tr>
-                            <td style="text-align: left">
+                            <td>
                                 <b>Client Information:</b><br>
                                 {{ $sells[0]->customer->customer_name }}<br>
-                                {{ $sells[0]->customer->customer_address }}<br><br>
-                                <b>Bill Date: </b>{{$date}}<br>
-                                <b>Bill No: </b>{{$bill_no}}
+                                {{ $sells[0]->customer->customer_address }}
+                            </td>
+                            
+                            <td>
+                                {{-- Acme Corp.<br>
+                                John Doe<br>
+                                john@example.com --}}
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
             
+            
+            
             <tr class="heading">
-              
-                
                 <td>
                     Date
                 </td>
                 <td>Item</td>
-                <td>Unit</td>
+                <td></td>
                 <td>Quantity</td>
                 <td>Rate</td>
                 <td>Amount</td>
-
             </tr>
             @foreach($sells as $sell)
             @foreach($sell->sell_products as $sell_product)
@@ -153,25 +163,31 @@
                 </td>
                 <td>
                     {{ $sell_product->product->product_name }}</td>
-                <td>{{ $sell_product->unit_name }}
+                <td>
                 </td>
-                <td>{{ $sell_product->quantity }}
+                <td>{{ $sell_product->quantity }} ({{ $sell_product->unit_name }})
                 </td>
                 <td>{{ $sell_product->rate }}</td>
                 <td>{{ $sell_product->amount }}</td>
             </tr>
             @endforeach
             @endforeach
-
-            <tr class="item">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><b>Sub-Total:</b></td>
-                <td><b>{{$sub_total}}</b></td>
-            </tr>
+            
            
+            
+            
+            
+            <tr class="item last">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="color:#176334;"><b>Sub-Total:</b></td>
+                <td style="color:#176334;"><b><span>&#8377;</span> {{$sub_total}}</b></td>
+            </tr>
+            <tr >
+                <td><b>Previous Bill Detail:</b></td>
+            </tr>
             <tr class="heading">
                 <td >
                   Bill No
@@ -180,12 +196,15 @@
                 <td>
                    From
                 </td>
+                <td></td>
                 <td>
                     To
                  </td>
+                 <td></td>
                  <td>
                    Previous Amount
                  </td>
+                
             </tr>
             
             <tr class="detail">
@@ -200,6 +219,7 @@
                     {{ $previous_bill->from_date ?? "NIL" }}</div>
                 @endif
                 </td>
+                <td></td>
                 <td>
                     @if(!empty($previous_bill))
 											{{ \Carbon\Carbon::parse($previous_bill->to_date)->format('d-m-Y') ?? "NIL" }}</div>
@@ -207,38 +227,14 @@
 											{{ $previous_bill->from_date ?? "NIL" }}</div>
 										@endif
                 </td>
+                <td></td>
                 <td>
                     {{ $previous_bill->due_amount ?? "NIL" }}
                 </td>
             </tr>
-            
-            {{-- <tr class="item">
-                <td>
-                    Hosting (3 months)
-                </td>
-                
-                <td>
-                    $75.00
-                </td>
+            <tr ><br>
+                <td><b>Payment Detail:</b></td>
             </tr>
-            <tr></tr><br>
-            <tr class="item last">
-                <td>
-                    Domain name (1 year)
-                </td>
-                
-                <td>
-                    $10.00
-                </td>
-            </tr>
-            
-            <tr class="total">
-                <td></td>
-                
-                <td>
-                   Total: $385.00
-                </td>
-            </tr> --}}
             <tr class="heading">
                 <td >
                  Date
@@ -247,31 +243,48 @@
                 <td>
                   Mode  
                 </td>
+                <td></td>
+                <td></td>
+                <td></td>
                 <td>
                    Payment
                  </td>
                 
             </tr><br><br>
-            {{-- <tr><h4>Payment Details:</h4></tr> --}}
+           
             <tr class="detail">
+                @if(count($payments)>0)
+                @foreach($payments as $payment)
                 <td>
-                    {{ $previous_bill->bill_no ?? "NIL" }}
+                    {{ \Carbon\Carbon::parse($payment->pay_date)->format('d-m-Y') }}
                 </td>
                 
                 <td>
-                    @if(!empty($previous_bill))
-                    {{ \Carbon\Carbon::parse($previous_bill->from_date)->format('d-m-Y') ?? "NIL" }}</div>
-                @else
-                    {{ $previous_bill->from_date ?? "NIL" }}</div>
-                @endif
+                {{ $payment->pay_mode }}
                 </td>
+                <td></td>
+                <td></td>
+                <td></td>
                 <td>
-                    @if(!empty($previous_bill))
-											{{ \Carbon\Carbon::parse($previous_bill->to_date)->format('d-m-Y') ?? "NIL" }}</div>
-										@else
-											{{ $previous_bill->from_date ?? "NIL" }}</div>
-										@endif
+                    {{ $payment->pay_received }}
                 </td>
+                @endforeach
+                @else
+                <td>NIL</td>
+                <td>NIL</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>NIL</td>
+                @endif
+            </tr>
+            <tr class="item last">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="color:#a3140a;"><b>Due-Amount:</b></td>
+                <td style="color:#a3140a;"><b><span>&#8377;</span> {{$due_amount}}</b></td>
             </tr>
         </table>
     </div>

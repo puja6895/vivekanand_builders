@@ -134,7 +134,7 @@
                     </div> --}}
 
                     <table class="table table-bordered col-md-12" id="">
-                      <thead>
+                      <thead><span>&#8377;</span>
                         <tr>
                           <th class="" style="width:20%">Product</th>
                           <th class="" style="width:10%">Unit</th>
@@ -171,7 +171,7 @@
                             <div class="input-group">
                                <span class="input-group-prepend">
                                  <label for="rate0" class="input-group-text">
-                                   <i class="fa fa-inr"></i>
+                                  <span style="font-size: 17px;">&#8377;</span>
                                  </label>
                                </span>
                                <input type="text" class="form-control" name="rate0" id="rate0" onchange="calculateTotal()" required value="0">
@@ -191,7 +191,7 @@
                             <div class="input-group">
                                 <span class="input-group-prepend">
                                   <label for="total0" class="input-group-text">
-                                    <i class="fa fa-inr"></i>
+                                    <span style="font-size: 17px;">&#8377;</span>
                                   </label>
                                 </span>
                                 <input type="text" class="form-control" name="total0" id="total0" readonly value="0">

@@ -346,7 +346,7 @@
                     {{ \Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y') }}
                 </td>
                 <td>
-                    {{ $sell_product->product->product_name }}</td>
+                {{ $sell_product->product->product_name }}</td>
                 <td>{{ $sell_product->unit_name }}
                 </td>
                 <td>{{ $sell_product->quantity }}
@@ -433,6 +433,34 @@
                    Total: $385.00
                 </td>
             </tr> --}}
+            <tr class="heading">
+                <td >
+                 Date
+                </td>
+                
+                <td>
+                  Mode  
+                </td>
+                <td>
+                   Payment
+                 </td>
+                
+            </tr><br><br>
+           
+            <tr class="detail">
+                @foreach($payments as $payment)
+                <td>
+                    {{ \Carbon\Carbon::parse($payment->pay_date)->format('d-m-Y') }}
+                </td>
+                
+                <td>
+                    {{ $payment->pay_mode }}
+                </td>
+                <td>
+                    {{ $payment->pay_received }}
+                </td>
+                @endforeach
+            </tr>
         </table>
     </div>
 </body>
