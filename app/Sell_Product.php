@@ -8,7 +8,7 @@ class Sell_Product extends Model
 {
     //
     protected $table = 'sell_products';
-    protected $primarykey = 'sell_product_id';
+    protected $primarykey = 'sell_products_id';
 
     public function sells(){
         return $this->belongsTo('App\Sell','sell_id');

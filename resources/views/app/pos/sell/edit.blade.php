@@ -1,6 +1,6 @@
 @extends('layouts.home')
 
-@section('title','Sell | Add')
+@section('title','Sell | Edit')
 
 @section('Sell')
 active
@@ -21,7 +21,7 @@ active
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                         <li class="breadcrumb-item "><a href="{{ route('sell') }}">Sales</a></li>
-                        <li class="breadcrumb-item active">Add</li>
+                        <li class="breadcrumb-item active">Edit</li>
                     </ol>
                 </div>
             </div>
@@ -47,13 +47,13 @@ active
 
                     <div class="card card-muted">
                         <div class="card-header card-border">
-                            <h3 class="card-title text-secondary">Add Sell </h3>
+                            <h3 class="card-title text-secondary">Edit Sell </h3>
                             <a href="{{ route('sell') }}"><button
                                     class="btn btn-info pull-right">Back</button></a>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form method="POST" action="{{ route('sell.store') }}">
+                        <form method="POST" action="{{ route('sell.update') }}">
                             @csrf
                             <div class="card-body">
 
@@ -77,7 +77,7 @@ active
                                                             {{ $customer->customer_name }}</option>
                                                     @endforeach
                                                 </select> --}}
-                                                <input type="text" name="customer_name" required class="form-control  {{$errors->has('customer_name') ? 'is-invalid' : ''}}" id="customer_name" placeholder="Enter unit" value="{{ $sells->customer->customer_name}}">
+                                                <input readonly type="text" name="customer_name" required class="form-control  {{$errors->has('customer_name') ? 'is-invalid' : ''}}" id="customer_name" placeholder="Enter unit" value="{{ $sells->customer->customer_name}}">
 
                                                 {{-- @if ($errors->has('customer_id'))
                           <span class="help-block">
@@ -101,13 +101,13 @@ active
                                                 </div>
                                                 {{-- <input type="text" name="sell_date"
                                                     class="form-control datepicker list_date" id="datepicker"
-                                                    required="" placeholder="dd-mm-yyyy">
+                                                    required="" value="{{\Carbon\Carbon::parse($sells->sell_date)->format('d-m-Y') }}" >
                                                 @if($errors->has('sell_date'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('sell_date') }}</strong>
                                                     </span>
                                                 @endif --}}
-                                                <input type="text" name="sell_date" required class="form-control  {{$errors->has('sell_date') ? 'is-invalid' : ''}}" id="sell_date" placeholder="Enter unit" value="{{ $sells->sell_date}}">
+                                                <input readonly  type="text" name="sell_date" required class="form-control  {{$errors->has('sell_date') ? 'is-invalid' : ''}}" id="sell_date" placeholder="Enter unit" value="{{\Carbon\Carbon::parse($sells->sell_date)->format('d-m-Y') }}">
                                                 
                                             </div>
                                         </div>
@@ -150,24 +150,20 @@ active
                                             <tbody>
                                                 <tr>
                                                     <td class="" style="width:20%">
-                                                        <select required name="product_id0" id="product_id0"
-                                                            class="form-control select2" onchange="setDefault()">
+                                                        <select required name="product_id0" id="product_id0" class="form-control select2" onchange="setDefault()">
                                                             <option value="0"> Product </option>
                                                             @foreach($products as $product)
-                                                                <option value="{{ $product->product_id }}">
-                                                                    {{ $product->product_name }}</option>
+                                                              <option value="{{$product->product_id}}">{{$product->product_name}}</option>
                                                             @endforeach
-                                                        </select>
+                                                          </select>
                                                     </td>
                                                     <td class="" style="width:10%">
-                                                        <select required name="unit_id0" id="unit_id0"
-                                                            class="form-control select2">
+                                                        <select required name="unit_id0" id="unit_id0" class="form-control select2" >
                                                             <option value="0"> Unit </option>
                                                             @foreach($units as $unit)
-                                                                <option value="{{ $unit->unit_name }}">
-                                                                    {{ $unit->unit_name }}</option>
+                                                              <option value="{{$unit->unit_name}}">{{$unit->unit_name}}</option>
                                                             @endforeach
-                                                        </select>
+                                                          </select>
                                                     </td>
                                                     <td class="">
                                                         <input class="form-control" type="number" name="quantity0"
@@ -215,7 +211,7 @@ active
                                                         <button type="button" data-toggle="tooltip" title="Add Product"
                                                             class="btn btn-success pull-right" id="addrow">
                                                             <i class="fa fa-plus"></i>
-                                                            Add
+                                                            
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -242,32 +238,35 @@ active
                                             </thead>
                                             <tbody>
                                                     @foreach($sells->sell_products as $sell_product)
-
-                                                        <tr>
+                                                    
+                                                    <tr>
+                                                        <input type="hidden" name="sell_product_id[]" value="{{$sell_product->sell_products_id }}">
                                                            {{-- {{ dd($sells->sell_products->product)}} --}}
+                                                           <input type="hidden" name="product_id[]" value="{{$sell_product->product->product_id}}">
                                                             <td style="width:15rem"><input class="form-control" value="{{$sell_product->product->product_name}}"
                                                                 
-                                                                    type="text" name="product_name" readonly required=""
+                                                                    type="text" name="product_name[]" readonly required=""
                                                                     placeholder="Product"></td>
 
-                                                            <td style="width:8rem"><input class="form-control"
-                                                                    type="text" name="unit_name" placeholder="Unit" required
+                                                            <td style="width:8rem"><input readonly class="form-control"
+                                                                    type="text" name="unit_name[]" placeholder="Unit" required
                                                                     value="{{$sell_product->unit_name}}"> </td>
 
-                                                            <td><input class="form-control" type="number" name="quantity"
+                                                            <td><input class="form-control" type="number" name="quantity[]"
                                                                     value="{{$sell_product->quantity}}" required></td>
 
                                                             <td>
                                                                 <div class="input-group"><span
-                                                                        class="input-group-prepend"><label
-                                                                            class="input-group-text"><i
-                                                                                class="fa fa-inr"></i></label></span><input
-                                                                        type="text" class="form-control" name="rate"
+                                                                        class="input-group-prepend">
+                                                                        <label class="input-group-text">
+                                                                            <span style="font-size: 17px;">&#8377;</span>
+                                                                        </label></span><input
+                                                                        type="text" class="form-control" name="rate[]"
                                                                         required value="{{$sell_product->rate}}"></div>
 
                                                             <td>
                                                                 <div class="input-group"><input type="text"
-                                                                        class="form-control" name="gst" required
+                                                                        class="form-control" name="gst[]" required
                                                                         value="{{$sell_product->gst}}"><span
                                                                         class="input-group-prepend"><label
                                                                             class="input-group-text"><i
@@ -278,15 +277,19 @@ active
                                                             <td style="width:10rem">
                                                                 <div class="input-group"><span
                                                                         class="input-group-prepend"><label
-                                                                            class="input-group-text"><i
-                                                                                class="fa fa-inr"></i></label></span><input
-                                                                        type="text" class="form-control" name="amount"
+                                                                            class="input-group-text">
+                                                                            <span style="font-size: 17px;">&#8377;</span>
+                                                                        </label></span><input
+                                                                        type="text" class="form-control" name="total[]" readonly
                                                                         required value="{{$sell_product->amount}}"></div>
                                                             </td>
 
-                                                            <td><button type="button"
-                                                                    class="btn btn-sm btn-danger ibtnDel"><i
-                                                                        class="fa fa-trash"></i>Delete</button></td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-sm btn-danger ibtnDel" onclick="deleteRow(this)" 
+                                                                    data-toggle="tooltip" title="Delete Product">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </button>
+                                                            </td>
 
                                                         </tr>
                                                     

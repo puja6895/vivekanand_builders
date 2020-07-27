@@ -78,6 +78,28 @@
                           </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                      {{-- Sell To Name --}}
+                      <div class="col">
+                        <div class="form-group {{ $errors->has('admin_id') ? ' has-error' : '' }}">
+                          <label>Admin <span style="color: red;">*</span></label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <label class="input-group-text" for="admin_id">
+                                  <i class="fa fa-user"></i>
+                              </label>
+                            </div>
+                            <select required class="form-control" id="admin_id" name="admin_id">
+                              <option selected="" disabled="">Select Admin</option>
+                              @foreach($admins as $admin)
+                            <option value="{{$admin->admin_id}}">{{$admin->admin_name}}</option>
+                              @endforeach
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <!--FROM DATE  -->
                     <div class="row">
                         <div class="col">

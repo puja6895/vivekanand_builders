@@ -363,6 +363,16 @@
                         </li>
 
                         <li class="nav-item">
+                            <a href="{{ route('default_products') }}"  class="nav-link @yield('Set Default')">
+                                <i class="nav-icon fa fa-tags"></i>
+                                <p>
+                                    Set Default
+                                    {{-- <i class="right fa fa-angle-left"></i> --}}
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="{{ route('lorries') }}"  class="nav-link @yield('Lorry')">
                                 <i class="nav-icon fa fa-tags"></i>
                                 <p>
@@ -399,6 +409,15 @@
                                     </a>
                                 </li>
                             </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admins') }}"  class="nav-link @yield('Admin')">
+                                <i class="nav-icon fa fa-tags"></i>
+                                <p>
+                                    Admin
+                                    {{-- <i class="right fa fa-angle-left"></i> --}}
+                                </p>
+                            </a>
                         </li>
 
                         </li>

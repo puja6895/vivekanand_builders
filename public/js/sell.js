@@ -18,13 +18,18 @@ $(document).ready(function() {
         var cols = "";
 
         cols += '<td style="width:15rem"><input class="form-control" readonly  value="' + $('#product_id0').children("option:selected").text() + '" type="text" name="product_name[]" required="" placeholder="Product"><input type="hidden" value="' + $('#product_id0').children("option:selected").val() + '" name="product_id[]" value=""></td>';
-        cols += '<td style="width:8rem"><input readonly class="form-control" type="text" name="unit_name[]" placeholder="Unit" required value="' + $('#unit_id0').children("option:selected").text() + '"> <input type="hidden" name="unit_id[]" value="' + $('#unit_id0').children("option:selected").val() + '" ></td>';
-        cols += '<td style="width:10rem"><div class="input-group"><span class="input-group-prepend"><label class="input-group-text"><i class="fa fa-inr"></i></label></span><input readonly type="text" class="form-control" name="rate[]" required value="' + $('#rate0').val() + '"></div></td>';
-        cols += '<td "><input readonly class="form-control" type="number" name="quantity[]" value="' + $('#quantity0').val() + '" required></td>';
-        cols += '<td ><div class="input-group"><input readonly type="text" class="form-control" name="gst[]" required value="' + $('#gst0').val() + '"><span class="input-group-prepend"><label class="input-group-text"><i class="fa fa-percent"></i></label></span></div></td>';
-        cols += '<td style="width:10rem"><div class="input-group"><span class="input-group-prepend"><label class="input-group-text"><i class="fa fa-inr"></i></label></span><input readonly type="text" class="form-control" name="total[]" required value="' + $('#total0').val() + '"></div></td>';
 
-        cols += '<td ><button type="button" class="btn btn-sm btn-danger ibtnDel"><i class="fa fa-trash"></i>Delete</button></td>';
+        cols += '<td style="width:8rem"><input readonly class="form-control" type="text" name="unit_name[]" placeholder="Unit" required value="' + $('#unit_id0').children("option:selected").text() + '"> <input type="hidden" name="unit_id[]" value="' + $('#unit_id0').children("option:selected").val() + '" ></td>';
+
+        cols += '<td "><input readonly class="form-control" type="number" name="quantity[]" value="' + $('#quantity0').val() + '" required></td>';
+
+        cols += '<td style="width:10rem"><div class="input-group"><span class="input-group-prepend"><label class="input-group-text"><span style="font-size: 17px;">&#8377;</span></label></span><input readonly type="text" class="form-control" name="rate[]" required value="' + $('#rate0').val() + '"></div></td>';
+
+        cols += '<td ><div class="input-group"><input readonly type="text" class="form-control" name="gst[]" required value="' + $('#gst0').val() + '"><span class="input-group-prepend"><label class="input-group-text"><i class="fa fa-percent"></i></label></span></div></td>';
+
+        cols += '<td style="width:10rem"><div class="input-group"><span class="input-group-prepend"><label class="input-group-text"><span style="font-size: 17px;">&#8377;</span></label></span><input readonly type="text" class="form-control" name="total[]" required value="' + $('#total0').val() + '"></div></td>';
+
+        cols += '<td ><button type="button" data-toggle="tooltip" title="Delete Product" class="btn btn-sm btn-danger ibtnDel" ><i class="fa fa-trash"></i></button></td>';
         newRow.append(cols);
         $("#purchaseTable").append(newRow);
         counter++;

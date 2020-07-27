@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Customer;
 use App\Sell;
 use App\Payment;
+use App\Admin;
 use App\BillDetail;
 use Carbon\Carbon;
 use PDF;
@@ -21,7 +22,9 @@ class InvoiceController extends Controller
     //
     public function add(){
         $customers = Customer::all();
-        return view:: make('app.invoice.add')->with(['customers'=>$customers]);
+        $admins = Admin::where('isDeleted',0)->get();
+        // dd($admins);
+        return view:: make('app.invoice.add')->with(['customers'=>$customers,'admins'=>$admins]);
     }
 
 
@@ -33,6 +36,7 @@ class InvoiceController extends Controller
 			'to_date' => 'required',
         ]);
         try{
+            $admin =$request->admin_id;
             $customer_id = $request->customer_id;
             $from_date =  Carbon::parse($request->from_date)->format('Y-m-d');
             $to_date =  Carbon::parse($request->to_date)->format('Y-m-d');
@@ -61,15 +65,18 @@ class InvoiceController extends Controller
                 $payment_query = Payment::where('customer_id',$customer_id)
                                        ->whereBetween('pay_date',array($from_date , $to_date)) 
                                        ->where('status', 0)
-                                       ->orderBy('pay_date','desc');
-
+                                       ->orderBy('pay_date','asc');
+                                       
+               
                 $sells = $sell_query->get();
                 $payments = $payment_query->get();
+                $sum_payments  = $payment_query->sum('pay_received');
+                // dd($sum_payments);
 
                 $sell_amount = $sell_query->sum('total_amount');
                 $payment_amount = $payment_query->sum('pay_received');
 
-                $previous_bill_detail = BillDetail::whereDate('from_date' ,'<',$from_date)
+                $previous_bill_detail = BillDetail::where('customer_id',$customer_id)->whereDate('from_date' ,'<',$from_date)
                                                     ->whereDate('to_date', '<',$to_date)
                                                     ->orderBy('from_date','desc');
 
@@ -115,6 +122,7 @@ class InvoiceController extends Controller
 
                 $current_bill = new BillDetail;   
                 $current_bill->customer_id = $request->customer_id;
+                $current_bill->admin_id = $admin;
                 $current_bill->bill_date = Carbon::parse($current_date)->format('Y-m-d');
                 $current_bill->bill_no = $nextinvioce_number;
                 $current_bill->from_date =  Carbon::parse($request->from_date)->format('Y-m-d');
@@ -122,6 +130,8 @@ class InvoiceController extends Controller
                 $current_bill->amount = $due_amount;
                 $current_bill->due_amount = $due_amount;
                 $current_bill ->save(); 
+
+                // dd($current_bill->admin->admin_name);
           
                 $bill_status = Sell::where('customer_id',$customer_id)
                                     ->whereBetween('sell_date',array($from_date , $to_date))
@@ -129,14 +139,14 @@ class InvoiceController extends Controller
                 // dd($bill_status);                    
                                       
                 
-                // DB::commit();
+                DB::commit();
 
-                $pdf = PDF::loadView('app.invoice.test',['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill,'due_amount'=>$due_amount,'bill_no'=>$nextinvioce_number,'date'=>$current_date]);
-                return $pdf->stream();
+                $pdf = PDF::loadView('app.invoice.invoice',['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill,'due_amount'=>$due_amount,'bill_no'=>$nextinvioce_number,'date'=>$current_date,'current_bill'=>$current_bill,'sum_payments'=>$sum_payments])->setPaper('a4');
+                return $pdf->stream($nextinvioce_number);
                 // dd($previous_bill->first());
-                return view :: make('app.invoice.test')->with(['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill,'due_amount'=>$due_amount,'bill_no'=>$nextinvioce_number,'date'=>$current_date]);
+                return view :: make('app.invoice.test')->with(['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill,'due_amount'=>$due_amount,'bill_no'=>$nextinvioce_number,'date'=>$current_date,'current_bill'=>$current_bill,'sum_payments'=>$sum_payments]);
             }else{
-                return back()->with('error','Sell Already Exits');
+                return back()->with('error','Bill Already Exists');
             }    
 
 
@@ -158,16 +168,17 @@ class InvoiceController extends Controller
         // dd($bill);
 
             $sell_query = Sell ::where('customer_id',$bills->customer_id)
-            ->whereBetween('sell_date',array($from_date,$to_date))
-            ->orderBy('sell_date','desc');
+                                ->whereBetween('sell_date',array($from_date,$to_date))
+                                ->orderBy('sell_date','asc');
 
             $payment_query = Payment::where('customer_id',$bills->customer_id)
                     ->whereBetween('pay_date',array($from_date , $to_date)) 
                     ->where('status', 0)
-                    ->orderBy('pay_date','desc');
+                    ->orderBy('pay_date','asc');
 
             $sells = $sell_query->get();
             $payments = $payment_query->get();
+            // $sum_payments = $payment_query->sum('pay_received');
 
             $sell_amount = $sell_query->sum('total_amount');
             $payment_amount = $payment_query->sum('pay_received');
@@ -175,7 +186,8 @@ class InvoiceController extends Controller
             // $privious_bill_detail = BillDetail::whereDate('bill_date' ,'<',$bills->bill_date)
             //                                    ->orderBy('bill_date','desc');
 
-            $previous_bill_detail = BillDetail::whereDate('from_date' ,'<',$bills->from_date)
+            $previous_bill_detail = BillDetail::where('customer_id',$bills->customer_id)
+                                                ->whereDate('from_date' ,'<',$bills->from_date)
                                                 ->whereDate('to_date', '<',$bills->to_date)
                                                 ->orderBy('from_date','desc');
 
@@ -195,13 +207,40 @@ class InvoiceController extends Controller
 
             $due_amount =   $sell_amount  + $previous_due_amount -  $payment_amount;
 
+            $pdf = PDF::loadView('app.invoice.invoice',['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill,'due_amount'=>$due_amount,'bill_no'=>$bills->bill_no,'date'=>$bills->bill_date,'current_bill'=>$bills,'sum_payments'=>$payment_amount])->setPaper('a4');
+                return $pdf->stream($bills->bill_no);
+
+            return view :: make('app.invoice.invoice')->with(['bills'=>$bills,'sells'=>$sells,'payments'=>$payments,'sub_total'=>$sell_amount,'previous_bill'=> $previous_bill,'due_amount'=>$due_amount,'date'=>$bills->bill_date,'bill_no'=>$bills->bill_no ,'current_bill'=>$bills]);    
 
 
-            return view :: make('app.invoice.invoice')->with(['bills'=>$bills,'sells'=>$sells,'payments'=>$payments,'sub_total'=>$sell_amount,'previous_bill'=> $previous_bill,'due_amount'=>$due_amount,'date'=>$bills->bill_date,'bill_no'=>$bills->bill_no]);    
+    }
 
+    public function destroy($bill_id) {
+        try
+        {
+            $bill = BillDetail::find($bill_id);
 
+            if($bill){
+                $bill->delete();
+                
+                DB::commit();
+
+                // Return To Listing Page
+                return redirect()->route('invoice')->with('success','Bill no '.$bill->bill_no.' Deleted');
+
+            }else{
+                return back()->with('error','Invalid Sell ID');
+            }
+
+        }catch(Exception $exception){
+            DB::rollBack();
+            return back()->with('error',$exception->getMessage())->withInput();
+        }
     }
 
     
 
 }
+
+
+

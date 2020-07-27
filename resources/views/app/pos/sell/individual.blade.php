@@ -118,7 +118,7 @@ active
                                                     <td>{{ $sell_product->gst }}</td>
                                                     <td>{{ $sell_product->amount }}</td>
                                                     <td>
-                                                        <button class="btn btn-sm btn-info">Edit</button>
+                                                        <a href="{{route('sell.edit',['id'=>$sell->sell_id])}}"><button class="btn  btn-sm btn-info">Edit</button></a>
                                                     </td>
                                                  </tr>
                                             @endforeach

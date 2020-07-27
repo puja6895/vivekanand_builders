@@ -1,293 +1,324 @@
- 
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <title>Invoice</title>
-    
+    <title>Example 1</title>
+    {{-- <link rel="stylesheet" href="style.css" media="all" /> --}}
     <style>
-    .invoice-box {
-        max-width: 800px;
-        margin: auto;
-        padding: 30px;
-        border: 1px solid #eee;
-        box-shadow: 0 0 10px rgba(0, 0, 0, .15);
-        font-size: 16px;
-        line-height: 24px;
-        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-        color: #555;
-    }
-    
-    .invoice-box table {
-        width: 100%;
-        line-height: inherit;
-        text-align: left;
-    }
-    
-    .invoice-box table td {
-        padding: 5px;
-        vertical-align: top;
-    }
-    
-    .invoice-box table tr td:nth-child(2) {
-        text-align: right;
-    }
-    
-    .invoice-box table tr.top table td {
-        padding-bottom: 20px;
-    }
-    
-    .invoice-box table tr.top table td.title {
-        font-size: 45px;
-        line-height: 45px;
-        color: #333;
-    }
-    
-    .invoice-box table tr.information table td {
-        padding-bottom: 40px;
-    }
-    
-    .invoice-box table tr.heading td {
-        background: #eee;
-        border-bottom: 1px solid #ddd;
-        font-weight: bold;
-    }
-    
-    .invoice-box table tr.details td {
-        padding-bottom: 20px;
-    }
-    
-    .invoice-box table tr.item td{
-        border-bottom: 1px solid #eee;
-    }
-    
-    .invoice-box table tr.item.last td {
-        border-bottom: none;
-    }
-    
-    .invoice-box table tr.total td:nth-child(2) {
-        border-top: 2px solid #eee;
-        font-weight: bold;
-    }
-    
-    /* @media only screen and (max-width: 600px) {
-        .invoice-box table tr.top table td {
+        .clearfix:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        a {
+            color: #5D6975;
+            text-decoration: underline;
+        }
+
+        body {
+            position: relative;
+            width: 21cm;
+            height: 29.7cm;
+            margin: 0 auto;
+            color: #001028;
+            background: #FFFFFF;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            font-family: Arial;
+        }
+
+        header {
+            padding: 10px 0;
+            margin-bottom: 30px;
+        }
+
+        #logo {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        #logo img {
+            width: 90px;
+        }
+
+        h1 {
+            border-top: 1px solid #5D6975;
+            border-bottom: 1px solid #5D6975;
+            color: #5D6975;
+            font-size: 2.4em;
+            line-height: 1.4em;
+            font-weight: normal;
+            text-align: center;
+            margin: 0 0 20px 0;
+        }
+
+        #project {
+            float: left;
+        }
+
+        #project span {
+            color: #5D6975;
+            text-align: right;
+            width: 52px;
+            margin-right: 10px;
+            display: inline-block;
+            font-size: 0.8em;
+        }
+
+        #company {
+            float: right;
+            text-align: right;
+        }
+
+        #project div,
+        #company div {
+            white-space: nowrap;
+        }
+
+        table {
             width: 100%;
-            display: block;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin-bottom: 20px;
+        }
+
+        table tr:nth-child(2n-1) td {
+            background: #F5F5F5;
+        }
+
+        table th,
+        table td {
             text-align: center;
         }
-        
-        .invoice-box table tr.information table td {
+
+        table th {
+            padding: 5px 20px;
+            color: #5D6975;
+            border-bottom: 1px solid #C1CED9;
+            white-space: nowrap;
+            font-weight: normal;
+        }
+
+        table .service,
+        table .desc {
+            /* text-align: left; */
+        }
+
+        table td {
+            padding: 10px;
+            /* text-align: right; */
+        }
+
+        table td.service,
+        table td.desc {
+            vertical-align: top;
+        }
+
+        table td.unit,
+        table td.qty,
+        table td.total {
+            font-size: 1.2em;
+        }
+
+        table td.grand {
+            border-top: 1px solid #5D6975;
+            ;
+        }
+
+        #notices .notice {
+            color: #5D6975;
+            font-size: 1.2em;
+        }
+
+        footer {
+            color: #5D6975;
             width: 100%;
-            display: block;
+            height: 30px;
+            position: absolute;
+            bottom: 0;
+            border-top: 1px solid #C1CED9;
+            padding: 8px 0;
             text-align: center;
         }
-    } */
-    
-    /** RTL **/
-    .rtl {
-        direction: rtl;
-        font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-    }
-    
-    .rtl table {
-        text-align: right;
-    }
-    
-    .rtl table tr td:nth-child(2) {
-        text-align: left;
-    }
+
+        .page-break
+    {
+        page-break-after: always;
+        page-break-inside: avoid;
+    }         
+
     </style>
 </head>
 
 <body>
-    <div class="invoice-box">
-        <table cellpadding="0" cellspacing="0">
-            <tr class="">
-                <td colspan="6">
-                    <table>
-                        <tr>
-                            <td class="title">
-                                {{-- <img src="https://www.sparksuite.com/images/logo.png" style="width:100%; max-width:300px;"> --}}
-                                <p style="font-size:35px;  "><b>Ajit Singh</b></p>
-                            </td>
-                            
-                            <td style="margin-top: 20px !important; ">
-                                <b>Bill #:</b> {{$bill_no}}<br>
-                                <b>Bill Date: </b> {{$date}}<br>
-                               
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            
-            <tr class="information" >
-                <td >
-                    <table>
-                        <tr>
-                            <td>
-                                <b>Client Information:</b><br>
-                                {{ $sells[0]->customer->customer_name }}<br>
-                                {{ $sells[0]->customer->customer_address }}
-                            </td>
-                            
-                            <td>
-                                {{-- Acme Corp.<br>
-                                John Doe<br>
-                                john@example.com --}}
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            
-            
-            
-            <tr class="heading">
-                <td>
-                    Date
-                </td>
-                <td>Item</td>
-                <td></td>
-                <td>Quantity</td>
-                <td>Rate</td>
-                <td>Amount</td>
-            </tr>
-            @foreach($sells as $sell)
-            @foreach($sell->sell_products as $sell_product)
-                
-            <tr class="item">
-                <td>
-                    {{ \Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y') }}
-                </td>
-                <td>
-                    {{ $sell_product->product->product_name }}</td>
-                <td>
-                </td>
-                <td>{{ $sell_product->quantity }} ({{ $sell_product->unit_name }})
-                </td>
-                <td>{{ $sell_product->rate }}</td>
-                <td>{{ $sell_product->amount }}</td>
-            </tr>
-            @endforeach
-            @endforeach
-            
-           
-            
-            
-            
-            <tr class="item last">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td style="color:#176334;"><b>Sub-Total:</b></td>
-                <td style="color:#176334;"><b><span>&#8377;</span> {{$sub_total}}</b></td>
-            </tr>
-            <tr >
-                <td><b>Previous Bill Detail:</b></td>
-            </tr>
-            <tr class="heading">
-                <td >
-                  Bill No
-                </td>
-                
-                <td>
-                   From
-                </td>
-                <td></td>
-                <td>
-                    To
-                 </td>
-                 <td></td>
-                 <td>
-                   Previous Amount
-                 </td>
-                
-            </tr>
-            
-            <tr class="detail">
-                <td>
-                    {{ $previous_bill->bill_no ?? "NIL" }}
-                </td>
-                
-                <td>
-                    @if(!empty($previous_bill))
-                    {{ \Carbon\Carbon::parse($previous_bill->from_date)->format('d-m-Y') ?? "NIL" }}</div>
-                @else
-                    {{ $previous_bill->from_date ?? "NIL" }}</div>
-                @endif
-                </td>
-                <td></td>
-                <td>
-                    @if(!empty($previous_bill))
-											{{ \Carbon\Carbon::parse($previous_bill->to_date)->format('d-m-Y') ?? "NIL" }}</div>
-										@else
-											{{ $previous_bill->from_date ?? "NIL" }}</div>
-										@endif
-                </td>
-                <td></td>
-                <td>
-                    {{ $previous_bill->due_amount ?? "NIL" }}
-                </td>
-            </tr>
-            <tr ><br>
-                <td><b>Payment Detail:</b></td>
-            </tr>
-            <tr class="heading">
-                <td >
-                 Date
-                </td>
-                
-                <td>
-                  Mode  
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                   Payment
-                 </td>
-                
-            </tr><br><br>
-           
-            <tr class="detail">
-                @if(count($payments)>0)
-                @foreach($payments as $payment)
-                <td>
-                    {{ \Carbon\Carbon::parse($payment->pay_date)->format('d-m-Y') }}
-                </td>
-                
-                <td>
-                {{ $payment->pay_mode }}
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                    {{ $payment->pay_received }}
-                </td>
-                @endforeach
-                @else
-                <td>NIL</td>
-                <td>NIL</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>NIL</td>
-                @endif
-            </tr>
-            <tr class="item last">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td style="color:#a3140a;"><b>Due-Amount:</b></td>
-                <td style="color:#a3140a;"><b><span>&#8377;</span> {{$due_amount}}</b></td>
-            </tr>
-        </table>
-    </div>
-</body>
-</html>
+    <header class="clearfix">
+        <div id="logo">
+            {{-- <img src="logo.png"> --}}
+        </div>
+        <h1>{{$current_bill->admin->admin_name}}</h1>
+        <div id="company" class="clearfix">
+            <div><b>Bill # : </b> {{ $bill_no }}</div>
+            <div><b>Bill Date :</b> {{ $date }}</div>
+            {{-- <div>(602) 519-0450</div>
+        <div><a href="mailto:company@example.com">company@example.com</a></div>  --}}
+        </div>
+        <div id="project">
+            {{-- <div><span>PROJECT</span> Website development</div> --}}
+            <div><span>CLIENT</span> {{ $sells[0]->customer->customer_name }}</div>
+            <div><span>ADDRESS</span> {{ $sells[0]->customer->customer_address }}</div>
+            {{-- <div><span>EMAIL</span> <a href="mailto:john@example.com">john@example.com</a></div>
+        <div><span>DATE</span> August 17, 2015</div>
+        <div><span>DUE DATE</span> September 17, 2015</div> --}}
+        </div>
 
+       
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th class="service">DATE</th>
+                    <th>ITEM</th>
+                    <th>QUANTITY</th>
+                    <th>RATE</th>
+                    <th>AMOUNT</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($sells as $sell)
+                    @foreach($sell->sell_products as $sell_product)
+                        {{-- @for($i = 0; $i<= 1; $i++) --}}
+                        <tr>
+                           
+                                {{-- @if($i%2 == 0)
+                                    <div class="page-break"></div>
+                                @endif     --}}
+                                    <td>
+                                        {{ \Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y') }}
+                                    </td>
+                                    <td>{{ $sell_product->product->product_name }}</td>
+
+                                    <td>{{ $sell_product->quantity }} ({{ $sell_product->unit_name }})
+                                    </td>
+                                    <td>{{ $sell_product->rate }}</td>
+
+                                    <td>{{ $sell_product->amount }}</td>
+                                </tr>
+                                {{-- @endfor --}}
+                    @endforeach
+                @endforeach
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="color:#176334;"><b>SUB-TOTAL</b></td>
+                    <td class="total" style="color:#176334;"><b><span>&#8377;</span>{{ $sub_total }}</b></td>
+                </tr>
+            </tbody>
+        </table>
+       
+        @if(!empty($previous_bill))
+            <hr>
+            <p style=" padding: 10px; font-size: 0.9em; ">
+                <b>PREVIOUS BILL DETAILS : </b>
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="service">BILL NO</th>
+                        <th class=>FROM</th>
+                        <th>TO</th>
+                        <th>PREVIOUS AMOUNT</th>
+                        {{-- <th>TOTAL</th> --}}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            {{ $previous_bill->bill_no }}
+                        </td>
+
+                        <td>
+                            {{ \Carbon\Carbon::parse($previous_bill->from_date)->format('d-m-Y') ?? "NIL" }}
+                            </div>
+                        </td>
+                        <td>
+
+                            {{ \Carbon\Carbon::parse($previous_bill->to_date)->format('d-m-Y') ?? "NIL" }}
+                            </div>
+                        </td>
+                        <td>
+                            {{ $previous_bill->due_amount }}
+                        </td>
+                        {{-- <td class="total">$1,040.00</td> --}}
+                    </tr>
+                </tbody>
+            </table>
+        @endif
+        @if(count($payments)>0)
+        {{-- <h1>page</h1> --}}
+        <div class="page-break"></div>
+       {{-- <h1>Someother Page</h1> --}}
+        <hr>
+        <p style=" padding: 10px; font-size: 0.9em; ">
+            <b>PAYMENTS: </b>
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th class="service">DATE</th>
+                    <th></th>
+                    <th>QUANTITY</th>
+                    <th></th>
+                    <th>AMOUNT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+
+                    @foreach($payments as $payment)
+                        <td>
+                            {{ \Carbon\Carbon::parse($payment->pay_date)->format('d-m-Y') }}
+                        </td>
+                        <td>
+                            {{ $payment->pay_mode }}
+                        </td>
+                        <td></td>
+                        <td>
+                            {{ $payment->pay_received }}
+                        </td>
+                    @endforeach
+                </tr>
+        </table>
+        @endif
+        <table class="responsive">
+            <tr >
+                <td style="background: white !important;"></td>
+                <td style="background: white !important;"></td>
+                <td style="background: white !important;"></td>
+                <td style="background: white !important;"></td>
+                <td style="background: white !important;"></td>
+                <td style="background: white !important;"></td>
+                <td style="background: white !important;"></td>
+                <td style="color:#a3140a; text-align:right; background: white !important;"><b>DUE-AMOUNT</b></td>
+                <td class="total" style="color:#a3140a; background: white !important;"><b><span>&#8377;</span>{{ $due_amount }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        {{-- <div id="notices">
+            <div>NOTICE:</div>
+            <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+        </div> --}}
+    </main>
+    {{-- <footer>
+        Invoice was created on a computer and is valid without the signature and seal.
+    </footer> --}}
+</body>
+<tr>
+
+</tr>
+
+</html>

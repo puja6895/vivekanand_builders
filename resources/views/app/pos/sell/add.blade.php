@@ -47,39 +47,101 @@
             
             <div class="card card-muted">
               <div class="card-header card-border">
-                <h3 class="card-title text-secondary">Add Sell </h3>
+                <button type="button" class="btn  btn-info" style="margin-bottom:10px !important;" data-toggle="modal" data-target="#myModal">
+                  Last Sells
+                </button>
               <a href="{{route('sell')}}"><button class="btn btn-info pull-right">Back</button></a>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-            <form  method="POST" action="{{route('sell.store')}}" >
-              @csrf
+            
               <div class="card-body">
-
+                {{-- Last Sell Modal --}}
+                <br>
+                <div class="modal fade" id="myModal">
+                  <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+          
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                              <h5 class="modal-title">Last Sells</h5>
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          </div>
+          
+                          <!-- Modal body -->
+                          {{-- <form action="add.php" method="post" enctype="multipart/form-data"> --}}
+                            <div class=row>
+                              <div class="table-responsive">
+                                  <table class="table table-borderless col-md-12" >
+                                    <thead>
+                                      <tr>
+                                        {{-- <th>Customer Name</th>
+                                        <th>Sell Date</th>
+                                        <th>Amount</th>
+                                        <th>Action</th> --}}
+                                        <th>Customer Name</th>
+                                        <th>Sell Date</th>
+                                        <th>Product Name</th>
+                                        <th>Quantity</th>
+                                        <th>Rate</th>
+                                        <th>GST%</th>
+                                        <th>Amount</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {{-- @foreach($sells as $sell) --}}
+                                      @foreach($sells->sell_products as $sell_product)
+                                      <tr>
+                                        <td>{{$sells->customer->customer_name}}</td>
+                                        <td>{{ \Carbon\Carbon::parse($sells->sell_date)->format('d-m-Y') }}
+                                        </td>
+                                        <td>{{ $sell_product->product->product_name }}</td>
+                                        <td>{{ $sell_product->quantity }}({{ $sell_product->unit_name }})
+                                        </td>
+                                        <td>{{ $sell_product->rate }}</td>
+                                        <td>{{ $sell_product->gst }}</td>
+                                        <td>{{ $sell_product->amount }}</td>
+                                        {{-- <td>{{$sell->customer->customer_name}}</td>
+                                        <td>{{\Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y')}}</td>
+                                        <td>{{$sell->total_amount}}</td>
+                                        <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id])}}"><button class="btn btn-sm btn-info">View</button></a></td> --}}
+                                      </tr>
+                                      @endforeach
+                                    </tbody>
+                                  </table>
+                              </div>
+                            </div>
+          
+                              <!-- Modal footer -->
+                              {{-- <div class="modal-footer form-signin">
+                                  <input type="submit" class="btn btn-success" value="Create" name="submit">
+                              </div> --}}
+                          {{-- </form> --}}
+          
+                      </div>
+                  </div>
+              </div>
+                <form  method="POST" action="{{route('sell.store')}}" >
+                  @csrf
+                
                 <div class="row">
                   {{-- Sell To Name --}}
                   <div class="col-md-6">
                     <div class="form-group {{ $errors->has('customer_id') ? ' has-error' : '' }}">
                       <label>Customer <span style="color: red;">*</span></label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
+                      {{-- <div class="input-group"> --}}
+                        {{-- <div class="input-group-prepend">
                           <label class="input-group-text" for="customer_id">
                               <i class="fa fa-user"></i>
                           </label>
-                        </div>
-                        <select required class="form-control" id="customer_id" name="customer_id">
+                        </div> --}}
+                        <select required class="form-control select2" id="customer_id" name="customer_id">
                           <option selected="" disabled="">Select Customer</option>
                           @foreach($customers as $customer)
                           <option value="{{$customer->customer_id}}">{{$customer->customer_name}}</option>
                           @endforeach
                         </select>
-
-                          {{-- @if ($errors->has('customer_id'))
-                          <span class="help-block">
-                              <strong>{{ $errors->first('customer_id') }}</strong>
-                          </span>
-                          @endif --}}
-                      </div>
+                      {{-- </div> --}}
                     </div>
                   </div>
 
@@ -88,12 +150,12 @@
                     <div class="form-group {{ $errors->has('sell_date') ? ' has-error' : '' }}">
                       <label>Sell Date <span style="color: red;">*</span></label>
                       <div class="input-group">
-                        <div class="input-group-prepend">
+                        {{-- <div class="input-group-prepend">
                           <label class="input-group-text" for="datepicker">
                             <i class="fa fa-calendar"></i>
                           </label>
-                        </div>
-                        <input type="text" name="sell_date" class="form-control datepicker list_date" id="datepicker" required="" placeholder="dd-mm-yyyy">
+                        </div> --}}
+                        <input type="text" name="sell_date" class="form-control datepicker list_date " id="datepicker" required="" placeholder="dd-mm-yyyy">
                         @if ($errors->has('sell_date'))
                         <span class="help-block">
                             <strong>{{ $errors->first('sell_date') }}</strong>
@@ -134,7 +196,7 @@
                     </div> --}}
 
                     <table class="table table-bordered col-md-12" id="">
-                      <thead><span>&#8377;</span>
+                      <thead>
                         <tr>
                           <th class="" style="width:20%">Product</th>
                           <th class="" style="width:10%">Unit</th>

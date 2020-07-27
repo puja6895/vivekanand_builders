@@ -35,7 +35,14 @@ Route::get('/sell/individual/{id}', 'SellController@individual')->name('sell.ind
 Route::get('/sell/individual_sell/{id}', 'SellController@individual_sell')->name('sell.individual_sell');
 Route::post('/sell/selected_date/{customer_id}', 'SellController@selected_date')->name('sell.selected_date');
 Route::get('/sell/edit/{id}', 'SellController@edit')->name('sell.edit');
+Route::post('/sell/update/', 'SellController@update')->name('sell.update');
 Route::get('/sell/destroy/{id}', 'SellController@destroy')->name('sell.destroy');
+
+// Set Default
+Route::get('/default_product', 'DefaultProductController@index')->name('default_products');
+Route::get('/default_product/add', 'DefaultProductController@create')->name('default_product.add');
+Route::post('/default_product/store', 'DefaultProductController@store')->name('default_product.store');
+Route::get('/default_product/edit/{id}', 'DefaultProductController@edit')->name('default_product.edit');
 
 
 //GST sell
@@ -95,6 +102,7 @@ Route::post('/inventory/store', 'InventoryController@store')->name('inventory.st
 //Invoice
 Route::get('/invoice', 'InvoiceController@index')->name('invoice');
 Route::get('/invoice/view/{bill_id}', 'InvoiceController@view')->name('invoice.view');
+Route::get('/invoice/destroy/{bill_id}', 'InvoiceController@destroy')->name('invoice.destroy');
 Route::get('/invoice/add', 'InvoiceController@add')->name('invoice.add');
 Route::post('/invoice/store', 'InvoiceController@store')->name('invoice.store');
 
@@ -129,4 +137,13 @@ Route::get('/lorry/edit/{id}', 'LorryController@edit')->name('lorry.edit');
 Route::post('/lorry/update', 'LorryController@update')->name('lorry.update');
 Route::get('/lorry/destroy/{id}', 'LorryController@destroy')->name('lorry.destroy');
 Route::get('/lorry/enable/{id}', 'LorryController@enable')->name('lorry.enable');
+
+//Admin
+Route::get('/admin', 'AdminController@index')->name('admins');
+Route::get('/admin/add', 'AdminController@create')->name('admin.add');
+Route::post('/admin/store', 'AdminController@store')->name('admin.store');
+Route::get('/admin/edit/{id}', 'AdminController@edit')->name('admin.edit');
+Route::post('/admin/update', 'AdminController@update')->name('admin.update');
+Route::get('/admin/destroy/{id}', 'AdminController@destroy')->name('admin.destroy');
+Route::get('/admin/enable/{id}', 'AdminController@enable')->name('admin.enable');
 
