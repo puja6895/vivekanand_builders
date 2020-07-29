@@ -15,7 +15,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Date Picker -->
-	<link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.min.css')}}">
+	<link rel="stylesheet" href="{{asset('/css/bootstrap-datepicker.min.css')}}">
   	<!-- Daterange picker -->
 	<link rel="stylesheet" href="{{asset('css/daterangepicker.css')}}">
     <!-- Theme style -->
@@ -371,15 +371,33 @@
                                 </p>
                             </a>
                         </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('lorries') }}"  class="nav-link @yield('Lorry')">
-                                <i class="nav-icon fa fa-tags"></i>
+                        <li class="nav-item has-treeview ">
+                            <a href="#" class="nav-link @yield('Lorry')">
+                                <i class="nav-icon fa fa-database"></i>
                                 <p>
                                     Lorry
-                                    {{-- <i class="right fa fa-angle-left"></i> --}}
+                                    <i class="fa fa-angle-left right"></i>
+                                    {{-- <span class="badge badge-info right">6</span> --}}
                                 </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('lorries') }}"
+                                        class="nav-link @yield('Lorry-Add Lorry')">
+                                        <i class="fa fa-circle-thin nav-icon"></i>
+                                        <p>Add Lorry</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('lorry_reports')}}"
+                                        class="nav-link @yield('Lorry-Lorry Report')">
+                                        <i class="fa fa-circle-thin nav-icon"></i>
+                                        <p>Lorry Report</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="nav-item has-treeview ">
@@ -498,7 +516,8 @@
     $('.datepicker').datepicker({
       format: 'dd-mm-yyyy',
       autoclose: true,
-      todayHighlight: true
+      todayHighlight: true,
+      'setDate': new Date()
     })
   })
 

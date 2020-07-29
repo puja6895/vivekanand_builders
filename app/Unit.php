@@ -14,5 +14,7 @@ class Unit extends Model
     public function inventory() {
 		return $this->hasMany('App\Inventory','unit_id');
   }
-
+  public function default_product() {
+		return $this->belongsTo('App\Default_Product','defult_id','defult_id');
+  }
 }

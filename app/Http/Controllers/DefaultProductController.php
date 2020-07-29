@@ -97,16 +97,17 @@ class DefaultProductController extends Controller
      * @param  \App\Default_Product  $default_Product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Default_Product $default_Product,$id)
+    public function edit(Default_Product $default_Product,$default_id)
     {
         //
         
-            $default_product=Default_Product::find($id);
-
+        $default_product=Default_Product::where('default_id',$default_id)->first();
+        
+        // dd($default_product[0]->sell_price);
             if($default_product){
                 $products=Product::all();
                 $units = Unit::all();
-                return view::make('app.product.edit')->with(['products'=>$products,'units'=>$units]);
+                return view::make('app.set_default.edit')->with(['default_product'=>$default_product,'products'=>$products,'units'=>$units]);
             }else {
                 return back()->with('error','Invalid id');
             }
@@ -122,6 +123,49 @@ class DefaultProductController extends Controller
     public function update(Request $request, Default_Product $default_Product)
     {
         //
+        $this->validate($request, [
+			'default_id' => 'required|exists:default__products,default_id',
+			'sell_price' => 'required',
+			'purchase_price' => 'required',
+		]);
+
+        // dd($request->default_id);
+        try {
+			DB::beginTransaction();
+
+			// $default_product = Default_Product::where('default_id', $request->default_id)->first();
+            //  dd($default_product);
+			// if ($default_product) {
+                // update Prce
+                // $default_product = Default_Product::where('default_id',$request->default_id)->get();
+                
+				// $default_product->purchase_price = $request->purchase_price;
+                // dd($default_product->purchase_price);
+				// $default_product->sell_price = $request->sell_price;
+				// $default_product->save();
+                // dd($default_product);
+
+				// DB::commit();
+				// Return To Listing Page
+				// return redirect()->route('default_products')->with('success', 'Default Product Sell SuccessFully Updated.');
+
+			// } else {
+
+			// 	DB::rollBack();
+			// 	return back()->with('error', 'Invalid Product Sell.')->withInput();
+
+            // }
+            
+            $update = DB::table('default__products')
+                          ->where('default_id',$request->default_id)
+                          ->update(['sell_price'=>$request->sell_price,'purchase_price'=>$request->purchase_price]);
+
+            DB::commit();              
+            return redirect()->route('default_products')->with('success', 'Default Product Sell Successfully Updated.');
+		} catch (Exception $e) {
+			DB::rollBack();
+			return back()->with('error', $e->getMessage())->withInput();
+		}
     }
 
     /**
@@ -130,8 +174,35 @@ class DefaultProductController extends Controller
      * @param  \App\Default_Product  $default_Product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Default_Product $default_Product)
+    public function destroy(Default_Product $default_Product,$id)
     {
         //
+        try{
+            //DB Transaction Begin
+            DB:: beginTransaction();
+            $default_Product=Default_Product::where('default_id',$id);
+
+            if($default_Product){
+                $default_Product->delete();
+                // $default_Product->save();
+
+                DB::commit();
+                return redirect()->route('default_products')->with('success','Default Product deleted');
+            }else{
+                return back()->with('error','Invalid unit Id');
+            }    
+
+        }catch(Exception $exception){
+                DB::rollBack();
+                return back()->with('error',$exception->getMessage())->withInput();
+            }
     }
+
+    // Default Product
+    public function getDefault($product_id) {
+        $default_price = Default_Product::where('product_id', $product_id)->first();
+		// dd($default_price->unit->first()->unit_name);
+
+		return response()->json(['unit_name' => $default_price ? $default_price->unit->first()->unit_name : 'Unit', 'unit_id' => $default_price ? $default_price->unit->first()->unit_id : '', 'sell_price' => $default_price ? $default_price->sell_price : 0, 'purchase_price' => $default_price ? $default_price->purchase_price : 0 ]);
+	}
 }

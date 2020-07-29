@@ -68,6 +68,7 @@ class PurchaseController extends Controller
             $product_id = $request->product_id;
             $unit_id = $request->unit_id;
             $rate = $request->rate;
+            // dd($rate);
             $quantity = $request->quantity;
             $gst = $request->gst;
             $product_name = $request->product_name;

@@ -35,6 +35,12 @@
           <!-- left column -->
           <div class="col-md-12">
             <!-- jquery validation -->
+            @if (Session::get('success'))
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>Success!</strong> {{Session::get('success')}}
+            </div>
+          @endif
             @foreach ($errors->all() as $error)
                 @if ($error)
                     <div class="alert alert-danger alert-dismissible" role="alert">

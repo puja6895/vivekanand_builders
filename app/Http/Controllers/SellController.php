@@ -529,21 +529,15 @@ class SellController extends Controller
 
     public function gstindex(){
         
-        $sells = DB::table('sells')
-                    ->join('sell_products', 'sell_products.sell_id', '=' , 'sells.sell_id')
-                    ->join('customers' ,'sells.customer_id', '=' ,'customers.customer_id')
-                    ->where('gst' , '>' ,0)
-                    ->select('customers.customer_name','sells.customer_id','sells.sell_id','sells.sell_date' ,'sells.total_amount','sells.status')
-                    ->orderBy('sell_date', 'desc')
-                    ->get();
-                // dd($sells[0]);
-                    return view::make('app.pos.GST sell.list')->with('sells',$sells);
+       
+        return view::make('app.pos.GST sell.list')->with('sells',$sells);
+
     }
 
     public function gstcreate()
     {
         //
-        $customers=Customer::all();
+        $customers=Customer::where('isDeleted',0);
         // $customers = Customer::where('customer_status', 1)->orderBy('customer_name')->get();
 
         $products = Product::all();

@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     var counter = 0;
     $("#js_error").text();
@@ -7,7 +7,7 @@ $(document).ready(function() {
     // var totalGst = 0;
     // var grandTotal = 0;
 
-    $("#addrow").on("click", function() {
+    $("#addrow").on("click", function () {
 
         $("#js_error_panel").hide();
 
@@ -23,7 +23,14 @@ $(document).ready(function() {
 
         cols += '<td "><input readonly class="form-control" type="number" name="quantity[]" value="' + $('#quantity0').val() + '" required></td>';
 
-        cols += '<td style="width:10rem"><div class="input-group"><span class="input-group-prepend"><label class="input-group-text"><span style="font-size: 17px;">&#8377;</span></label></span><input readonly type="text" class="form-control" name="rate[]" required value="' + $('#rate0').val() + '"></div></td>';
+        if($('#rate0').val()===undefined){
+
+            cols += '<td style="width:10rem"><div class="input-group"><span class="input-group-prepend"><label class="input-group-text"><span style="font-size: 17px;">&#8377;</span></label></span><input readonly type="text" class="form-control" name="rate[]" required value="' + $('#rate1').val() + '"></div></td>';
+            
+        }else{
+
+            cols += '<td style="width:10rem"><div class="input-group"><span class="input-group-prepend"><label class="input-group-text"><span style="font-size: 17px;">&#8377;</span></label></span><input readonly type="text" class="form-control" name="rate[]" required value="' + $('#rate0').val() + '"></div></td>';
+        }
 
         cols += '<td ><div class="input-group"><input readonly type="text" class="form-control" name="gst[]" required value="' + $('#gst0').val() + '"><span class="input-group-prepend"><label class="input-group-text"><i class="fa fa-percent"></i></label></span></div></td>';
 
@@ -61,7 +68,7 @@ $(document).ready(function() {
 
 
 
-    $("#purchaseTable").on("click", ".ibtnDel", function(event) {
+    $("#purchaseTable").on("click", ".ibtnDel", function (event) {
         $(this).closest("tr").remove();
         counter -= 1
     });
@@ -77,26 +84,37 @@ function setDefault() {
     var product_id = $('#product_id0').children("option:selected").val();
     var unit_id = $('#unit_id0').children("option:selected").val();
     $(".loading").show();
+
     $.ajax({
         type: "GET",
-        url: '/product/default/' + product_id,
+        url: '/default_product/' + product_id,
         dataType: 'json',
-        success: function(response) {
+        success: function (response) {
             // console.log(response);
             $(".loading").hide();
-            $("#unit_id0").val(response.unit_id).change();
-            $("#unit_id0").attr('disabled', true);
-            $('#rate0').val(response.sell_price);
-            $('#gst0').val(response.gst ? response.gst : 0);
-            $('#quantity0').val(1);
-            $("#quantity0").attr({
-                "max": parseInt(response.stock), // substitute your own
-                "min": 1 // values (or variables) here
-            });
-            $('#available_stock').text(parseInt(response.stock));
+            $("#unit_id0").val(response.unit_name).change();
+            console.log(response.unit_name);
+            // $("#unit_id0").attr('disabled', true);
+            // $('#rate0').val(response.sell_price);
+            if ($('#rate0').val() === undefined) {
+                $('#rate1').val(response.purchase_price);
+                var total = (parseInt(response.purchase_price) * parseInt($('#quantity0').val()));
 
-            var total = parseInt(response.purchase_price) + ((parseInt(response.gst) / 100) * parseInt(response.purchase_price));
-            $('#total0').val($.isNumeric(total) ? total : 0);
+            } else {
+                $('#rate0').val(response.sell_price);
+                var total = (parseInt(response.sell_price) * parseInt($('#quantity0').val()));
+            }
+            // $('#gst0').val(response.gst ? response.gst : 0);
+            // $('#quantity0').val(1);
+            // $("#quantity0").attr({
+            //     "max": parseInt(response.stock), // substitute your own
+            //     "min": 1 // values (or variables) here
+            // });
+            // $('#available_stock').text(parseInt(response.stock));
+
+
+            var final_total = total + ((total) * (parseInt($('#gst0').val()) / 100));
+            $('#total0').val($.isNumeric(final_total) ? final_total : 0);
 
 
         }
@@ -105,7 +123,14 @@ function setDefault() {
 }
 
 function calculateTotal() {
-    var rate = $('#rate0').val();
+    if ($('#rate0').val() === undefined) {
+
+        var rate = $('#rate1').val();
+
+    }else{
+
+        var rate = $('#rate0').val();
+    }
     var gst = $('#gst0').val();
     var quant = $('#quantity0').val();
     var total = (parseInt(rate) + ((parseInt(gst) / 100) * parseInt(rate))) * parseInt(quant);
@@ -119,7 +144,7 @@ function calculateRow(row) {
 
 function calculateGrandTotal() {
     var grandTotal = 0;
-    $("table.order-list").find('input[name^="price"]').each(function() {
+    $("table.order-list").find('input[name^="price"]').each(function () {
         grandTotal += +$(this).val();
     });
     $("#grandtotal").text(grandTotal.toFixed(2));

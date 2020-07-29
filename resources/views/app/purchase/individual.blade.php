@@ -111,7 +111,7 @@
                             {{-- <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id])}}">{{$sell->sell_id}}</td> --}}
                             <td>{{\Carbon\Carbon::parse($purchase->purchase_date)->format('d-m-Y')}}</td>
                             <td>{{$purchase_product->product->product_name}}</td>
-                            <td>{{$purchase_product->quantity}}({{$purchase_product->unit->unit_name}})</td>
+                            <td>{{$purchase_product->quantity}}({{$purchase_product->unit_id}})</td>
                             <td>{{$purchase_product->rate}}</td>
                             <td>{{$purchase_product->gst}}</td>
                             <td>{{$purchase_product->amount}}</td>

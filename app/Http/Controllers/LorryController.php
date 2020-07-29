@@ -87,8 +87,8 @@ class LorryController extends Controller
     {
         //
         // dd($id);
-        $result= Lorry::find($id);
-        dd($result);
+        $result= Lorry::where('lorry_id',$id)->first();
+        // dd($result);
 
         if($result){
             
@@ -120,12 +120,12 @@ class LorryController extends Controller
             //DB Transection
             DB::beginTransaction();
 
-            $lorry = Lorry::find($request->lorry_id);
-            $lorry->lorry_id=$request->lorry_no;
-            $ulorrynit->save();
-
+         // $lorry = Lorry::where('lorry_id',$request->lorry_id);
+           $lorry_update = DB::table('lorries')
+                               ->where('lorry_id',$request->lorry_id)
+                               ->update(['lorry_no'=>$request->lorry_no]); 
             DB::commit();
-            return redirect()->route('lorryies')->with('success','Lorry Updated');
+            return redirect()->route('lorries')->with('success','Lorry Updated');
             
         }catch(Exception $exception){
             DB::rollBack();
@@ -140,8 +140,27 @@ class LorryController extends Controller
      * @param  \App\Lorry  $lorry
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lorry $lorry)
+    public function destroy(Lorry $lorry,$id)
     {
         //
+        try{
+            //DB Transaction Begin
+            DB:: beginTransaction();
+            $lorry=Lorry::where('lorry_id',$id);
+
+            if($lorry){
+                $lorry->delete();
+                // $default_Product->save();
+
+                DB::commit();
+                return redirect()->route('lorries')->with('success','Lorry Deleted');
+            }else{
+                return back()->with('error','Invalid unit Id');
+            }    
+
+        }catch(Exception $exception){
+                DB::rollBack();
+                return back()->with('error',$exception->getMessage())->withInput();
+            }
     }
 }

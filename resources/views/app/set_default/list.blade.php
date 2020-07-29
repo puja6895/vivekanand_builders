@@ -82,10 +82,14 @@
           <tr>
              
               <td>{{$default_product->product->product_name}}</td>
-              <td>{{$default_product->unit->unit_name}}</td>
+              <td>{{$default_product->unit->first()->unit_name}}</td>
               <td><span><b><span>&#8377;</b></span> {{$default_product->sell_price}}</td>
               <td><span><b><span>&#8377;</b></span> {{$default_product->purchase_price}}</td>
-              <td><a href="{{route('default_product.edit',['id'=>$default_product->default_product_id])}}"><button class="btn btn-sm btn-info">Edit</button></a></td>
+              <td>
+                <a href="{{route('default_product.edit',['default_id'=>$default_product->default_id])}}"><button class="btn btn-sm btn-info">Edit</button></a>
+                <a href="{{route('default_product.destroy',['default_id'=>$default_product->default_id])}}"><button class="btn btn-sm btn-danger">Delete</button></a>
+
+              </td>
           </tr>
          @endforeach
         </tbody>

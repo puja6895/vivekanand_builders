@@ -8,7 +8,7 @@ class Default_Product extends Model
 {
     //
     protected $table = 'default__products';
-    protected $primarykey = 'default_product_id';
+    protected $primarykey = 'default_id';
 
     // Product
 	public function product() {
@@ -17,6 +17,6 @@ class Default_Product extends Model
 
 	// Unit
 	public function unit() {
-		return $this->belongsTo('App\Unit', 'unit_id', 'unit_id');
+		return $this->hasMany('App\Unit', 'unit_id', 'unit_id');
 	}
 }

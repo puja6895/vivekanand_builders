@@ -42,7 +42,10 @@ Route::get('/sell/destroy/{id}', 'SellController@destroy')->name('sell.destroy')
 Route::get('/default_product', 'DefaultProductController@index')->name('default_products');
 Route::get('/default_product/add', 'DefaultProductController@create')->name('default_product.add');
 Route::post('/default_product/store', 'DefaultProductController@store')->name('default_product.store');
-Route::get('/default_product/edit/{id}', 'DefaultProductController@edit')->name('default_product.edit');
+Route::get('/default_product/edit/{default_id}', 'DefaultProductController@edit')->name('default_product.edit');
+Route::post('/default_product/update', 'DefaultProductController@update')->name('default_product.update');
+Route::get('/default_product/destroy/{default_id}', 'DefaultProductController@destroy')->name('default_product.destroy');
+Route::get('/default_product/{product_id}', 'DefaultProductController@getDefault')->name('default_product.set');
 
 
 //GST sell
@@ -137,6 +140,11 @@ Route::get('/lorry/edit/{id}', 'LorryController@edit')->name('lorry.edit');
 Route::post('/lorry/update', 'LorryController@update')->name('lorry.update');
 Route::get('/lorry/destroy/{id}', 'LorryController@destroy')->name('lorry.destroy');
 Route::get('/lorry/enable/{id}', 'LorryController@enable')->name('lorry.enable');
+
+// Lorry Report
+Route::get('/lorry_report', 'LorryReportController@index')->name('lorry_reports');
+Route::get('/lorry_report/add', 'LorryReportController@create')->name('lorry_report.add');
+Route::post('/lorry_report/store', 'LorryReportController@store')->name('lorry_report.store');
 
 //Admin
 Route::get('/admin', 'AdminController@index')->name('admins');

@@ -35,6 +35,12 @@
           <!-- left column -->
           <div class="col-md-12">
             <!-- jquery validation -->
+            @if (Session::get('success'))
+              <div class="alert alert-success alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert">×</button>
+                  <strong>Success!</strong> {{Session::get('success')}}
+              </div>
+            @endif
             @foreach ($errors->all() as $error)
                 @if ($error)
                     <div class="alert alert-danger alert-dismissible" role="alert">
@@ -61,13 +67,13 @@
                   <div class="col-md-6">
                     <div class="form-group {{ $errors->has('purchaser_id') ? ' has-error' : '' }}">
                       <label>Purchaser Name <span style="color: red;">*</span></label>
-                      <div class="input-group">
+                      {{-- <div class="input-group">
                         <div class="input-group-prepend">
                           <label class="input-group-text" for="purchaser_id">
                               <i class="fa fa-user"></i>
                           </label>
-                        </div>
-                        <select required class="form-control" id="customer_id" name="purchaser_id">
+                        </div> --}}
+                        <select required class="form-control select2" id="customer_id" name="purchaser_id">
                           <option selected="" disabled="">Select Purchaser</option>
                           @foreach($purchasers as $purchaser)
                           <option value="{{$purchaser->purchaser_id}}">{{$purchaser->purchaser_name}}</option>
@@ -79,7 +85,7 @@
                               <strong>{{ $errors->first('customer_id') }}</strong>
                           </span>
                           @endif --}}
-                      </div>
+                      {{-- </div> --}}
                     </div>
                   </div>
 
@@ -87,19 +93,19 @@
                   <div class="col-md-6">
                     <div class="form-group {{ $errors->has('purchase_date') ? ' has-error' : '' }}">
                       <label>Purchase Date <span style="color: red;">*</span></label>
-                      <div class="input-group">
+                      {{-- <div class="input-group">
                         <div class="input-group-prepend">
                           <label class="input-group-text" for="datepicker">
                             <i class="fa fa-calendar"></i>
                           </label>
-                        </div>
+                        </div> --}}
                         <input type="text" name="purchase_date" class="form-control datepicker list_date" id="datepicker" required="" placeholder="dd-mm-yyyy">
                         @if ($errors->has('purchase_date'))
                         <span class="help-block">
                             <strong>{{ $errors->first('purchase_date') }}</strong>
                         </span>
                         @endif
-                      </div>
+                      {{-- </div> --}}
                     </div>
                   </div>
                 </div>
@@ -159,7 +165,7 @@
                             <select required name="unit_id0" id="unit_id0" class="form-control select2" >
                               <option value="0"> Unit </option>
                               @foreach($units as $unit)
-                                <option value="{{$unit->unit_id}}">{{$unit->unit_name}}</option>
+                                <option value="{{$unit->unit_name}}">{{$unit->unit_name}}</option>
                               @endforeach
                             </select>
                           </td>
@@ -174,7 +180,7 @@
                                    <i class="fa fa-inr"></i>
                                  </label>
                                </span>
-                               <input type="text" class="form-control" name="rate0" id="rate0" onchange="calculateTotal()" required value="0">
+                               <input type="text" class="form-control" name="rate0" id="rate1" onchange="calculateTotal()" required value="0">
                              </div>
                          </td>
                           <td class="">
@@ -191,7 +197,7 @@
                             <div class="input-group">
                                 <span class="input-group-prepend">
                                   <label for="total0" class="input-group-text">
-                                    <i class="fa fa-inr"></i>
+                                    <span style="font-size: 17px;">&#8377;</span>
                                   </label>
                                 </span>
                                 <input type="text" class="form-control" name="total0" id="total0" readonly value="0">

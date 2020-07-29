@@ -85,7 +85,7 @@
                         <label for="exampleInputEmail1">Sell Price Per Unit
                             <span style="color: red;">*</span>
                         </label>
-                        <input type="text" name="sell_price" required class="form-control  {{$errors->has('product_name') ? 'is-invalid' : ''}}" id="customer_name" placeholder="Enter Product" value="{{ old('unit_name')}}">
+                        <input type="text" name="sell_price" required class="form-control  {{$errors->has('product_name') ? 'is-invalid' : ''}}" id="sell_price" placeholder="Enter Price" value="{{ old('sell_price')}}">
                         {{-- Error handling --}}
                         {{-- @if($errors->has('customer_name'))
                             <span class="text-danger">{{$errors->first('customer_name')}}</span>
@@ -97,7 +97,7 @@
                         <label for="exampleInputEmail1">Purchase Price Per Unit
                             <span style="color: red;">*</span>
                         </label>
-                        <input type="text" name="purchase_price" required class="form-control  {{$errors->has('product_name') ? 'is-invalid' : ''}}" id="customer_name" placeholder="Enter Product" value="{{ old('unit_name')}}">
+                        <input type="text" name="purchase_price" required class="form-control  {{$errors->has('product_name') ? 'is-invalid' : ''}}" id="purchase_price" placeholder="Enter Price" value="{{ old('purchase_price')}}">
                         {{-- Error handling --}}
                         {{-- @if($errors->has('customer_name'))
                             <span class="text-danger">{{$errors->first('customer_name')}}</span>
