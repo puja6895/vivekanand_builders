@@ -189,7 +189,7 @@ class DefaultProductController extends Controller
                 DB::commit();
                 return redirect()->route('default_products')->with('success','Default Product deleted');
             }else{
-                return back()->with('error','Invalid unit Id');
+                return back()->with('error','Invalid Default Product Id');
             }    
 
         }catch(Exception $exception){

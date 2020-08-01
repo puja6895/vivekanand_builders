@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Customer;
 use App\Sell;
+use App\Sell_Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use DB;
@@ -209,5 +210,12 @@ class CustomerController extends Controller
             return back()->with('error',$exception->getMessage())->withInput();
         }
 
+    }
+
+    public function list(){
+
+        $lists =DB::select( DB::raw('select customers.customer_id,customers.customer_name,sum(sells.total_amount) as total_amount,total_payment from customers inner join sells on customers.customer_id=sells.customer_id left join (select customer_id,sum(pay_received) as total_payment from sell_payAmounts group by customer_id)sell_payAmounts on sell_payAmounts.customer_id=customers.customer_id where isDeleted = 0 group by customer_id'));
+        // dd($list);
+        return view::make('app.customer.customer_list')->with(['lists'=>$lists]);
     }
 }

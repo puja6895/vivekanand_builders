@@ -48,7 +48,7 @@
             </div>
           @endif
           {{-- List Of Selected Date --}}
-          <form action="{{route('sell.selected_date',['customer_id'=>$customer->customer_id])}}" method="POST">
+          <form action="" method="POST">
             @csrf
             <div class="row">
               <div class="col-md-6">
@@ -104,18 +104,19 @@
                       </tr>
                       </thead>
                       <tbody>
-                      @foreach($sells as $sell)  
+                      @foreach($gstsells as $gstsell)  
+                      @foreach($gstsell->gstsell_products as $gstsell_product)
                          <tr>
                             {{-- <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id])}}">{{$sell->sell_id}}</td> --}}
-                            <td>{{\Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y')}}</td>
-                            <td>{{$sell->product_name}}</td>
-                            <td>{{$sell->quantity}}({{$sell->unit_name}})</td>
-                            <td>{{$sell->rate}}</td>
-                            <td>{{$sell->gst}}</td>
-                            <td>{{$sell->amount}}</td> 
+                            <td>{{\Carbon\Carbon::parse($gstsell->sell_date)->format('d-m-Y')}}</td>
+                            <td>{{$gstsell_product->product->product_name }}</td>
+                            <td>{{$gstsell_product->quantity}}({{$gstsell_product->unit_name}})</td>
+                            <td>{{$gstsell_product->rate}}</td>
+                            <td>{{$gstsell_product->gst}}</td>
+                            <td>{{$gstsell_product->amount}}</td> 
                            
-                        <tr>
-                          {{-- @endforeach  --}}
+                          </tr>
+                          @endforeach
                           @endforeach
                         <tfoot>
                           <tr>
@@ -159,15 +160,15 @@
                       <thead>
                       <tr>
                       <th>Grand Total </th>
-                      <th>{{$grand_total}}</th>
+                      <th></th>
                       </tr>
                       <tr>
                       <th>Payment Received</th>
-                      <th>{{$payment}}</th>
+                      <th></th>
                       </tr>
                       <tr>
                         <th>Balance</th>
-                        <th>{{$grand_total-$payment}}</th>
+                        <th></th>
                         </tr>
                       </thead>
                     </table>

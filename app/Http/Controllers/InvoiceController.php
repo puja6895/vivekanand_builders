@@ -21,7 +21,7 @@ class InvoiceController extends Controller
 
     //
     public function add(){
-        $customers = Customer::all();
+        $customers = Customer::where('isDeleted',0)->get();
         $admins = Admin::where('isDeleted',0)->get();
         // dd($admins);
         return view:: make('app.invoice.add')->with(['customers'=>$customers,'admins'=>$admins]);
@@ -57,11 +57,11 @@ class InvoiceController extends Controller
                 // $previous_bill = BillDetail::where('customer_id',$customer_id)
                 //                             ->whereDate('to_date' , '<' , $from_date)
                 //                             ->orderBy('to_date','desc');
-
+                // dd($customer_id,$from_date,$to_date);
                 $sell_query = Sell ::where('customer_id',$customer_id)
                                        ->whereBetween('sell_date',array($from_date,$to_date))
                                        ->orderBy('sell_date','asc');
-
+                
                 $payment_query = Payment::where('customer_id',$customer_id)
                                        ->whereBetween('pay_date',array($from_date , $to_date)) 
                                        ->where('status', 0)
@@ -69,11 +69,13 @@ class InvoiceController extends Controller
                                        
                
                 $sells = $sell_query->get();
+                // dd($sells);
                 $payments = $payment_query->get();
                 $sum_payments  = $payment_query->sum('pay_received');
                 // dd($sum_payments);
 
                 $sell_amount = $sell_query->sum('total_amount');
+                // dd($sell_amount);
                 $payment_amount = $payment_query->sum('pay_received');
 
                 $previous_bill_detail = BillDetail::where('customer_id',$customer_id)->whereDate('from_date' ,'<',$from_date)
@@ -140,7 +142,7 @@ class InvoiceController extends Controller
                                       
                 
                 DB::commit();
-
+                // dd($sells);
                 $pdf = PDF::loadView('app.invoice.invoice',['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill,'due_amount'=>$due_amount,'bill_no'=>$nextinvioce_number,'date'=>$current_date,'current_bill'=>$current_bill,'sum_payments'=>$sum_payments])->setPaper('a4');
                 return $pdf->stream($nextinvioce_number);
                 // dd($previous_bill->first());

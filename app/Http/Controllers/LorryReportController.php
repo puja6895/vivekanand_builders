@@ -87,7 +87,7 @@ class LorryReportController extends Controller
             $lorry_report->weight = $weight;
             $lorry_report->rate = $rate;
             $lorry_report->amount = $amount;
-            $lorry_report->advance_amount = $advance_amount;
+            $lorry_report->advance_amount = $request->advance_amount;
             $lorry_report->save();
 
             DB::commit();

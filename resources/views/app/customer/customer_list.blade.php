@@ -1,14 +1,15 @@
 @extends('layouts.home')
+@section('title','Clients List')
 
-@section('title','GST Sales')
+@section('Clients')
+    active    
+@endsection
 
-@section('GST Sell')
+@section('Clients Clients List')
     active    
 @endsection
 
 @section('content')
-{{-- {{print_r($sells)}}
-              {{dd()}} --}}
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -16,12 +17,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h3>Sales</h3>
+            <h3>Customers List</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-            <li class="breadcrumb-item active">Sales</li>
+            <li class="breadcrumb-item active">Customers</li>
             {{-- <li class="breadcrumb-item"><a href="#">Layout</a></li> --}}
             </ol>
           </div>
@@ -49,57 +50,45 @@
           @endif
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title text-secondary mr-4">Sales</h3>
-                <a href="{{route('gstpayment.add')}}" class="pull-right">
-                  <button class="btn btn-success"><b>Add Payment</b></button>
-                </a>
-                <a href="{{route('gst_sell.add')}}" class="pull-right">
-                    <button class="btn btn-info mr-3"><b>Add New+</b></button>
-                </a>
-                <input type="text" name="date" id="datepicker" class="form-inline datepicker list_date" placeholder="Select Date...">
+                <h3 class="card-title text-secondary">Customers</h3>
+              {{-- <a href="{{route('category.add')}}" class="pull-right">
+                  <button class="btn btn-info"><b>Add New+</b></button>
+              </a> --}}
               </div>
                 <!-- /.card-header -->
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table id="example2" class="table table-bordered table-striped table-hover">
+                    <table id="example1" class="table table-bordered table-striped table-hover ">
                       <thead>
                       <tr>
                         <th>Customer Name</th>
-                        <th>Sell Id</th>
-                        <th>Sell Date</th>
-                        <th>Amount</th>
-                        <th>Status</th>
+                        <th>Total Amount</th>
+                        <th>Total Payment</th>
+                        <th>Due Amount</th>
+                        <th>Action</th>
                       </tr>
                       </thead>
                       <tbody>
-                         @foreach($gstsells as $gstsell)
+                        @foreach($lists as $list)
                           <tr>
-                            <td> <a href="{{route('gst_sell.individual',['id'=>$gstsell->customer_id])}}">{{$gstsell->customer->customer_name }}</a></td> 
-                            <td><a href="{{route('sell.individual_sell',['id'=>$gstsell->id])}}">{{$gstsell->id}}</td>
-                            <td>{{\Carbon\Carbon::parse($gstsell->sell_date)->format('d-m-Y')}}</td>
-                            <td>{{$gstsell->total_amount}}</td>
-                            @if($gstsell->status==0)
+                            <td>{{ $list->customer_name}}</td>
+                            <td><span style="font-size: 17px;">&#8377;</span> {{ $list->total_amount}}</td>
+                            <td><span style="font-size: 17px;">&#8377;</span> {{ $list->total_payment == NULL ? 0:$list->total_payment}}</td>
+                            <td><span style="font-size: 17px;">&#8377;</span> {{ $list->total_payment == NULL ? $list->total_amount - 0: $list->total_amount - $list->total_payment}}</td>
                             <td>
-                              <span class="badge badge-warning">Not Billed</span>
+                                <a href="{{route('sell.individual',[$list->customer_id])}}"><button class="btn btn-sm btn-info">View</button></a>
                             </td>
-                            @else
-                            <td>
-                              <span class="badge badge-success">Billed</span>
-                            </td>
-                            @endif
                           </tr>
-                        @endforeach 
-
+                        @endforeach                      
                       </tbody>
                       <tfoot>
-                        <tr>
-                          <th>Customer Name</th>
-                          <th>Sell Id</th>
-                          <th>Sell Date</th>
-                          <th>Amount</th>
-                          <th>Status</th>
-                          {{-- <th>Total Amount</th> --}}
-                        </tr>
+                      <tr>
+                        <th>Customer Name</th>
+                        <th>Total Amount</th>
+                        <th>Total Payment</th>
+                        <th>Due Amount</th>
+                        <th>Action</th>
+                      </tr>
                       </tfoot>
                     </table>
                   </div>
@@ -115,3 +104,5 @@
 </div>
   <!-- /.content-wrapper -->
 @endsection
+     
+ 

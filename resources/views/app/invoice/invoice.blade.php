@@ -163,8 +163,8 @@
         </div>
         <div id="project">
             {{-- <div><span>PROJECT</span> Website development</div> --}}
-            <div><span>CLIENT</span> {{ $sells[0]->customer->customer_name }}</div>
-            <div><span>ADDRESS</span> {{ $sells[0]->customer->customer_address }}</div>
+            <div><span>CLIENT</span> <span>{{ $sells->first()->customer->customer_name }}</span> </div>
+            <div><span>ADDRESS</span> {{ $sells->first()->customer->customer_address }} </div>
             {{-- <div><span>EMAIL</span> <a href="mailto:john@example.com">john@example.com</a></div>
         <div><span>DATE</span> August 17, 2015</div>
         <div><span>DUE DATE</span> September 17, 2015</div> --}}
@@ -183,6 +183,7 @@
             </thead>
             <tbody>
                 @foreach($sells as $sell)
+                {{-- {{dd($sells)}} --}}
                     @foreach($sell->sell_products as $sell_product)
                         <tr>
                             <td>
@@ -209,6 +210,8 @@
             </tbody>
         </table>
         @if(!empty($previous_bill))
+        {{-- {{dd($previous_bill->due_amount )}} --}}
+        @if($previous_bill->due_amount != 0)
             <hr>
             <p style=" padding: 10px; font-size: 0.9em; ">
                 <b>PREVIOUS BILL DETAILS : </b>
@@ -245,6 +248,7 @@
                     </tr>
                 </tbody>
             </table>
+        @endif
         @endif
         @if(count($payments)>0)
             <hr>

@@ -22,7 +22,7 @@ class PaymentController extends Controller
     }
     public function create(){
         $bill_details = Billdetail::all();
-        $customers = Customer::all();
+        $customers = Customer::where('isDeleted',0)->get();
         return view :: make('app.payment.add')->with(['customers'=>$customers ,'bill_details'=>$bill_details]);
     }
 
@@ -79,11 +79,35 @@ class PaymentController extends Controller
             DB::commit();
                 return redirect()->route('payment.add')->with('success','Payment Added');
 
-            }catch(Exception $exception){
+        }catch(Exception $exception){
+            DB::rollBack();
+            return back()->with('error',$exception->getMessage())->withInput();
+
+        }   
+
+    }
+
+    public function destroy($id)
+    {
+        //
+        try{
+            //DB Transaction Begin
+            DB:: beginTransaction();
+            $payment=Payment::where('pay_amount_id',$id);
+
+            if($payment){
+                $payment->delete();
+                // $default_Product->save();
+
+                DB::commit();
+                return redirect()->route('payments')->with('success','Payment Deleted');
+            }else{
+                return back()->with('error','Invalid Payment');
+            }    
+
+        }catch(Exception $exception){
                 DB::rollBack();
                 return back()->with('error',$exception->getMessage())->withInput();
-    
-            }   
-
+            }
     }
 }

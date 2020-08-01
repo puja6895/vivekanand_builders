@@ -52,6 +52,7 @@
             <div class="card">
     <div class="card-header">
       <h3 class="card-title text-success text-bold">Active Customers</h3>
+      
     <a href="{{route('customer.add')}}" class="pull-right">
         <button class="btn btn-info"><b>Add New+</b></button>
     </a>

@@ -48,7 +48,7 @@
             <div class="card card-muted">
               <div class="card-header card-border">
                 <h3 class="card-title text-secondary">Add Sell </h3>
-              <a href="{{route('sell')}}"><button class="btn btn-info pull-right">Back</button></a>
+              <a href="{{route('gst_sell')}}"><button class="btn btn-info pull-right">Back</button></a>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
@@ -261,7 +261,7 @@
 
               <div class="card-footer">
                 <button type="submit" class="btn btn-success"> <i class="fa fa-save"></i> Save</button>
-                <a href=""><button type="button" class="btn btn-primary"> <i class="fa fa-times"></i> Cancel</button></a>
+                <a href="{{route('gst_sell')}}"><button type="button" class="btn btn-primary"> <i class="fa fa-times"></i> Cancel</button></a>
               </div>
               </form>
             </div>

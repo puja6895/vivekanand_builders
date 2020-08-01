@@ -20,6 +20,7 @@
             {{($sell->customer->customer_name)}}
             <small class="text-secondary" style="font-size:1rem">(Sell Id -> {{$sell->sell_id}})</small>
             <h3>
+              
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -51,17 +52,19 @@
                 <strong>Error!</strong> {{Session::get('error')}}
             </div>
           @endif
+          <a href="{{route('sell')}}" >
+            <button
+            onclick="window.history.go(-1); return false;"
+            class="btn "><i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </button>
+          </a><br>
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title text-secondary">Sales Detail</h3>
-              <a href="{{route('sell')}}" class="pull-right">
-                <input
-                action="action"
-                onclick="window.history.go(-1); return false;"
-                type="submit"
-                value="Back"
-                class="btbn btn-info pull-right">
-              </a>
+              
+              <a href="{{route('sell.destroy',[$sell->sell_id])}}"><button class="btn  btn-danger  pull-right mr-3">Delete</button></a>
+
+              <a href="{{route('sell.edit',[$sell->sell_id])}}"><button class="btn  btn-info pull-right mr-3">Edit</button></a>
               
               </div>
                 <!-- /.card-header -->
@@ -110,6 +113,20 @@
                   </div>
                 </div>
                 <!-- /.card-body -->
+                <div class='card-footer'>
+                  <button class="btn  btn-success pull-right font-weight-bold" disabled>
+                    Total Amount 
+                    <span> =>
+                      <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                    </span><span style="font-size:1.2rem;">&#8377;</span>{{$sell->total_amount}}
+                  </button>
+                  {{-- <button class="btn  btn-success pull-right font-weight-bold" disabled>
+                    SP Amount 
+                    <span> =>
+                      <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                    </span><span style="font-size:1.2rem;">&#8377;</span>{{$sell_product_amount}}
+                  </button> --}}
+                </div>
             </div>
             <!-- /.card -->
           </div>

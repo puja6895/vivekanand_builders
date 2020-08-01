@@ -8,8 +8,8 @@ use App\Unit;
 use App\Sell_Product;
 use App\Payment;
 use App\Inventory;
-use App\GST_Sell;
-use App\GST_SellProduct;
+use App\GstSell;
+use App\GstSellProduct;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DB;
@@ -124,45 +124,45 @@ class SellController extends Controller
                     $total_amount+=$amount;
 
                     //Inventory Update
-                    $inventory = Inventory ::where(['date'=>$sell->sell_date,'product_id'=>$product_id[$i], 'unit_name'=>$unit_name[$i]])->get();
+                    // $inventory = Inventory ::where(['date'=>$sell->sell_date,'product_id'=>$product_id[$i], 'unit_name'=>$unit_name[$i]])->get();
                     // dd($inventory[0]->closing_stock);
 
-                    if(count($inventory)<=0){
+                    // if(count($inventory)<=0){
 
-                        $inv = new Inventory;
-                        $inv->date = $sell->sell_date;
-                        $inv->product_id = $product_id[$i];
-                        $inv->sell_stock = $quantity[$i];
-                        $inv->unit_name = $unit_name[$i];
-                        $inv->purchase_stock = 0;
+                    //     $inv = new Inventory;
+                    //     $inv->date = $sell->sell_date;
+                    //     $inv->product_id = $product_id[$i];
+                    //     $inv->sell_stock = $quantity[$i];
+                    //     $inv->unit_name = $unit_name[$i];
+                    //     $inv->purchase_stock = 0;
                     
                        
-                        $last_close = Inventory :: where('product_id',$request->product_id[$i])
-                                                  ->where('unit_name' ,$request->unit_name[$i])
-                                                  ->orderBy('date' ,'desc');
-                                                //   ->first();
+                    //     $last_close = Inventory :: where('product_id',$request->product_id[$i])
+                    //                               ->where('unit_name' ,$request->unit_name[$i])
+                    //                               ->orderBy('date' ,'desc');
+                    //                             //   ->first();
 
-                        // dd($last_close[0]->closing_stock);                          
+                    //     dd($last_close[0]->closing_stock);                          
 
-                        if($last_close->count() <= 0){
-                            $opening_stock    = 0;
-                        }else{
-                            $opening_stock = $last_close->first()->closing_stock;
-                        }
+                    //     if($last_close->count() <= 0){
+                    //         $opening_stock    = 0;
+                    //     }else{
+                    //         $opening_stock = $last_close->first()->closing_stock;
+                    //     }
 
-                        // dd($opening_stock);
+                    //     dd($opening_stock);
                         
-                        $inv->opening_stock  = $opening_stock;
-                        $inv->closing_stock =  $opening_stock - $quantity[$i];
+                    //     $inv->opening_stock  = $opening_stock;
+                    //     $inv->closing_stock =  $opening_stock - $quantity[$i];
                         
-                        $inv->save();
+                    //     $inv->save();
 
-                    }else{
+                    // }else{
 
-                        $inv = Inventory::where((['date'=>$sell->sell_date,'product_id'=>$product_id[$i], 'unit_name'=>$unit_name[$i]]))
-                        ->update(['sell_stock' =>  $inventory[0]->sell_stock + $quantity[$i] ,'closing_stock'=> $inventory[0]->closing_stock - $quantity[$i]]);
+                    //     $inv = Inventory::where((['date'=>$sell->sell_date,'product_id'=>$product_id[$i], 'unit_name'=>$unit_name[$i]]))
+                    //     ->update(['sell_stock' =>  $inventory[0]->sell_stock + $quantity[$i] ,'closing_stock'=> $inventory[0]->closing_stock - $quantity[$i]]);
 
-                    }
+                    // }
                     
 
 
@@ -291,18 +291,21 @@ class SellController extends Controller
                     $total_amount+=$amount;
 
                     //Inventory Update
-                    $inventory = Inventory ::where(['date'=>$sell->sell_date,'product_id'=>$old_sp->product_id, 'unit_name'=>$old_sp->unit_name])->first();
-                    
-                    Inventory::where((['date'=>$sell->sell_date,'product_id'=>$old_sp->product_id, 'unit_name'=>$old_sp->unit_name]))
-                    ->update(['sell_stock' =>  $inventory->sell_stock - $quant_diff ,'closing_stock'=> $inventory->closing_stock + $quant_diff]);
+                    // dd($sell->sell_date,$old_sp->product_id,$old_sp->unit_name);
+                    // $inventory = Inventory ::where(['date'=>$sell->sell_date,'product_id'=>$old_sp->product_id, 'unit_name'=>$old_sp->unit_name])->first();
+                    // if(!empty($inventory)){
+
+                    //     Inventory::where((['date'=>$sell->sell_date,'product_id'=>$old_sp->product_id, 'unit_name'=>$old_sp->unit_name]))
+                    //     ->update(['sell_stock' =>  $inventory->sell_stock - $quant_diff ,'closing_stock'=> $inventory->closing_stock + $quant_diff]);
+                    // }
                 
                 }
 
                 for( $i = 0; $i < count($all_old_sp); $i++ ) {
-                    $delete_flag = 0;
+                    $delete_flag = 1;
                     for ($j=0; $j < count($sell_product_id) ; $j++) { 
-                        if($all_old_sp[$i]->sell_products_id != $sell_product_id[$j]){
-                            $delete_flag = 1;
+                        if($all_old_sp[$i]->sell_products_id == $sell_product_id[$j]){
+                            $delete_flag = 0;
                             break;
                         }
                     }
@@ -433,6 +436,8 @@ class SellController extends Controller
                       ->where('customer_id',$customer_id)
                       ->sum('pay_received');
 
+                     
+
         // $sell_products = DB::table('sell_products')
         //                      ->join('sells', 'sells.customer_id','=' ,'customers.customer_id') 
         //                      ->join('sells','sell_product.sell_id','=','sells.sell_id')
@@ -446,8 +451,10 @@ class SellController extends Controller
 
     public function individual_sell($sell_id){
         $sell = Sell::find($sell_id);
+        $sell_product_amount = Sell_Product::where('sell_id',$sell_id)->sum('amount');
+        // dd($sell_product_amount);
         // $sell_product = Sell_Product::all();
-        return view :: make('app.pos.sell.individual_sell')->with('sell',$sell);
+        return view :: make('app.pos.sell.individual_sell')->with(['sell'=>$sell,'sell_product_amount'=>$sell_product_amount]);
     }
     
     // Selected Date List
@@ -529,15 +536,15 @@ class SellController extends Controller
 
     public function gstindex(){
         
-       
-        return view::make('app.pos.GST sell.list')->with('sells',$sells);
+        $gstsells = GstSell::all();
+        return view::make('app.pos.GST sell.list')->with('gstsells',$gstsells);
 
     }
 
     public function gstcreate()
     {
         //
-        $customers=Customer::where('isDeleted',0);
+        $customers=Customer::all();
         // $customers = Customer::where('customer_status', 1)->orderBy('customer_name')->get();
 
         $products = Product::all();
@@ -552,13 +559,88 @@ class SellController extends Controller
     
     public function gststore(Request $request)
     {
+        $this->validate($request, [
+            'customer_id' => 'required|exists:customers,customer_id',
+			'sell_date' => 'required',
+			'product_id' => 'required|array|min:1',
+			// 'unit_id' => 'required|array|min:1',
+			'rate' => 'required|array|min:1',
+			'quantity' => 'required|array|min:1',
+			'gst' => 'required|array|min:1',
+			'total' => 'required|array|min:1',
+           
+        ]);
+    
        
+            try {
+                $product_id = $request->product_id;
+                $unit_name = $request->unit_name;
+                $rate = $request->rate;
+                $quantity = $request->quantity;
+                $gst = $request->gst;
+                $product_name = $request->product_name;
+                // $unit_name = $request->unit_name;
+            //DB Transection
+             DB::beginTransaction();
+                // print_r($request);
+                $gstsell = new GstSell;
+                $gstsell->customer_id = $request->customer_id;
+                $gstsell->sell_date = Carbon::parse($request->sell_date)->format('Y-m-d');
+                $gstsell->save();
+                $gst_sell_id = $gstsell->id;
+                // echo $sell_id;
+
+                // $request_sell_date_year = Carbon::parse($request->sell_date)->format('Y');
+                // $request_sell_date_month = Carbon::parse($request->sell_date)->format('m');
+                // $request_sell_date_day = Carbon::parse($request->sell_date)->subDay()->format('d');
+
+                // dd($request_sell_date_month);
+                
+                // $total_amount=0;
+                $gst_amount=0;
+                $total_amount=0;
+                for ($i = 0; $i < count($product_id); $i++){
+                    $amount = $rate[$i] * $quantity[$i];
+                    $gst_amount=$amount*($gst[$i]/100);
+                    $amount+=$gst_amount;
+
+                    $sell_product= new GstSellProduct;
+                    $sell_product->sell_id=$gst_sell_id;
+                    $sell_product->product_id=$product_id[$i];
+                    $sell_product->unit_name=$unit_name[$i];
+                    $sell_product->rate=$rate[$i];
+                    $sell_product->quantity=$quantity[$i];
+                    $sell_product->gst=$gst[$i];
+                    $sell_product->amount=$amount;
+                    $sell_product->save();
+                    
+                    $total_amount+=$amount;
+
+                    //Inventory Update
+
+                }  
+                $gstsell->total_amount=$total_amount;
+                $gstsell->save(); 
+                // Opening Stock 
+                
+                
+            DB::commit();
+            return redirect()->route('sell.add')->with('success','Gst Sell Added');
+            
+        }catch(Exception $exception){
+            DB::rollBack();
+            return back()->with('error',$exception->getMessage())->withInput();
+
+        } 
     }
 
     public function gstindividual($customer_id){
         
-        
-        
+        $customer = Customer::find($customer_id);
+
+        $gstsells = GstSell::where('customer_id',$customer_id)->orderBy('sell_date','desc')->get();  
+
+        return view::make('app.pos.GST sell.individual')->with(['gstsells'=>$gstsells,'customer'=>$customer]);
         // $sells = DB::table('sells')
         //             ->join('sell_products', 'sell_products.sell_id', '=' , 'sells.sell_id')
         //             ->join('products', 'sell_products.product_id' , '=' , 'products.product_id')
@@ -567,8 +649,6 @@ class SellController extends Controller
         //             ->select('products.product_name','sells.sell_date','sell_products.product_id','sell_products.quantity','sell_products.unit_name','sell_products.rate','sell_products.gst','sell_products.amount')
 
         //             ->get();  
-        // dd($sells);                     
-
     }   
     
 }

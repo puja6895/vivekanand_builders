@@ -3,7 +3,7 @@
 @section('title','Payment')
 
 
-@section('Payment')
+@section('Gst Sell')
     active
 @endsection
 
@@ -17,13 +17,13 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h3>
-             Payments
+             GST Payments
             </h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-            <li class="breadcrumb-item active">Payments</li>
+            <li class="breadcrumb-item active">GST Payments</li>
             {{-- <li class="breadcrumb-item"><a href="#">Layout</a></li> --}}
             </ol>
           </div>
@@ -51,8 +51,8 @@
           @endif
             <div class="card">
     <div class="card-header">
-    <a href="{{route('payment.add')}}" class="pull-right">
-        <button class="btn btn-success"><b>Add New+</b></button>
+    <a href="{{route('gstpayment.add')}}" class="pull-right">
+        <button class="btn btn-info"><b>Add New+</b></button>
     </a>
     </div>
     {{-- <div class="box">
@@ -78,15 +78,13 @@
         </tr>
         </thead>
         <tbody>
-         @foreach($payments as $payment)
+         @foreach($gstayments as $gstayment)
           <tr>
-              <td>{{$payment->customer->customer_name}}</td>
-              <td>{{$payment->pay_date}}</td>
-              <td>{{$payment->pay_received}}</td>
-              <td>{{$payment->pay_mode}}</td>
-              <td>
-              <a href="{{route('payment.destroy',[$payment->pay_amount_id])}}"><button class="btn btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
-              </td>
+              <td>{{$gstayment->customer->customer_name}}</td>
+              <td>{{$gstayment->pay_date}}</td>
+              <td>{{$gstayment->pay_received}}</td>
+              <td>{{$gstayment->pay_mode}}</td>
+              <td></td>
           </tr>
          @endforeach
         </tbody>
@@ -96,6 +94,7 @@
             <th>Payement Date</th>
             <th>Payment Received</th>
             <th>Payment Mode</th>
+            <th>Action</th>
         </tr>
         </tfoot>
       </table>

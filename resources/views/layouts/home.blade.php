@@ -36,7 +36,7 @@
     {{-- <link rel="stylesheet" href="{{ asset('assets/dist/css/select2.css') }}"> --}}
 
     <!-- Date Picker -->
-    <link rel="stylesheet" href="{{ asset('assets/dist/css/bootstrap-datepicker.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/dist/css/bootstrap-datepicker.min.css') }}"> --}}
 
     {{-- Invoice --}}
   
@@ -257,14 +257,42 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="{{route('gst_sell')}}" class="nav-link @yield('GST Sell')">
-                                <i class="nav-icon fa fa-money"></i>
+                        <li class="nav-item has-treeview ">
+                            <a href="#" class="nav-link @yield('GST')">
+                                <i class="nav-icon fa fa-database"></i>
                                 <p>
-                                   GST Sell
-                                    {{-- <i class="right fa fa-angle-left"></i> --}}
+                                    GST
+                                    <i class="fa fa-angle-left right"></i>
+                                    {{-- <span class="badge badge-info right">6</span> --}}
                                 </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('gst_sell') }}"
+                                        class="nav-link @yield('GST')">
+                                        <i class="fa fa-circle-thin nav-icon"></i>
+                                        <p>GST Sell</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('gstpayments') }}"
+                                        class="nav-link @yield('Master-categories')">
+                                        <i class="fa fa-circle-thin nav-icon"></i>
+                                        <p>GST Payment</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('gstpayments') }}"
+                                        class="nav-link @yield('Master-categories')">
+                                        <i class="fa fa-circle-thin nav-icon"></i>
+                                        <p>Generate Gst Invoice</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="nav-item">
@@ -277,11 +305,33 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="{{ route('customers') }}" class="nav-link @yield('clients')">
+                        <li class="nav-item has-treeview ">
+                            <a href="#" class="nav-link @yield('Clients')">
                                 <i class="fa fa-users nav-icon" aria-hidden="true"></i>
-                                <p>Clients</p>
+                                <p>
+                                   Clients
+                                    <i class="fa fa-angle-left right"></i>
+                                    {{-- <span class="badge badge-info right">6</span> --}}
+                                </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('customers') }}"
+                                        class="nav-link @yield('Clients')">
+                                        <i class="fa fa-circle-thin nav-icon"></i>
+                                        <p>Clients</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('customer.list') }}"
+                                        class="nav-link @yield('Clients Clients List')">
+                                        <i class="fa fa-circle-thin nav-icon"></i>
+                                        <p>Clients List </p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="nav-item">
@@ -516,8 +566,8 @@
     $('.datepicker').datepicker({
       format: 'dd-mm-yyyy',
       autoclose: true,
-      todayHighlight: true,
-      'setDate': new Date()
+      todayHighlight: true
+      
     })
   })
 
