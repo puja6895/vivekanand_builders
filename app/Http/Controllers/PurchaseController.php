@@ -103,45 +103,45 @@ class PurchaseController extends Controller
                     $total_amount+=$amount;
 
 
-                    $inventory = Inventory ::where(['date'=>$purchase->purchase_date,'product_id'=>$product_id[$i], 'unit_name'=>$unit_name[$i]])->get();
-                    if(count($inventory)<=0){
+                    // $inventory = Inventory ::where(['date'=>$purchase->purchase_date,'product_id'=>$product_id[$i], 'unit_name'=>$unit_name[$i]])->get();
+                    // if(count($inventory)<=0){
 
-                        $inv = new Inventory;
-                        $inv->date = $purchase->purchase_date;
-                        $inv->product_id = $product_id[$i];
-                        $inv->sell_stock = 0;
-                        $inv->unit_name = $unit_name[$i];
-                        $inv->purchase_stock = $quantity[$i];
+                    //     $inv = new Inventory;
+                    //     $inv->date = $purchase->purchase_date;
+                    //     $inv->product_id = $product_id[$i];
+                    //     $inv->sell_stock = 0;
+                    //     $inv->unit_name = $unit_name[$i];
+                    //     $inv->purchase_stock = $quantity[$i];
                     
                        
-                        $last_close = Inventory :: where('product_id',$request->product_id[$i])
-                                                  ->where('unit_name' ,$request->unit_name[$i])
-                                                  ->orderBy('date' ,'desc')->get();
-                                                //   ->first();
+                    //     $last_close = Inventory :: where('product_id',$request->product_id[$i])
+                    //                               ->where('unit_name' ,$request->unit_name[$i])
+                    //                               ->orderBy('date' ,'desc')->get();
+                    //                             //   ->first();
 
                                                 
 
-                        // dd($last_close);                          
+                    //     // dd($last_close);                          
 
-                        if($last_close->count() <= 0){
-                            $opening_stock    = 0;
-                        }else{
-                            $opening_stock = $last_close->first()->closing_stock;
-                        }
+                    //     if($last_close->count() <= 0){
+                    //         $opening_stock    = 0;
+                    //     }else{
+                    //         $opening_stock = $last_close->first()->closing_stock;
+                    //     }
 
-                        // dd($opening_stock);
+                    //     // dd($opening_stock);
                         
-                        $inv->opening_stock  = $opening_stock;
-                        $inv->closing_stock =  $opening_stock + $quantity[$i];
+                    //     $inv->opening_stock  = $opening_stock;
+                    //     $inv->closing_stock =  $opening_stock + $quantity[$i];
                         
-                        $inv->save();
+                    //     $inv->save();
 
-                    }else{
+                    // }else{
 
-                        $inv = Inventory::where((['date'=>$purchase->purchase_date,'product_id'=>$product_id[$i], 'unit_name'=>$unit_name[$i]]))
-                        ->update(['purchase_stock' =>  $inventory[0]->purchase_stock + $quantity[$i] ,'closing_stock'=> $inventory[0]->closing_stock + $quantity[$i]]);
+                    //     $inv = Inventory::where((['date'=>$purchase->purchase_date,'product_id'=>$product_id[$i], 'unit_name'=>$unit_name[$i]]))
+                    //     ->update(['purchase_stock' =>  $inventory[0]->purchase_stock + $quantity[$i] ,'closing_stock'=> $inventory[0]->closing_stock + $quantity[$i]]);
 
-                    }
+                    // }
                 }        
                 $purchase->total_amount=$total_amount;
                 $purchase->save(); 

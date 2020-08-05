@@ -109,6 +109,10 @@ Route::get('/product/enable/{id}', 'ProductController@enable')->name('product.en
 Route::get('/inventories', 'InventoryController@index')->name('inventories');
 Route::get('/inventory/add', 'InventoryController@create')->name('inventory.add');
 Route::post('/inventory/store', 'InventoryController@store')->name('inventory.store');
+Route::get('/inventory/turn', 'InventoryController@turn_index')->name('inventory.turn');
+Route::post('/inventory/turn_list', 'InventoryController@store')->name('inventory.store');
+
+
 
 //Invoice
 Route::get('/invoice', 'InvoiceController@index')->name('invoice');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DropInventoriesTable extends Migration
+class DropGstinventoryPayments extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,8 @@ class DropInventoriesTable extends Migration
     public function up()
     {
         //
-        Schema::drop('inventories');
+        Schema::drop('gstinventory_payments');
+
     }
 
     /**

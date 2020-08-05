@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Inventory;
 use App\Product;
 use App\Unit;
+use App\Sell_Product;
+use App\PurchaseProduct;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use DB;
 use View;
+use Carbon\Carbon;
 
 class InventoryController extends Controller
 {
@@ -19,8 +21,9 @@ class InventoryController extends Controller
      */
     public function index()
     {
+        //
         $inventories = Inventory::orderBy('date','desc')->get();
-        return view :: make('app.inventory.list')->with(['inventories' => $inventories  ]);
+        return view::make('app.inventory.list')->with(['inventories'=>$inventories]);
     }
 
     /**
@@ -31,11 +34,9 @@ class InventoryController extends Controller
     public function create()
     {
         //
-        $products = Product ::all();
-        // dd($product)
-        $units = Unit :: all();
-        return view :: make('app.inventory.add')
-                    -> with(['products'=>$products,'units'=>$units]);
+        $products = Product::all();
+        $units = Unit::all();
+        return view::make('app.inventory.add')->with(['units'=>$units,'products'=>$products]);
     }
 
     /**
@@ -46,7 +47,6 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        //  DB::enableQueryLog();
         //
         $this->validate($request, [
 			'product_id' => 'required|exists:products,product_id',
@@ -55,38 +55,19 @@ class InventoryController extends Controller
             'date'     => 'required'
         ]);
 
-        $requested_date = Carbon::parse($request->date)->format('d');
-        
         try{
 
             DB::beginTransaction();
 
-                $inventory = Inventory ::where('date',Carbon::parse($request->date)->format('Y-m-d'))
-                ->where('product_id',$request->product_id)
-                ->where('unit_name',$request->unit_name)->get();
-
-                // dd($inv[0]->purchase_stock);
-                if(count($inventory)<=0)
-                {
                 
                     $inventory = new Inventory;
                     $inventory->date = Carbon::parse($request->date)->format('Y-m-d');
                     $inventory->product_id = $request->product_id;
                     $inventory->unit_name = $request->unit_name;
-                    $inventory->opening_stock = $request->quantity;
-                    $inventory->purchase_stock = 0;
-                    $inventory->sell_stock = 0;
-                    $inventory->closing_stock =  $inventory->opening_stock;
+                    $inventory->quantity = $request->quantity;
                     $inventory->save();
 
-                }else{
-                    $inv = Inventory::where('date',Carbon::parse($request->date)->format('Y-m-d'))
-                                    ->where('product_id',$request->product_id)
-                                    ->where('unit_name',$request->unit_name)
-                                    ->update(['opening_stock' => $inventory[0]->opening_stock + $request->quantity ]);
-
-                }   
-                //Opening Stock
+                
                 
                
                 
@@ -98,7 +79,6 @@ class InventoryController extends Controller
 			DB::rollBack();
 			return back()->with('error', $exception->getMessage())->withInput();
 		}
-
     }
 
     /**
@@ -144,5 +124,36 @@ class InventoryController extends Controller
     public function destroy(Inventory $inventory)
     {
         //
+    }
+
+    public function turn_index(){
+
+        // $date = ;
+        $stock= DB::select(DB::raw('select product_id, unit_name,sum(quantity) from invent group by product_id ,unit_name'));
+        // dd($stock);
+        $arr = array();
+        // dd($arr);
+       for($i=0; $i< count($stock) ; $i++){
+        $sell = Sell_Product::where('product_id',$stock[$i]->product_id)
+                              ->where('unit_name',$stock[$i]->unit_name)
+                              ->sum('quantity');  
+        
+        $purchase = PurchaseProduct::where('product_id',$stock[$i]->product_id)
+                                    ->where('unit_id',$stock[$i]->unit_name)
+                                    ->sum('quantity');  
+
+        $closing = array('product_id'=>$stock[$i]->product_id,'unit_name'=>$stock[$i]->unit_name);
+
+         array_push($arr,$i,$closing);
+
+       }
+       dd( $arr ); 
+  
+
+        return view::make('app.inventory.turn');
+    }
+
+    public function turn_list(Request $request){
+
     }
 }

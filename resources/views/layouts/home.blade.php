@@ -391,16 +391,35 @@
                             </ul>
                         </li>
                            
-                        <li class="nav-item">
-                            <a href="{{ route('inventories') }}" class="nav-link @yield('Inventory')">
-                                <i class="nav-icon fa fa-tags"></i>
+                        
+                        <li class="nav-item has-treeview ">
+                            <a href="#" class="nav-link @yield('Inventory')">
+                                <i class="fa fa-users nav-icon" aria-hidden="true"></i>
                                 <p>
-                                    Inventory
-                                    {{-- <i class="right fa fa-angle-left"></i> --}}
+                                   Inventory 
+                                    <i class="fa fa-angle-left right"></i>
+                                    {{-- <span class="badge badge-info right">6</span> --}}
                                 </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('inventories') }}"
+                                        class="nav-link @yield('Inventory Inventory Log')">
+                                        <i class="fa fa-circle-thin nav-icon"></i>
+                                        <p>Inventory Log</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('inventory.turn')}}"
+                                        class="nav-link @yield('Inventory Inventory Turn')">
+                                        <i class="fa fa-circle-thin nav-icon"></i>
+                                        <p>Inventory Turn</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        
                         
                         <li class="nav-item">
                             <a href="{{ route('products') }}" class="nav-link @yield('Product')">

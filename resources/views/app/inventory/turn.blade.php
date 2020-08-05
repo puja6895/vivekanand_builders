@@ -6,7 +6,7 @@
     active    
 @endsection
 
-@section('Inventory Inventory Log')
+@section('Inventory Inventory Turn')
     active    
 @endsection
 
@@ -37,19 +37,41 @@
         <div class="row">
           <div class="col-12">
             <!-- Default box -->
-                @if (Session::get('success'))
-                  <div class="alert alert-success alert-dismissible" role="alert">
-                      <button type="button" class="close" data-dismiss="alert">×</button>
-                      <strong>Success!</strong> {{Session::get('success')}}
-                  </div>
-                @endif
-                @if (Session::get('error'))
-                  <div class="alert alert-danger alert-dismissible" role="alert">
-                      <button type="button" class="close" data-dismiss="alert">×</button>
-                      <strong>Error!</strong> {{Session::get('error')}}
-                  </div>
-                @endif
-                
+            @if (Session::get('success'))
+              <div class="alert alert-success alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert">×</button>
+                  <strong>Success!</strong> {{Session::get('success')}}
+              </div>
+            @endif
+            @if (Session::get('error'))
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>Error!</strong> {{Session::get('error')}}
+            </div>
+          @endif
+          <form action="" method="POST">
+            @csrf
+            <div class="row">
+                <div class="col-md-6">
+                    <div
+                        class="form-group {{ $errors->has('sell_date') ? ' has-error' : '' }}">
+                        {{-- <label>Sell Date <span style="color: red;">*</span></label> --}}
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="datepicker">
+                                    <i class="fa fa-calendar"></i>
+                                </label>
+                            </div>
+                            <input type="text" name="from_date" class="form-control datepicker mr-3"
+                                id="datepicker" required="" placeholder="dd-mm-yyyy">
+                            <input type="text" name="to_date" class="form-control datepicker mr-3"
+                                id="datepicker" placeholder="dd-mm-yyyy">
+                            <button class="btn btn-info">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title text-secondary">Inventory</h3>
@@ -70,7 +92,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($inventories as  $inv)
+                            {{-- @foreach($inventories as  $inv)
                             <tr>
                               <td>{{\Carbon\Carbon::parse($inv->date)->format('d-m-Y')}}</td>
                               <td>{{$inv->product->product_name}}</td>
@@ -85,7 +107,7 @@
                                   @endif
                               </td>
                             </tr>
-                            @endforeach
+                            @endforeach --}}
                             </tbody>
                             <tfoot>
                             <tr>
