@@ -74,7 +74,7 @@
                             <tr>
                               <td>{{\Carbon\Carbon::parse($inv->date)->format('d-m-Y')}}</td>
                               <td>{{$inv->product->product_name}}</td>
-                              <td>{{$inv->quantity}} ({{$inv->unit_name}})</td>
+                              <td>{{$inv->quantity}} ({{$inv->unit->unit_name}})</td>
                               <td>
                                   @if($inv->quantity> 10)
                                       <label class="badge badge-success">In Stock</label>

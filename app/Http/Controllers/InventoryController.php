@@ -50,7 +50,7 @@ class InventoryController extends Controller
         //
         $this->validate($request, [
 			'product_id' => 'required|exists:products,product_id',
-			// 'unit_name' => 'required|exits:units',
+			'unit_id' => 'required|exists:units,unit_id',
             'quantity' => 'required',
             'date'     => 'required'
         ]);
@@ -63,7 +63,7 @@ class InventoryController extends Controller
                     $inventory = new Inventory;
                     $inventory->date = Carbon::parse($request->date)->format('Y-m-d');
                     $inventory->product_id = $request->product_id;
-                    $inventory->unit_name = $request->unit_name;
+                    $inventory->unit_id = $request->unit_id;
                     $inventory->quantity = $request->quantity;
                     $inventory->save();
 

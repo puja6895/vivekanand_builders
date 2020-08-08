@@ -89,10 +89,10 @@
                         <label for="exampleInputEmail1">Unit Name
                             <span style="color: red;">*</span>
                         </label>
-                        <select class="form-control select2" name="unit_name" id="unit_name ">
+                        <select class="form-control select2" name="unit_id" id="unit_id ">
                             <option disabled="" selected="">Select Product</option>
                             @foreach($units as $unit)
-                            <option value="{{$unit->unit_name}}">{{$unit->unit_name}}</option>
+                            <option value="{{$unit->unit_id}}">{{$unit->unit_name}}</option>
                             @endforeach
                         </select>
                     </div>

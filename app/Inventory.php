@@ -15,7 +15,7 @@ class Inventory extends Model
 	}
 
 	// Unit
-	// public function unit() {
-	// 	return $this->belongsTo('App\Unit', 'unit_id', 'unit_id');
-	// }
+	public function unit() {
+		return $this->belongsTo('App\Unit', 'unit_id', 'unit_id');
+	}
 }

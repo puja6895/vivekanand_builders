@@ -324,6 +324,7 @@ class SellController extends Controller
                         $sell_product->sell_id=$temp_sp->sell_id;
                         $sell_product->product_id=$product_id[$i];
                         $sell_product->unit_name=$unit_name[$i];
+                        $sell_product->unit_id=$sell_product->unit->unit_id;
                         $sell_product->rate=$rate[$i];
                         $sell_product->quantity=$quantity[$i];
                         $sell_product->gst=$gst[$i];
@@ -608,6 +609,7 @@ class SellController extends Controller
                     $sell_product->sell_id=$gst_sell_id;
                     $sell_product->product_id=$product_id[$i];
                     $sell_product->unit_name=$unit_name[$i];
+                   
                     $sell_product->rate=$rate[$i];
                     $sell_product->quantity=$quantity[$i];
                     $sell_product->gst=$gst[$i];
@@ -649,6 +651,17 @@ class SellController extends Controller
         //             ->select('products.product_name','sells.sell_date','sell_products.product_id','sell_products.quantity','sell_products.unit_name','sell_products.rate','sell_products.gst','sell_products.amount')
 
         //             ->get();  
-    }   
+    }  
+    
+    public function test(){
+        $sell_products = Sell_Product::all();
+        foreach($sell_products as $sp){
+            $update_sp = DB::table('sell_products')
+              ->where('sell_products_id', $sp->sell_products_id)
+              ->update(['unit_id' => $sp->unit->unit_id]);
+        }
+        DB::commit();
+
+    }
     
 }

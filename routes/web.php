@@ -37,6 +37,7 @@ Route::post('/sell/selected_date/{customer_id}', 'SellController@selected_date')
 Route::get('/sell/edit/{id}', 'SellController@edit')->name('sell.edit');
 Route::post('/sell/update/', 'SellController@update')->name('sell.update');
 Route::get('/sell/destroy/{id}', 'SellController@destroy')->name('sell.destroy');
+Route::get('/sell/test', 'SellController@test')->name('sell.test');
 
 // Set Default
 Route::get('/default_product', 'DefaultProductController@index')->name('default_products');
