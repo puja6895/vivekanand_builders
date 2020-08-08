@@ -80,6 +80,7 @@
                           {{-- <td></td> --}}
                           <td>{{($opening1 - $opening2)}}</td>
                           <td>{{$total_amount[0]->total_amount}}</td>
+                          {{-- {{dd($total_payamount[0]->total_payamount)}} --}}
                           <td>{{$total_payamount[0]->total_payamount}}</td>
                           @if($total_amount[0]->total_amount<$total_payamount[0]->total_payamount)
                           <td class="bg-danger">{{abs($total_amount[0]->total_amount - $total_payamount[0]->total_payamount)}}</td>

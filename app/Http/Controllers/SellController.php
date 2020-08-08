@@ -498,7 +498,7 @@ class SellController extends Controller
                 $total_payamount = DB::table('sell_payAmounts')
                                       ->select(DB::raw('sum(pay_received) as total_payamount'))
                                       ->whereRaw('year(pay_date) = year(?) and month(pay_date) = month(?) and customer_id=?',[$from_date,$from_date,$customer_id] )->get();
-
+                // dd( $total_payamount);
         if($from_date & $to_date ){
 
             $sell_product = DB::table('sell_products')

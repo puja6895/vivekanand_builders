@@ -142,6 +142,7 @@ class PurchaseController extends Controller
                     //     ->update(['purchase_stock' =>  $inventory[0]->purchase_stock + $quantity[$i] ,'closing_stock'=> $inventory[0]->closing_stock + $quantity[$i]]);
 
                     // }
+                    
                 }        
                 $purchase->total_amount=$total_amount;
                 $purchase->save(); 

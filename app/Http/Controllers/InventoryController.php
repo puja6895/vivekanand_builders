@@ -128,26 +128,41 @@ class InventoryController extends Controller
 
     public function turn_index(){
 
-        // $date = ;
-        $stock= DB::select(DB::raw('select product_id, unit_name,sum(quantity) from invent group by product_id ,unit_name'));
-        // dd($stock);
-        $arr = array();
-        // dd($arr);
+        $stock= DB::select(DB::raw('select product_id, unit_name,sum(quantity) as stock from invent group by product_id ,unit_name'));
+
+        $total_sell = array();
+        $total_purchase = array();
        for($i=0; $i< count($stock) ; $i++){
-        $sell = Sell_Product::where('product_id',$stock[$i]->product_id)
-                              ->where('unit_name',$stock[$i]->unit_name)
-                              ->sum('quantity');  
-        
-        $purchase = PurchaseProduct::where('product_id',$stock[$i]->product_id)
-                                    ->where('unit_id',$stock[$i]->unit_name)
-                                    ->sum('quantity');  
+            $sell = Sell_Product::select(DB::raw('product_id, unit_name, sum(quantity) as sQuantity'))
+                                ->where('product_id',$stock[$i]->product_id)
+                                ->where('unit_name',$stock[$i]->unit_name)
+                                ->groupBy('product_id','unit_name')->first();
 
-        $closing = array('product_id'=>$stock[$i]->product_id,'unit_name'=>$stock[$i]->unit_name);
-
-         array_push($arr,$i,$closing);
-
-       }
-       dd( $arr ); 
+            array_push($total_sell,$sell);
+            
+            $purchase = PurchaseProduct::select(DB::raw('product_id, unit_id, sum(quantity) as pQuantity'))
+                                        ->where('product_id',$stock[$i]->product_id)
+                                        ->where('unit_id',$stock[$i]->unit_name)
+                                        ->groupBy('product_id','unit_id')->first();
+            array_push($total_purchase,$purchase);
+            
+        }
+        $merged = collect($total_sell)->zip($total_purchase,$stock)->transform(function ($values) {
+            return [
+                // 'test'=> $values,
+                'product_id' => $values[2] == null ? "":$values[2]->product_id,
+                'unit_name' => $values[2] == null ? "":$values[2]->unit_name,
+                'sell_quantity' => $values[0] == null ? 0:$values[0]->sQuantity,
+                'purchase_quantity' => $values[1] == null ? 0:$values[1]->pQuantity,
+                'stock' => $values[2] == null ? "":$values[2]->stock,
+                'closing' => (($values[2] == null ? 0:$values[2]->stock)+($values[1] == null ? 0:$values[1]->pQuantity))-($values[0] == null ? 0:$values[0]->sQuantity)
+            ];
+        });
+        dd($merged);
+        foreach($merged as $temp){
+            echo($temp["product_id"]);
+            echo "<br>";
+        }
   
 
         return view::make('app.inventory.turn');
@@ -155,5 +170,7 @@ class InventoryController extends Controller
 
     public function turn_list(Request $request){
 
+  
+  
     }
 }
