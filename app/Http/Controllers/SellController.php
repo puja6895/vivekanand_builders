@@ -115,6 +115,7 @@ class SellController extends Controller
                     $sell_product->sell_id=$sell_id;
                     $sell_product->product_id=$product_id[$i];
                     $sell_product->unit_name=$unit_name[$i];
+                    $sell_product->unit_id=$sell_product->unit->unit_id; 
                     $sell_product->rate=$rate[$i];
                     $sell_product->quantity=$quantity[$i];
                     $sell_product->gst=$gst[$i];
@@ -324,7 +325,7 @@ class SellController extends Controller
                         $sell_product->sell_id=$temp_sp->sell_id;
                         $sell_product->product_id=$product_id[$i];
                         $sell_product->unit_name=$unit_name[$i];
-                        $sell_product->unit_id=$sell_product->unit->unit_id;
+                       
                         $sell_product->rate=$rate[$i];
                         $sell_product->quantity=$quantity[$i];
                         $sell_product->gst=$gst[$i];
