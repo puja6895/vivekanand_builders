@@ -85,19 +85,29 @@
                     <table id="example2" class="table table-bordered table-striped table-hover ">
                         <thead>
                             <tr>
-                              <th>Date</th>
                               <th>Product Name</th>
-                              <th>Quantity</th>
-                              <th>Status</th> 
+                              <th>Opening</th>
+                              <th>Purchase</th>
+                              <th>Sell</th>
+                              <th>CLosing</th> 
                             </tr>
                             </thead>
                             <tbody>
-                            {{-- @foreach($inventories as  $inv)
+                            @foreach($lists as  $list)
+                            @php 
+                              $invent = !empty($list->total_invent) ? $list->total_invent : 0;
+                              $purchase = !empty($list->total_purchase) ? $list->total_purchase : 0;
+                              $sell = !empty($list->total_sell) ? $list->total_sell : 0;
+                              $opening = ($invent + $purchase) - $sell;
+                              $closing = ($opening + $list->purchase_quantity ) - $list->sell_quantity;
+                            @endphp
                             <tr>
-                              <td>{{\Carbon\Carbon::parse($inv->date)->format('d-m-Y')}}</td>
-                              <td>{{$inv->product->product_name}}</td>
-                              <td>{{$inv->quantity}} ({{$inv->unit_name}})</td>
-                              <td>
+                              <td>{{$list->product_name}}</td>
+                              <td>{{$opening}}</td>
+                              <td>{{$list->purchase_quantity}}</td>
+                              <td>{{$list->sell_quantity}}</td>
+                              <td>{{$closing}}</td>
+                              {{-- <td>
                                   @if($inv->quantity> 10)
                                       <label class="badge badge-success">In Stock</label>
                                   @elseif($inv->quantity < 10 && $inv->quantity > 0)
@@ -105,16 +115,16 @@
                                   @elseif($inv->quantity < 1)
                                   <label class="badge badge-danger">Out Of Stock</label>
                                   @endif
-                              </td>
+                              </td> --}}
                             </tr>
-                            @endforeach --}}
+                            @endforeach
                             </tbody>
                             <tfoot>
                             <tr>
-                              <th>Date</th>
-                              <th>Product Name</th>
-                              <th>Quantity</th>
-                              <th>Status</th>
+                              <th>Opening</th>
+                              <th>Purchase</th>
+                              <th>Sell</th>
+                              <th>CLosing</th>
                             </tr>
                             </tfoot>
                     </table>

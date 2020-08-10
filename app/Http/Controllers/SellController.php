@@ -116,6 +116,7 @@ class SellController extends Controller
                     $sell_product->product_id=$product_id[$i];
                     $sell_product->unit_name=$unit_name[$i];
                     $sell_product->unit_id=$sell_product->unit->unit_id; 
+                    $sell_product->productUnitId=$sell_product->product_id.$sell_product->unit->unit_id;
                     $sell_product->rate=$rate[$i];
                     $sell_product->quantity=$quantity[$i];
                     $sell_product->gst=$gst[$i];
@@ -655,12 +656,15 @@ class SellController extends Controller
     }  
     
     public function test(){
-        $sell_products = Sell_Product::all();
-        foreach($sell_products as $sp){
-            $update_sp = DB::table('sell_products')
-              ->where('sell_products_id', $sp->sell_products_id)
-              ->update(['unit_id' => $sp->unit->unit_id]);
-        }
+        // $sell_products = Sell_Product::all();
+        // foreach($sell_products as $sp){
+        //     $update_sp = DB::table('sell_products')
+        //       ->where('sell_products_id', $sp->sell_products_id)
+        //       ->update(['unit_id' => $sp->unit->unit_id]);
+        // }
+        // $ip_update = DB::select(DB::raw('update invent set productUnitId = concat(product_id,unit_id)'));
+        $sp_update = DB::select(DB::raw('update sell_products set productUnitId = concat(product_id,unit_id)'));
+        $pp_update = DB::select(DB::raw('update purchase_products set productUnitId = concat(product_id,unit_id)'));
         DB::commit();
 
     }

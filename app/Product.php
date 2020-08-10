@@ -12,7 +12,19 @@ class Product extends Model
 
     use SoftDeletes;
 
-    public function inventory() {
-		return $this->hasMany('App\Inventory','product_id');
-  }
+    public function inventory() 
+    {
+		    return $this->hasMany('App\Inventory','product_id');
+    }
+    
+    public function sell_products() 
+    {
+		    return $this->hasMany('App\Sell_Product','product_id');
+    }
+
+    public function purchase_products() 
+    {
+		    return $this->hasMany('App\PurchaseProduct','product_id');
+    }
+
 }

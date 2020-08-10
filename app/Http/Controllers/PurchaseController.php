@@ -94,6 +94,8 @@ class PurchaseController extends Controller
                     $purchase_product->purchase_id=$purchase_id;
                     $purchase_product->product_id=$product_id[$i];
                     $purchase_product->unit_id=$unit_id[$i];
+                    $purchase_product->productUnitId=$purchase_product->product_id.$purchase_product->unit_id;
+                    // dd($purchase_product);
                     $purchase_product->rate=$rate[$i];
                     $purchase_product->quantity=$quantity[$i];
                     $purchase_product->gst=$gst[$i];
