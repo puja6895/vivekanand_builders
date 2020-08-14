@@ -7,6 +7,7 @@ use App\Product;
 use App\Unit;
 use App\Sell_Product;
 use App\Payment;
+use App\PreviousDue;
 use App\Inventory;
 use App\GstSell;
 use App\GstSellProduct;
@@ -439,7 +440,11 @@ class SellController extends Controller
                       ->where('customer_id',$customer_id)
                       ->sum('pay_received');
 
-                     
+        $descriptions  = Payment::where('customer_id',$customer_id)->where('status',2)->get();
+        // dd($description[1]->description);
+        
+        $previous_due = PreviousDue :: where('customer_id',$customer_id)->sum('previous_due_amount');
+        // dd( $previous_due);
 
         // $sell_products = DB::table('sell_products')
         //                      ->join('sells', 'sells.customer_id','=' ,'customers.customer_id') 
@@ -449,7 +454,7 @@ class SellController extends Controller
         //                      ->get();  
                             //  dd($sell_products);
         $sell_products ;                    
-        return view :: make('app.pos.sell.individual')->with(['customer'=>$customer,'grand_total'=>$grand_total,'payment'=>$payment,'sells'=>$sells]);
+        return view :: make('app.pos.sell.individual')->with(['customer'=>$customer,'grand_total'=>$grand_total,'payment'=>$payment,'sells'=>$sells ,'descriptions'=>$descriptions,'previous_due'=> $previous_due]);
     }
 
     public function individual_sell($sell_id){

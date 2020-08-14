@@ -123,9 +123,27 @@
                           @endforeach
                         </select>
                     </div>
+                    <div class="card bg-light">
+                      <div class="card-header">
+                        <h5 class="card-title ">Discount</h5>
+                      </div>
+                      <div class="card-body">
+                        <section>
+                          <div class="form-group">
+                            <label for="discount_amount">Discount Amount </label>
+                            <input type="text" name="discount_amount" class="form-control {{$errors->has('discount_amount') ? 'is-invalid' : ''}}" id="discount_amount"  placeholder="Enter Discount Amount" value="{{ old('discount_amount')}}">
+                          </div>
+  
+                          <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea  name="description" class="form-control {{$errors->has('description') ? 'is-invalid' : ''}}" id="description"  placeholder="Give Description..." value="{{ old('description')}}"></textarea>
+                          </div>
+                      </section>
+                      </div>
+                    </div>
                 <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-success">Add Payment</button>
+                            <button type="submit" class="btn btn-info">Add Payment</button>
                         </div>
                 </form>
             </div>
@@ -138,3 +156,8 @@
 
     
 @endsection
+@section('scripts')
+<script>
+  defaultDate()
+</script> 
+@endsection 

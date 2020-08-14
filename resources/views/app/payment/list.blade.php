@@ -96,6 +96,7 @@
             <th>Payement Date</th>
             <th>Payment Received</th>
             <th>Payment Mode</th>
+            <th>Action</th>
         </tr>
         </tfoot>
       </table>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Inventory;
 use App\Product;
+use App\Category;
 use App\Unit;
 use App\Sell;
 use App\Sell_Product;
@@ -131,98 +132,168 @@ class InventoryController extends Controller
 
     public function turn_index(){
 
-       // $lists =DB::select( DB::raw('select invent.productUnitId,products.product_name,invent.unit_name,
-        //     sum(invent.quantity) as total_stock,total_sp,total_pp from invent 
-        //     inner join products on products.product_id=invent.product_id
-        //     left join 
-        //     (select productUnitId,sum(quantity) as total_sp from sell_products group by productUnitId)
-        //     sell_products on invent.productUnitId=sell_products.productUnitId 
-        //     left join 
-        //     (select productUnitId,sum(quantity) as total_pp from purchase_products group by productUnitId)
-        //     purchase_products on purchase_products.productUnitId=invent.productUnitId 
-        //     group by productUnitId,products.product_name,unit_name'));
+            $current_date = Carbon::now()->format('Y-m-d');
+        
+            // $lists = Product::leftjoin('purchase_products','purchase_products.product_id','=','products.product_id')
+            // ->leftjoin('purchases','purchase_products.purchase_id','=','purchases.purchase_id')
+            // ->leftjoin('sell_products','sell_products.product_id','=','products.product_id')
+            // ->leftjoin('sells','sell_products.sell_id','=','sells.sell_id')
+            // ->leftjoin('invent','products.product_id','=','invent.product_id')
+            // ->where(function($q) use($current_date){
+            //     $q->where('purchases.purchase_date','<',$current_date)
+            //     ->orWhere('sells.sell_date','<',$current_date)
+            //     ->orWhereNull('purchase_products.purchase_product_id')
+            //     ->orWhereNull('sell_products.sell_products_id');
+            // })
+            // ->select('products.product_id','products.product_name',DB::raw('sum(purchase_products.quantity) as total_purchase , sum(sell_products.quantity) as total_sell , sum(invent.quantity) as total_invent'))
+            // ->groupBy('products.product_id')
+            // ->get();
+            $category = Category::where('category_name','Cement')
+                                ->orwhere('category_name','Bricks')
+                                ->get();
+            // dd($category);
+            $cement = '';
+            $bricks = '';
+            for($i = 0; $i < count($category) ; $i++){
+                
+                if($category[$i]->category_name == 'Cement'){
+                    $cement = $category[$i]->category_id;
+                }
 
-        // $lists = DB::select( DB::raw('select sell_products.productUnitId,products.product_name,sell_products.unit_name,
-        //             sum(sell_products.quantity) as total_sp,total_stock,total_pp from sell_products 
-        //             inner join products on products.product_id=sell_products.product_id
-        //             left join 
-        //             (select productUnitId,sum(quantity) as total_stock from invent group by productUnitId)
-        //             invent on invent.productUnitId=sell_products.productUnitId 
-        //             left join 
-        //             (select productUnitId,sum(quantity) as total_pp from purchase_products group by productUnitId)
-        //             purchase_products on purchase_products.productUnitId=invent.productUnitId 
-        //             group by productUnitId,products.product_name,unit_name'));
+                if($category[$i]->category_name == 'Bricks'){
 
-        // dd($lists);
+                    $bricks = $category[$i]->category_id;
+                }
+            }
 
-        $current_date = Carbon::now()->format('Y-m-d');
-        // dd($current_date);
 
-        // $opening =DB::select( DB::raw('select sell_products.productUnitId,products.product_name,sell_products.unit_name,
-        //                 sum(sell_products.quantity) as total_sp,total_stock,total_pp from sell_products
-        //                 cross join sells on sells.sell_id = sell_products.sell_id 
-        //                 inner join products on products.product_id=sell_products.product_id
-        //                 left join 
-        //                 (select productUnitId,sum(quantity) as total_stock from invent group by productUnitId)
-        //                 invent on invent.productUnitId=sell_products.productUnitId 
-        //                 left join 
-        //                 (select productUnitId,sum(quantity) as total_pp from purchase_products group by productUnitId)
-        //                 purchase_products on purchase_products.productUnitId=invent.productUnitId 
-        //                 where sells.sell_date < "current_date"
-        //                 group by productUnitId,products.product_name,unit_name'));
-
-        // dd($opening);    
-            
-
-           
-            // $sell = DB::table('sells')
-            //             ->join('sell_products' ,'sells.sell_id','=','sell_products.sell_id')
-            //             ->whereDate('sell_date','<', 'current_date')
-            //             ->select('sell_products.product_id' ,'sells.sell_date')
-            //             ->get();
-            // dd($sell);
-
-           $lists = Product::leftjoin('purchase_products','purchase_products.product_id','=','products.product_id')
-            ->leftjoin('purchases','purchase_products.purchase_id','=','purchases.purchase_id')
-            ->leftjoin('sell_products','sell_products.product_id','=','products.product_id')
-            ->leftjoin('sells','sell_products.sell_id','=','sells.sell_id')
-            ->leftjoin('invent','products.product_id','=','invent.product_id')
-            ->where(function($q) use($current_date){
-                $q->where('purchases.purchase_date','<',$current_date)
-                ->orWhere('sells.sell_date','<',$current_date)
-                ->orWhereNull('purchase_products.purchase_product_id')
-                ->orWhereNull('sell_products.sell_products_id');
-            })
-            ->select('products.product_id','products.product_name',DB::raw('sum(purchase_products.quantity) as total_purchase , sum(sell_products.quantity) as total_sell , sum(invent.quantity) as total_invent'))->groupBy('products.product_id')
-
-            ->get();
-
-            // dd($product);
+            $lists = Product::select('products.product_id','products.product_name')
+                            ->where('category_id',$cement)
+                            ->orwhere('category_id',$bricks)
+                            ->get();
+    
+            // dd($lists);
+            // dd($lists[4]->product_id);
             foreach($lists as $list)
             {
-                $purchase_quantity = PurchaseProduct::
-                            leftjoin('purchases','purchase_products.purchase_id','=','purchases.purchase_id')
+                $total_invent = Inventory::where('product_id', $list->product_id)->sum('quantity');
+
+                $total_purchase = PurchaseProduct::leftjoin('purchases','purchase_products.purchase_id','=','purchases.purchase_id')
+                                    ->where('product_id' , $list->product_id)
+                                    ->whereDate('purchase_date' ,'<', $current_date)
+                                    ->sum('quantity');
+    
+                $purchase_quantity = PurchaseProduct::leftjoin('purchases','purchase_products.purchase_id','=','purchases.purchase_id')
                             ->where('product_id' , $list->product_id)
                             ->whereDate('purchase_date' , $current_date)
                             ->sum('quantity');
                 
-                $sell_quantity = Sell_Product::
-                                leftjoin('sells','sell_products.sell_id','=','sells.sell_id')
+                $total_sell = Sell_Product::leftjoin('sells','sell_products.sell_id','=','sells.sell_id')
+                                ->where('product_id' , $list->product_id)
+                                ->whereDate('sell_date' , '<',$current_date)
+                                ->sum('quantity');
+                // dd($total_sell);
+                $sell_quantity = Sell_Product::leftjoin('sells','sell_products.sell_id','=','sells.sell_id')
                                 ->where('product_id' , $list->product_id)
                                 ->whereDate('sell_date' , $current_date)
                                 ->sum('quantity');
-
+                
+                $list->total_invent = $total_invent;
+                $list->total_purchase = $total_purchase;
+                $list->total_sell = $total_sell;
                 $list->purchase_quantity = $purchase_quantity;
                 $list->sell_quantity = $sell_quantity;
             }
-            dd($lists);
+            // dd($lists);
+
      
         return view::make('app.inventory.turn')->with(['lists'=>$lists]);
     }
 
-    public function turn_list(Request $request){
+    public function turnList(Request $request){
 
-  
+        $this->validate($request, [
+			// 'product_id' => 'required|exists:products,product_id',
+			// 'unit_id' => 'required|exists:units,unit_id',
+            // 'quantity' => 'required',
+            'from_date'     => 'required'
+        ]);
+
+        try{
+
+            $current_date = Carbon::now()->format('Y-m-d');
+            $from_date = Carbon::parse($request->from_date)->format('Y-m-d');
+
+            // dd( $from_date);
+            // 
+            $category = Category::where('category_name','Cement')
+                                ->orwhere('category_name','Bricks')
+                                ->get();
+            // dd($category);
+            $cement = '';
+            $bricks = '';
+            for($i = 0; $i < count($category) ; $i++){
+                
+                if($category[$i]->category_name == 'Cement'){
+                    $cement = $category[$i]->category_id;
+                }
+
+                if($category[$i]->category_name == 'Bricks'){
+
+                    $bricks = $category[$i]->category_id;
+                }
+            }
+
+
+            $lists = Product::select('products.product_id','products.product_name')
+                            ->where('category_id',$cement)
+                            ->orwhere('category_id',$bricks)
+                            ->get();
+    
+            // dd($lists);
+            foreach($lists as $list)
+            {
+                $total_invent = Inventory::where('product_id', $list->product_id)->whereDate('date' ,'<=',$from_date)->sum('quantity');
+
+                // dd( $total_invent);
+    
+                $total_purchase = PurchaseProduct::leftjoin('purchases','purchase_products.purchase_id','=','purchases.purchase_id')
+                                    ->where('product_id' , $list->product_id)
+                                    ->whereDate('purchase_date' ,'<', $from_date)
+                                    ->sum('quantity');
+                
+
+                $purchase_quantity = PurchaseProduct::leftjoin('purchases','purchase_products.purchase_id','=','purchases.purchase_id')
+                            ->where('product_id' , $list->product_id)
+                            ->whereDate('purchase_date' , $from_date)
+                            ->sum('quantity');
+                            
+                $total_sell = Sell_Product::leftjoin('sells','sell_products.sell_id','=','sells.sell_id')
+                                ->where('product_id' , $list->product_id)
+                                ->whereDate('sell_date' , '<',$from_date)
+                                ->sum('quantity');
+                                // dd( $total_sell);
+                $sell_quantity = Sell_Product::leftjoin('sells','sell_products.sell_id','=','sells.sell_id')
+                                ->where('product_id' , $list->product_id)
+                                ->whereDate('sell_date' , $from_date)
+                                ->sum('quantity');
+    
+                $list->total_invent = $total_invent;
+                $list->total_purchase = $total_purchase;
+                $list->total_sell = $total_sell;
+                $list->purchase_quantity = $purchase_quantity;
+                $list->sell_quantity = $sell_quantity;
+            }
+
+            
+				// Return To Listing Page
+                return redirect()->route('inventory.turn')->with(['lists'=>$lists]);
+               
+        }catch (Exception $exception) {
+			DB::rollBack();
+			return back()->with('error', $exception->getMessage())->withInput();
+		}
+        
   
     }
 }

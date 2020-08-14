@@ -49,7 +49,7 @@ active
                         </div>
                     @endif
                     {{-- List Of Selected Date --}}
-                    <form
+                        <form
                         action="{{ route('sell.selected_date',['customer_id'=>$customer->customer_id]) }}"
                         method="POST">
                         @csrf
@@ -86,6 +86,7 @@ active
                                 <input action="action" onclick="window.history.go(-1); return false;" type="submit"
                                     value="Back" class="btn btn-info pull-right" />
                             </a>
+                            <a href="{{route('sell.add')}}"><button class = "btn btn-info pull-right mr-2">Add Sell+</button></a>
                             <input type="text" name="date" id="datepicker" class="form-inline datepicker list_date"
                                 placeholder="Select Date...">
                         </div>
@@ -118,7 +119,8 @@ active
                                                     <td>{{ $sell_product->gst }}</td>
                                                     <td>{{ $sell_product->amount }}</td>
                                                     <td>
-                                                        <a href="{{route('sell.edit',['id'=>$sell->sell_id])}}"><button class="btn  btn-sm btn-info">Edit</button></a>
+                                                        <a href="{{route('sell.edit',['id'=>$sell->sell_id])}}"><button class="btn  btn-sm btn-info"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                                                        <a href="{{route('sell.destroy',['id'=>$sell->sell_id])}}"><button class="btn  btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
                                                     </td>
                                                  </tr>
                                             @endforeach
@@ -175,10 +177,36 @@ active
                                         </tr>
                                         <tr>
                                             <th>Balance</th>
-                                            <th>{{ $grand_total-$payment }}</th>
+                                            <th>{{ ($grand_total +  $previous_due) -$payment }}</th>
                                         </tr>
+                                        {{-- <tr>
+                                            <th>Description</th>
+                                            <th></th>
+                                        </tr> --}}
                                     </thead>
                                 </table>
+                            </div>
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                  <table class="table table-bordered">
+                                    <tr>
+                                       <thead>
+                                           <th>Date</th>
+                                           <th>Amount</th>
+                                           <th>Description</th>
+                                       </thead>
+                                       <tbody>
+                                           @foreach ($descriptions as $description)
+                                           <tr>
+                                                <td>{{ \Carbon\Carbon::parse($description->pay_date)->format('d-m-Y') }}</td>
+                                                <td>{{$description->pay_received}}</td>
+                                                <td>{{$description->description}}</td>
+                                            </tr>  
+                                           @endforeach
+                                       </tbody>
+                                    </tr>
+                                  </table>
+                                </div>
                             </div>
                         </div>
                         <!-- /.card-body -->

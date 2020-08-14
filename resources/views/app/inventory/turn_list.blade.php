@@ -49,12 +49,12 @@
                 <strong>Error!</strong> {{Session::get('error')}}
             </div>
           @endif
-          <form action="{{route('inventory.turn_list')}}" method="POST">
+          <form action="" method="POST">
             @csrf
             <div class="row">
                 <div class="col-md-6">
                     <div
-                        class="form-group {{ $errors->has('from_date') ? ' has-error' : '' }}">
+                        class="form-group {{ $errors->has('sell_date') ? ' has-error' : '' }}">
                         {{-- <label>Sell Date <span style="color: red;">*</span></label> --}}
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -63,15 +63,15 @@
                                 </label>
                             </div>
                             <input type="text" name="from_date" class="form-control datepicker mr-3"
-                                id="datepicker" placeholder="dd-mm-yyyy">
+                                id="datepicker" required="" placeholder="dd-mm-yyyy">
                             {{-- <input type="text" name="to_date" class="form-control datepicker mr-3"
                                 id="datepicker" placeholder="dd-mm-yyyy"> --}}
-                            <button type="submit" class="btn btn-info">Submit</button>
+                            <button class="btn btn-info">Submit</button>
                         </div>
                     </div>
                 </div>
             </div>
-          </form>
+        </form>
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title text-secondary">Inventory</h3>
@@ -112,11 +112,10 @@
                             </tbody>
                             <tfoot>
                             <tr>
-                              <th>Product Name</th>
                               <th>Opening</th>
                               <th>Purchase</th>
                               <th>Sell</th>
-                              <th>CLosing</th> 
+                              <th>CLosing</th>
                             </tr>
                             </tfoot>
                     </table>

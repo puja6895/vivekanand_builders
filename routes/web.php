@@ -96,6 +96,10 @@ Route::get('/category/edit/{id}', 'CategoryController@edit')->name('category.edi
 Route::post('/category/update', 'CategoryController@update')->name('category.update');
 Route::get('/category/destroy/{id}', 'CategoryController@destroy')->name('category.destroy');
 Route::get('/category/enable/{id}', 'CategoryController@enable')->name('category.enable');
+// Previous Due
+Route::get('/previous_due', 'CategoryController@list')->name('previous_due');
+Route::get('/previous_due/add_due', 'CategoryController@add')->name('previousdue.add');
+Route::post('/previous_due/store', 'CategoryController@previousdue_store')->name('previousdue.previousdue_store');
 
 //Product
 Route::get('/product', 'ProductController@index')->name('products');
@@ -111,7 +115,7 @@ Route::get('/inventories', 'InventoryController@index')->name('inventories');
 Route::get('/inventory/add', 'InventoryController@create')->name('inventory.add');
 Route::post('/inventory/store', 'InventoryController@store')->name('inventory.store');
 Route::get('/inventory/turn', 'InventoryController@turn_index')->name('inventory.turn');
-Route::post('/inventory/turn_list', 'InventoryController@store')->name('inventory.store');
+Route::post('/inventory/turnList', 'InventoryController@turnList')->name('inventory.turn_list');
 
 
 

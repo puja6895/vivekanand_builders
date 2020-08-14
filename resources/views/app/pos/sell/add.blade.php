@@ -342,11 +342,6 @@
 @section('scripts')
 <script type="text/javascript" src="{{asset('js/sell.js')}}"></script>  
 <script>
-$('.datepicker').datepicker({
-      format: 'dd-mm-yyyy',
-      autoclose: true,
-      todayHighlight: true
-      
-    }).datepicker('setDate',new Date())
+  defaultDate()
 </script> 
 @endsection           

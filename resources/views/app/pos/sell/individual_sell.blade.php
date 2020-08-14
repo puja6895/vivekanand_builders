@@ -17,7 +17,8 @@
         <div class="row mb-2">
           <div class="col-sm-6">
           <h3>
-            {{($sell->customer->customer_name)}}
+            <a href="{{route('sell.individual',['id'=>$sell->customer_id])}}">{{($sell->customer->customer_name)}}</a>
+            {{-- {{($sell->customer->customer_name)}} --}}
             <small class="text-secondary" style="font-size:1rem">(Sell Id -> {{$sell->sell_id}})</small>
             <h3>
               

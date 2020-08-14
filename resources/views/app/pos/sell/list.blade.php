@@ -54,7 +54,7 @@
                   <button class="btn btn-success"><b>Add Payment</b></button>
                 </a>
                 <a href="{{route('sell.add')}}" class="pull-right">
-                    <button class="btn btn-info mr-3"><b>Add New+</b></button>
+                    <button class="btn btn-info mr-3"><b>Add Sell+</b></button>
                 </a>
                 <input type="text" name="date" id="datepicker" class="form-inline datepicker list_date" placeholder="Select Date...">
               </div>
@@ -90,8 +90,8 @@
                             </td>
                             @endif
                             <td>
-                              <a href="{{route('sell.edit',['id'=>$sell->sell_id])}}"><button class="btn  btn-sm btn-info">Edit</button></a>
-                            <a href="{{route('sell.destroy',['id'=>$sell->sell_id])}}"><button class="btn  btn-sm btn-danger">Delete</button></a>
+                              <a href="{{route('sell.edit',['id'=>$sell->sell_id])}}"><button class="btn  btn-sm btn-info"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                            <a href="{{route('sell.destroy',['id'=>$sell->sell_id])}}"><button class="btn  btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
                             </td>
                           </tr>
                         @endforeach 

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Customer;
+use App\PreviousDue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use DB;
 use View;
+use Carbon\Carbon;
 
 class CategoryController extends Controller
 {
@@ -169,5 +172,48 @@ class CategoryController extends Controller
             DB::rollBack();
             return back()->with('error',$exception->getMessage())->withInput();
         }
-    }    
+    }  
+    
+    public function list(){
+
+        $lists = PreviousDue :: all();
+        return view::make('app.previousDue.list')->with(['lists'=>$lists]);
+    }
+
+    public function add(){
+
+        $customers = Customer:: all();
+
+        return view::make('app.previousDue.add')->with(['customers'=>$customers]);
+    }
+
+    public function previousdue_store(Request $request){
+
+        $this->validate($request, [
+			'customer_id' => 'required|exists:customers,customer_id',
+			// 'unit_id' => 'required|exists:units,unit_id',
+			// 'purchase_price' => 'required',
+			// 'sell_price' => 'required',
+        ]);
+        
+        try{
+
+            DB:: beginTransaction();
+
+            $previous_due = new PreviousDue;
+            $previous_due->customer_id = $request->customer_id;
+            $previous_due->previous_due_date = Carbon::parse($request->previous_due_date)->format('Y-m-d');
+            $previous_due->previous_due_amount = $request->previous_due_amount;
+            $previous_due->save();
+
+            DB::commit();
+
+            return redirect()->route('previous_due')->with('success','Previous Due Added');
+        
+        }catch(Exception $exception){
+            DB::rollBack();
+            return back()->with('error',$exception->getMessage())->withInput();
+
+        }   
+    }
 }

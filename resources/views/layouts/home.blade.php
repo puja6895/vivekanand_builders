@@ -12,6 +12,7 @@
     <!-- Font Awesome -->
     {{-- <script src="https://use.fontawesome.com/f0601e8490.js"></script> --}}
     <link rel="stylesheet" href="{{asset('assets/plugins/fontawesome-free/css/all.min.css')}}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Date Picker -->
@@ -258,8 +259,54 @@
                         </li>
 
                         <li class="nav-item has-treeview ">
+                            <a href="#" class="nav-link @yield('Clients')">
+                                <i class="fa fa-users nav-icon" aria-hidden="true"></i>
+                                <p>
+                                   Clients
+                                    <i class="fa fa-angle-left right"></i>
+                                    {{-- <span class="badge badge-info right">6</span> --}}
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('customers') }}"
+                                        class="nav-link @yield('Clients')">
+                                        <i class="fa fa-circle-thin nav-icon"></i>
+                                        <p>Clients</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('customer.list') }}"
+                                        class="nav-link @yield('Clients Clients List')">
+                                        <i class="fa fa-circle-thin nav-icon"></i>
+                                        <p>Clients List </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('purchase')}}" class="nav-link @yield('Purchase')">
+                                <i class="nav-icon fa fa-shopping-cart "></i>
+                                <p>
+                                    Purchase
+                                    {{-- <i class="right fa fa-angle-left"></i> --}}
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('purchasers') }}" class="nav-link @yield('Supliers')">
+                                <i class="fa fa-user-secret nav-icon" aria-hidden="true"></i>
+                                <p>Supliers</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item has-treeview ">
                             <a href="#" class="nav-link @yield('GST')">
-                                <i class="nav-icon fa fa-database"></i>
+                                <i class="nav-icon fa fa-money"></i>
                                 <p>
                                     GST
                                     <i class="fa fa-angle-left right"></i>
@@ -296,51 +343,13 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{route('purchase')}}" class="nav-link @yield('Purchase')">
-                                <i class="nav-icon fa fa-money"></i>
+                            <a href="{{route('invoice')}}" class="nav-link @yield('Invoice List ')">
+                                <i class="nav-icon fa fa-list"></i>
                                 <p>
-                                    Purchase
-                                    {{-- <i class="right fa fa-angle-left"></i> --}}
+                                    Invoice List 
                                 </p>
                             </a>
                         </li>
-
-                        <li class="nav-item has-treeview ">
-                            <a href="#" class="nav-link @yield('Clients')">
-                                <i class="fa fa-users nav-icon" aria-hidden="true"></i>
-                                <p>
-                                   Clients
-                                    <i class="fa fa-angle-left right"></i>
-                                    {{-- <span class="badge badge-info right">6</span> --}}
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('customers') }}"
-                                        class="nav-link @yield('Clients')">
-                                        <i class="fa fa-circle-thin nav-icon"></i>
-                                        <p>Clients</p>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('customer.list') }}"
-                                        class="nav-link @yield('Clients Clients List')">
-                                        <i class="fa fa-circle-thin nav-icon"></i>
-                                        <p>Clients List </p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('purchasers') }}" class="nav-link @yield('Supliers')">
-                                <i class="fa fa-users nav-icon" aria-hidden="true"></i>
-                                <p>Supliers</p>
-                            </a>
-                        </li>
-
 
                         <li class="nav-item">
                         <a href="{{route('invoice.add')}}" class="nav-link @yield(' Generate Invoice ')">
@@ -352,15 +361,7 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                        <a href="{{route('invoice')}}" class="nav-link @yield('Invoice List ')">
-                                    <i class="nav-icon fa fa-file"></i>
-                                    <p>
-                                        Invoice List 
-                                       
-                                    </p>
-                            </a>
-                        </li>
+                        
 
                         <li class="nav-item has-treeview ">
                             <a href="#" class="nav-link @yield('Payment')">
@@ -394,7 +395,7 @@
                         
                         <li class="nav-item has-treeview ">
                             <a href="#" class="nav-link @yield('Inventory')">
-                                <i class="fa fa-users nav-icon" aria-hidden="true"></i>
+                                <i class="fa fa-shopping-basket nav-icon" aria-hidden="true"></i>
                                 <p>
                                    Inventory 
                                     <i class="fa fa-angle-left right"></i>
@@ -423,7 +424,7 @@
                         
                         <li class="nav-item">
                             <a href="{{ route('products') }}" class="nav-link @yield('Product')">
-                                <i class="nav-icon fa fa-tags"></i>
+                                <i class="nav-icon fa fa-product-hunt"></i>
                                 <p>
                                     Products
                                     {{-- <i class="right fa fa-angle-left"></i> --}}
@@ -442,7 +443,7 @@
                         </li>
                         <li class="nav-item has-treeview ">
                             <a href="#" class="nav-link @yield('Lorry')">
-                                <i class="nav-icon fa fa-database"></i>
+                                <i class="nav-icon fa fa-car"></i>
                                 <p>
                                     Lorry
                                     <i class="fa fa-angle-left right"></i>
@@ -467,6 +468,16 @@
                                     </a>
                                 </li>
                             </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('previous_due')}}" class="nav-link @yield(' Previous Due')">
+                                <i class="nav-icon fa fa-money"></i>
+                                <p>
+                                    Previous Due
+                                    {{-- <i class="right fa fa-angle-left"></i> --}}
+                                </p>
+                            </a>
                         </li>
 
                         <li class="nav-item has-treeview ">
@@ -499,7 +510,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('admins') }}"  class="nav-link @yield('Admin')">
-                                <i class="nav-icon fa fa-tags"></i>
+                                <i class="nav-icon fa fa-unlock-alt"></i>
                                 <p>
                                     Admin
                                     {{-- <i class="right fa fa-angle-left"></i> --}}
@@ -596,7 +607,25 @@
         table.search( this.value ).draw();
     } );
 </script>
+{{-- Default Date --}}
+<script>
+    function defaultDate(){
+        $('.datepicker').datepicker({
+        format: 'dd-mm-yyyy',
+        autoclose: true,
+        todayHighlight: true
+      
+    }).datepicker('setDate',new Date())
+    }
+</script>
+{{-- Tooltip --}}
+<script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 @yield('scripts')
+
 </body>
 
 </html>

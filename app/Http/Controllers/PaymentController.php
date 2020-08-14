@@ -32,12 +32,14 @@ class PaymentController extends Controller
             'customer_id' => 'required|exists:customers,customer_id',
             'pay_date' => 'required',
             'pay_received' => 'required'
+
         ]);
         try{
             DB::beginTransaction();
 
-                // dd($request->bill_id);
-                // $bill_detail = Billdetail::where()
+
+                $discount_amount = $request->discount_amount;
+                $description = $request->description;
                  $r_pay_recevied = $request->pay_received;
                 // dd($r_pay_recevied);
                 $r_bill_id = $request->bill_id;
@@ -58,17 +60,20 @@ class PaymentController extends Controller
                     // dd(empty($due_amount));
                     // dd( $due_amount[0]->due_amount - $pay_recevied);  
                     if(!empty($due_amount)){
+
+                     $discount = $discount_amount !=null ? $discount_amount : 0;   
                         
                     $bill_due = BillDetail::where(['bill_id'=>$request->bill_id])
-                                            ->update(['due_amount'=> $due_amount->due_amount -  $r_pay_recevied ]);
+                                            ->update(['due_amount'=> $due_amount->due_amount -  $r_pay_recevied - $discount]);
 
-                    }else{
+                    }
+                    // else{
                         
-                        $due_amoun->due_amount = 0;
+                    //     $due_amount->due_amount = 0;
                         
-                        $bill_due = BillDetail::where(['bill_id'=>$request->bill_id])
-                        ->update(['due_amount'=> $due_amount->due_amount -  $r_pay_recevied ]); 
-                    }                        // dd($bill_due);   
+                    //     $bill_due = BillDetail::where(['bill_id'=>$request->bill_id])
+                    //     ->update(['due_amount'=> $due_amount->due_amount -  $r_pay_recevied ]); 
+                    // }                        // dd($bill_due);   
                 }
                     $payment->customer_id=$request->customer_id;
                     $payment->pay_date = Carbon::parse($request->pay_date)->format('Y-m-d');
@@ -76,6 +81,25 @@ class PaymentController extends Controller
                     $payment->pay_mode=$request->pay_mode;
                     $payment->save();
 
+                  
+                    
+                    // dd( $discount_amount);
+                    
+                    if($discount_amount  != null){
+                        
+                        $payment = new Payment;
+                        $payment->status = 2;
+                        $payment->customer_id=$request->customer_id;
+                        $payment->pay_date = Carbon::parse($request->pay_date)->format('Y-m-d');
+                        $payment->pay_received=$discount_amount;
+                        $payment->pay_mode=$request->pay_mode;
+                        $payment->description=$description;
+                        // dd($payment->pay_received);
+                        $payment->save();
+
+                        
+                        
+                    }
             DB::commit();
                 return redirect()->route('payment.add')->with('success','Payment Added');
 

@@ -84,7 +84,7 @@
         <tbody>
           @foreach($customers as $customer)
             <tr>
-              <td>{{$customer->customer_name}}</td>
+              <td><a href="{{route('sell.individual',['id'=>$customer->customer_id])}}"> {{$customer->customer_name}}</a></td>
               <td>{{$customer->customer_mobile}}</td>
               <td>{{$customer->customer_email ? $customer->customer_email : 'N/A'}}</td>
               <td>{{$customer->customer_address ? $customer->customer_address : 'N/A'}}</td>
