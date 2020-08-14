@@ -80,7 +80,7 @@
         <tbody>
          @foreach($payments as $payment)
           <tr>
-              <td>{{$payment->customer->customer_name}}</td>
+              <td><a href="{{route('sell.individual',['id'=>$payment->customer_id])}}">{{$payment->customer->customer_name}}</a></td>
               <td>{{$payment->pay_date}}</td>
               <td>{{$payment->pay_received}}</td>
               <td>{{$payment->pay_mode}}</td>

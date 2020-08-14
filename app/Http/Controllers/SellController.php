@@ -432,14 +432,17 @@ class SellController extends Controller
         $grand_total = DB::table('sells')
                           ->where('customer_id',$customer_id)
                           ->sum('total_amount');
-        
+        // dd($grand_total);
         $sells = Sell::where('customer_id',$customer_id)->orderBy('sell_date','desc')->get();  
         // dd($sells);                     
 
         $payment = DB::table('sell_payAmounts')
                       ->where('customer_id',$customer_id)
                       ->sum('pay_received');
+        // dd($payment);
 
+        // $balance = $grand_total - $payment ;
+        // dd($balance);
         $descriptions  = Payment::where('customer_id',$customer_id)->where('status',2)->get();
         // dd($description[1]->description);
         

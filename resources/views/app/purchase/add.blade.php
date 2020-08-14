@@ -165,7 +165,7 @@
                             <select required name="unit_id0" id="unit_id0" class="form-control select2" >
                               <option value="0"> Unit </option>
                               @foreach($units as $unit)
-                                <option value="{{$unit->unit_id}}">{{$unit->unit_name}}</option>
+                                <option value="{{$unit->unit_name}}">{{$unit->unit_name}}</option>
                               @endforeach
                             </select>
                           </td>
@@ -180,7 +180,7 @@
                                    <i class="fa fa-inr"></i>
                                  </label>
                                </span>
-                               <input type="text" class="form-control" name="rate0" id="rate1" onchange="calculateTotal()" required value="0">
+                               <input type="text" class="form-control" name="rate0" id="rate0" onchange="calculateTotal()" required value="0">
                              </div>
                          </td>
                           <td class="">
@@ -278,5 +278,8 @@
             <!-- /.card -->
 @endsection  
 @section('scripts')
-<script type="text/javascript" src="{{asset('js/sell.js')}}"></script>   
+<script type="text/javascript" src="{{asset('js/purchase.js')}}"></script>   
+<script>
+  defaultDate()
+</script>
 @endsection           

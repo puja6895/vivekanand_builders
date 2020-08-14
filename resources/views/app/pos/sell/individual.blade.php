@@ -169,15 +169,18 @@ active
                                     <thead>
                                         <tr>
                                             <th>Grand Total </th>
-                                            <th>{{ $grand_total }}</th>
+                                            <th>{{ $grand_total + $previous_due}}</th>
                                         </tr>
                                         <tr>
                                             <th>Payment Received</th>
+                                            {{-- {{dd($payment)}} --}}
                                             <th>{{ $payment }}</th>
                                         </tr>
                                         <tr>
                                             <th>Balance</th>
-                                            <th>{{ ($grand_total +  $previous_due) -$payment }}</th>
+                                            {{-- {{dd(($grand_total +  $previous_due) - $payment)}} --}}
+
+                                            <th>{{ ($grand_total +  $previous_due) - $payment }}</th>
                                         </tr>
                                         {{-- <tr>
                                             <th>Description</th>

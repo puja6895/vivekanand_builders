@@ -44,9 +44,15 @@ class PurchasePaymentController extends Controller
                     $credit = 0;
                 }
 
-                $paid = $paid_amount + ($paid_amount*($debit/100));
-            
-                $paid = $paid - ($paid*($credit/100));
+                $paid = $paid_amount + $debit;
+                // $paid = $paid_amount + ($paid_amount*($debit/100));;
+                
+
+                
+                $paid = $paid - $credit;
+                // $paid = $paid -  ($paid*($credit/100));
+                
+                // dd($paid);
                 
                 $purchase_payment = new PurchasePayment;
                 $purchase_payment->purchaser_id=$request->purchaser_id;

@@ -37,6 +37,12 @@
           <!-- left column -->
           <div class="col-md-12">
             <!-- jquery validation -->
+            @if (Session::get('success'))
+              <div class="alert alert-success alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert">×</button>
+                  <strong>Success!</strong> {{Session::get('success')}}
+              </div>
+            @endif
             @foreach ($errors->all() as $error)
                 @if ($error)
                     <div class="alert alert-danger alert-dismissible" role="alert">
@@ -106,7 +112,8 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Payment Received <span style="color: red;">*</span></label>
-                            <input type="number" name="pay_received" class="form-control {{$errors->has('pay_received') ? 'is-invalid' : ''}}" id="pay_received" required="" placeholder="Enter Payment Received" value="{{ old('pay_received')}}">
+                            {{-- {{dd()}} --}}
+                            <input type="number" name="pay_received" class="form-control {{$errors->has('pay_received') ? 'is-invalid' : ''}}" id="pay_received"  placeholder="Enter Payment Received" value="{{ old('pay_received') == null ? 0 : old('pay_received') }}">
                         </div>
 
                         <div class="form-group">

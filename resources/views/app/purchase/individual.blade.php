@@ -165,7 +165,9 @@
                       </tr>
                       <tr>
                       <th>Payment</th>
+                      {{-- {{dd($payment)}} --}}
                       <th>{{$payment}}</th>
+                      
                       </tr>
                       <tr>
                         <th>Balance</th>

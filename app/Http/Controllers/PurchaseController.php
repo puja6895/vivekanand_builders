@@ -210,7 +210,7 @@ class PurchaseController extends Controller
         $grand_total = DB::table('purchases')
                           ->where('purchaser_id',$purchaser_id)
                           ->sum('total_amount');
-        
+        // dd($grand_total);
         $purchases = Purchase::where('purchaser_id',$purchaser_id)->get();  
         // dd($sells[0]->sell_products);                     
 
@@ -218,7 +218,9 @@ class PurchaseController extends Controller
                       ->where('purchaser_id',$purchaser_id)
                       ->sum('final_paid');
 
-        
+        // dd($payment);
+        $balance = ($grand_total -  $payment);
+        // dd($balance);
         $sell_products ;                    
         return view :: make('app.purchase.individual')->with(['purchaser'=>$purchaser,'grand_total'=>$grand_total,'purchases'=>$purchases,'payment'=>$payment]);
     }

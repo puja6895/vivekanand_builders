@@ -43,7 +43,8 @@ class PaymentController extends Controller
                  $r_pay_recevied = $request->pay_received;
                 // dd($r_pay_recevied);
                 $r_bill_id = $request->bill_id;
-
+            if($r_pay_recevied > 0)
+            {
                 $payment = new Payment;
                 // dd($r_bill_id == '-1');
                 
@@ -80,7 +81,7 @@ class PaymentController extends Controller
                     $payment->pay_received=$r_pay_recevied;
                     $payment->pay_mode=$request->pay_mode;
                     $payment->save();
-
+            }    
                   
                     
                     // dd( $discount_amount);

@@ -98,7 +98,7 @@
                                       {{-- @foreach($sells as $sell) --}}
                                       @foreach($sells->sell_products as $sell_product)
                                       <tr>
-                                        <td>{{$sells->customer->customer_name}}</td>
+                                        <td><a href="{{route('sell.individual',['id'=>$sells->customer_id])}}">{{$sells->customer->customer_name}}</a></td>
                                         <td>{{ \Carbon\Carbon::parse($sells->sell_date)->format('d-m-Y') }}
                                         </td>
                                         <td>{{ $sell_product->product->product_name }}</td>
