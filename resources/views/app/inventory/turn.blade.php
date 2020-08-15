@@ -89,7 +89,7 @@
                               <th>Opening</th>
                               <th>Purchase</th>
                               <th>Sell</th>
-                              <th>CLosing</th> 
+                              <th>Closing</th> 
                             </tr>
                             </thead>
                             <tbody>
@@ -99,7 +99,7 @@
                               $purchase = !empty($list->total_purchase) ? $list->total_purchase : 0;
                               $sell = !empty($list->total_sell) ? $list->total_sell : 0;
                               $opening = ($invent + $purchase) - $sell;
-                              $closing = ($opening + $list->purchase_quantity ) - $list->sell_quantity;
+                              $closing = ($opening + $list->purchase_quantity + $list->inventory_quantity ) - $list->sell_quantity;
                             @endphp
                             <tr>
                               <td>{{$list->product_name}}</td>
@@ -116,7 +116,7 @@
                               <th>Opening</th>
                               <th>Purchase</th>
                               <th>Sell</th>
-                              <th>CLosing</th> 
+                              <th>Closing</th> 
                             </tr>
                             </tfoot>
                     </table>

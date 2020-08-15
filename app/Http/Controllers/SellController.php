@@ -82,7 +82,7 @@ class SellController extends Controller
        
             try {
                 $product_id = $request->product_id;
-                $unit_name = $request->unit_name;
+                $unit_id = $request->unit_id;
                 $rate = $request->rate;
                 $quantity = $request->quantity;
                 $gst = $request->gst;
@@ -115,8 +115,9 @@ class SellController extends Controller
                     $sell_product= new Sell_Product;
                     $sell_product->sell_id=$sell_id;
                     $sell_product->product_id=$product_id[$i];
-                    $sell_product->unit_name=$unit_name[$i];
-                    $sell_product->unit_id=$sell_product->unit->unit_id; 
+                    $sell_product->unit_id=$unit_id[$i];
+                    // dd($unit_name[$i] ,$sell_product->unit);
+                    $sell_product->unit_name=$sell_product->unit->unit_name; 
                     $sell_product->productUnitId=$sell_product->product_id.$sell_product->unit->unit_id;
                     $sell_product->rate=$rate[$i];
                     $sell_product->quantity=$quantity[$i];

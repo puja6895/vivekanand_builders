@@ -585,7 +585,7 @@
       'paging': true,
       'lengthChange': true,
       'searching': true,
-      'ordering': false,
+      'ordering': true,
       'info': true,
       'autoWidth': true
     });

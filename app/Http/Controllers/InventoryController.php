@@ -130,7 +130,7 @@ class InventoryController extends Controller
         //
     }
 
-    public function turn_index(){
+        public function turn_index(){
 
             $current_date = Carbon::now()->format('Y-m-d');
         
@@ -171,18 +171,24 @@ class InventoryController extends Controller
                             ->where('category_id',$cement)
                             ->orwhere('category_id',$bricks)
                             ->get();
-    
+
             // dd($lists);
             // dd($lists[4]->product_id);
             foreach($lists as $list)
             {
-                $total_invent = Inventory::where('product_id', $list->product_id)->sum('quantity');
+                $total_invent = Inventory::where('product_id', $list->product_id)
+                                ->whereDate('date' ,'<',$current_date)
+                                ->sum('quantity');
+
+                $inventory_quantity = Inventory::where('product_id' , $list->product_id)
+                                    ->whereDate('date' , $current_date)
+                                    ->sum('quantity');
 
                 $total_purchase = PurchaseProduct::leftjoin('purchases','purchase_products.purchase_id','=','purchases.purchase_id')
                                     ->where('product_id' , $list->product_id)
                                     ->whereDate('purchase_date' ,'<', $current_date)
                                     ->sum('quantity');
-    
+
                 $purchase_quantity = PurchaseProduct::leftjoin('purchases','purchase_products.purchase_id','=','purchases.purchase_id')
                             ->where('product_id' , $list->product_id)
                             ->whereDate('purchase_date' , $current_date)
@@ -199,6 +205,7 @@ class InventoryController extends Controller
                                 ->sum('quantity');
                 
                 $list->total_invent = $total_invent;
+                $list->inventory_quantity = $inventory_quantity;
                 $list->total_purchase = $total_purchase;
                 $list->total_sell = $total_sell;
                 $list->purchase_quantity = $purchase_quantity;
@@ -206,16 +213,13 @@ class InventoryController extends Controller
             }
             // dd($lists);
 
-     
+    
         return view::make('app.inventory.turn')->with(['lists'=>$lists]);
     }
 
     public function turnList(Request $request){
 
         $this->validate($request, [
-			// 'product_id' => 'required|exists:products,product_id',
-			// 'unit_id' => 'required|exists:units,unit_id',
-            // 'quantity' => 'required',
             'from_date'     => 'required'
         ]);
 
@@ -249,25 +253,31 @@ class InventoryController extends Controller
                             ->where('category_id',$cement)
                             ->orwhere('category_id',$bricks)
                             ->get();
-    
+
             // dd($lists);
             foreach($lists as $list)
             {
-                $total_invent = Inventory::where('product_id', $list->product_id)->whereDate('date' ,'<=',$from_date)->sum('quantity');
+                $total_invent = Inventory::where('product_id', $list->product_id)
+                                ->whereDate('date' ,'<',$from_date)
+                                ->sum('quantity');
+
+                $inventory_quantity = Inventory::where('product_id' , $list->product_id)
+                                    ->whereDate('date' , $from_date)
+                                    ->sum('quantity');
 
                 // dd( $total_invent);
-    
+
                 $total_purchase = PurchaseProduct::leftjoin('purchases','purchase_products.purchase_id','=','purchases.purchase_id')
-                                    ->where('product_id' , $list->product_id)
-                                    ->whereDate('purchase_date' ,'<', $from_date)
-                                    ->sum('quantity');
+                                                    ->where('product_id' , $list->product_id)
+                                                    ->whereDate('purchase_date' ,'<', $from_date)
+                                                    ->sum('quantity');
                 
 
                 $purchase_quantity = PurchaseProduct::leftjoin('purchases','purchase_products.purchase_id','=','purchases.purchase_id')
-                            ->where('product_id' , $list->product_id)
-                            ->whereDate('purchase_date' , $from_date)
-                            ->sum('quantity');
-                            
+                                                    ->where('product_id' , $list->product_id)
+                                                    ->whereDate('purchase_date' , $from_date)
+                                                    ->sum('quantity');
+                                                    
                 $total_sell = Sell_Product::leftjoin('sells','sell_products.sell_id','=','sells.sell_id')
                                 ->where('product_id' , $list->product_id)
                                 ->whereDate('sell_date' , '<',$from_date)
@@ -277,8 +287,9 @@ class InventoryController extends Controller
                                 ->where('product_id' , $list->product_id)
                                 ->whereDate('sell_date' , $from_date)
                                 ->sum('quantity');
-    
+
                 $list->total_invent = $total_invent;
+                $list->inventory_quantity = $inventory_quantity;
                 $list->total_purchase = $total_purchase;
                 $list->total_sell = $total_sell;
                 $list->purchase_quantity = $purchase_quantity;
@@ -286,14 +297,14 @@ class InventoryController extends Controller
             }
 
             
-				// Return To Listing Page
-                return redirect()->route('inventory.turn')->with(['lists'=>$lists]);
-               
+                // Return To Listing Page
+                return view::make('app.inventory.turn')->with(['lists'=>$lists]);
+            
         }catch (Exception $exception) {
-			DB::rollBack();
-			return back()->with('error', $exception->getMessage())->withInput();
-		}
+            DB::rollBack();
+            return back()->with('error', $exception->getMessage())->withInput();
+        }
         
-  
+
     }
 }

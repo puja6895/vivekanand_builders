@@ -69,7 +69,7 @@
 
                   <div class="form-group">
                     <label for="exampleInputEmail1">Select Category</label>
-                    <select class="form-control" name="category_id">
+                    <select class="form-control {{$errors->has('category_id') ? 'is-invalid' : ''}}" name="category_id" id="category_id">
                       <option selected="" disabled="">Please Select Category</option>
                       @foreach($categories as $category)
                         <option value="{{$category->category_id}}">

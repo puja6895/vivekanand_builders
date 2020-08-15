@@ -73,7 +73,7 @@
                               <i class="fa fa-user"></i>
                           </label>
                         </div> --}}
-                        <select required class="form-control select2" id="customer_id" name="purchaser_id">
+                        <select required class="form-control select2 {{$errors->has('purchaser_id') ? 'is-invalid' : ''}}" id="purchaser_id" name="purchaser_id">
                           <option selected="" disabled="">Select Purchaser</option>
                           @foreach($purchasers as $purchaser)
                           <option value="{{$purchaser->purchaser_id}}">{{$purchaser->purchaser_name}}</option>
@@ -207,7 +207,7 @@
                           <td>
                             <button type="button" data-toggle="tooltip" title="Add Product" class="btn btn-success pull-right" id="addrow"> 
                                 <i class="fa fa-plus"></i>
-                                Add
+                                {{-- Add --}}
                             </button>
                         </td>
                         </tr>

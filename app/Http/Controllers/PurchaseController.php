@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Purchase;
 use App\PurchaseProduct;
+use App\PurchasePayment;
 use App\Purchaser;
 use App\Product;
 use App\Inventory;
@@ -216,10 +217,23 @@ class PurchaseController extends Controller
 
         $payment = DB::table('purchase_payments')
                       ->where('purchaser_id',$purchaser_id)
-                      ->sum('final_paid');
+                      ->sum('paid');
+        
+        $debit = PurchasePayment :: where('purchaser_id',$purchaser_id) 
+                                    ->sum('debit');             
+        // dd($debit);
 
-        // dd($payment);
-        $balance = ($grand_total -  $payment);
+        $credit = PurchasePayment :: where('purchaser_id',$purchaser_id) 
+                                    ->sum('credit');             
+        // dd($credit);
+
+        $grand_total =  $grand_total +  $debit;
+        // dd( $grand_total);
+
+        $payment =  $payment +  $credit;
+        // dd( $payment);
+
+        // $balance = ($grand_total -  $payment);
         // dd($balance);
         $sell_products ;                    
         return view :: make('app.purchase.individual')->with(['purchaser'=>$purchaser,'grand_total'=>$grand_total,'purchases'=>$purchases,'payment'=>$payment]);

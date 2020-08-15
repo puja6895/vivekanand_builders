@@ -227,7 +227,7 @@
                             <select required name="unit_id0" id="unit_id0" class="form-control select2" >
                               <option value="0"> Unit </option>
                               @foreach($units as $unit)
-                                <option value="{{$unit->unit_name}}">{{$unit->unit_name}}</option>
+                                <option value="{{$unit->unit_id}}">{{$unit->unit_name}}</option>
                               @endforeach
                             </select>
                           </td>

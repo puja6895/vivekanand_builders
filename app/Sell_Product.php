@@ -18,7 +18,7 @@ class Sell_Product extends Model
     }
 
     public function unit() {
-      return $this->belongsTo('App\Unit', 'unit_name','unit_name');
+      return $this->belongsTo('App\Unit', 'unit_id','unit_id');
       }
    
 }
