@@ -173,7 +173,7 @@
               <label for="exampleInputEmail1">Rate
                   <span style="color: red;">*</span>
               </label>
-              <input type="number" name="rate" required class="form-control  {{$errors->has('rate') ? 'is-invalid' : ''}}" id="rate" placeholder="Enter Rate" value="{{ old('rate')}}">
+              <input type="text" name="rate" required class="form-control  {{$errors->has('rate') ? 'is-invalid' : ''}}" id="rate" placeholder="Enter Rate" value="{{ old('rate')}}">
               {{-- Error handling --}}
               {{-- @if($errors->has('customer_name'))
                   <span class="text-danger">{{$errors->first('customer_name')}}</span>

@@ -60,12 +60,14 @@ Route::get('/gstsell/individual/{id}', 'SellController@gstindividual')->name('gs
 //Payment
 Route::get('/sell/payment', 'PaymentController@index')->name('payments');
 Route::get('/sell/payment/add', 'PaymentController@create')->name('payment.add');
+Route::get('/sell/payment/ad/{customer_id}', 'PaymentController@individual')->name('payment.ad');
+Route::get('/sell/payment/bill_add/{bill_id}', 'PaymentController@bill_payment')->name('payment.bill_add');
 Route::post('/sell/payment/store', 'PaymentController@store')->name('payment.store');
 Route::get('/payment/destroy/{id}', 'PaymentController@destroy')->name('payment.destroy');
 
 // Gst Payment
 Route::get('/gstpayment', 'GstPaymentController@index')->name('gstpayments');
-Route::get('/gstpayment/add', 'GstPaymentController@create')->name('gstpayment.add');
+Route::get('/gstpayment/add/', 'GstPaymentController@create')->name('gstpayment.add');
 Route::post('/gstpayment/store', 'GstPaymentController@store')->name('gstpayment.store');
 
 //customer
@@ -76,6 +78,7 @@ Route::get('/customer/edit/{id}', 'CustomerController@edit')->name('customer.edi
 Route::post('/customer/update/', 'CustomerController@update')->name('customer.update');
 Route::get('/customer/destroy/{id}', 'CustomerController@destroy')->name('customer.destroy');
 Route::get('/customer/enable/{id}', 'CustomerController@enable')->name('customer.enable');
+// customer List
 Route::get('/customer/list', 'CustomerController@list')->name('customer.list');
 
 

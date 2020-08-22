@@ -161,7 +161,7 @@ active
                                                         <select required name="unit_id0" id="unit_id0" class="form-control select2" >
                                                             <option value="0"> Unit </option>
                                                             @foreach($units as $unit)
-                                                              <option value="{{$unit->unit_name}}">{{$unit->unit_name}}</option>
+                                                              <option value="{{$unit->unit_id}}">{{$unit->unit_name}}</option>
                                                             @endforeach
                                                           </select>
                                                     </td>
@@ -241,6 +241,8 @@ active
                                                     
                                                     <tr>
                                                         <input type="hidden" name="sell_product_id[]" value="{{$sell_product->sell_products_id }}">
+
+                                                        <input readonly class="form-control" type="hidden" name="unit_id[]" placeholder="Unit" required value="{{$sell_product->unit_id}}">
                                                            {{-- {{ dd($sells->sell_products->product)}} --}}
                                                            <input type="hidden" name="product_id[]" value="{{$sell_product->product->product_id}}">
                                                             <td style="width:15rem"><input class="form-control" value="{{$sell_product->product->product_name}}"
@@ -250,7 +252,7 @@ active
 
                                                             <td style="width:8rem"><input readonly class="form-control"
                                                                     type="text" name="unit_name[]" placeholder="Unit" required
-                                                                    value="{{$sell_product->unit_name}}"> </td>
+                                                                    value="{{$sell_product->unit_name}}">  </td>
 
                                                             <td><input class="form-control" type="number" name="quantity[]"
                                                                     value="{{$sell_product->quantity}}" required></td>

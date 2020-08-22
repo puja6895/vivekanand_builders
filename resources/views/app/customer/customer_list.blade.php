@@ -90,12 +90,15 @@
                         @endphp --}}
                         @foreach($lists as $list)
                         @if(($list->total_payment == NULL ? $list->total_amount - 0: $list->total_amount - $list->total_payment)>0)
-
+                               @php
+                                  $previous_due = $list->previous_due_amount;
+                                  $total_amount = $list->total_amount +  $previous_due;
+                               @endphp 
                           <tr>
                             <td> <a href="{{route('sell.individual',[$list->customer_id])}}">{{ $list->customer_name}}</a></td>
-                            <td><span style="font-size: 17px;">&#8377;</span> {{ $list->total_amount}}</td>
+                            <td><span style="font-size: 17px;">&#8377;</span> {{ $total_amount}}</td>
                             <td><span style="font-size: 17px;">&#8377;</span> {{ $list->total_payment == NULL ? 0:$list->total_payment}}</td>
-                            <td><span style="font-size: 17px;">&#8377;</span> {{ $list->total_payment == NULL ? $list->total_amount - 0: $list->total_amount - $list->total_payment}}</td>
+                            <td><span style="font-size: 17px;">&#8377;</span> {{ $list->total_payment == NULL ? $total_amount - 0: $total_amount - $list->total_payment}}</td>
                             <td>
                                 <a href="{{route('sell.individual',[$list->customer_id])}}"><button class="btn btn-sm btn-info">View</button></a>
                             </td>

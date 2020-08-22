@@ -16,7 +16,7 @@ active
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h3>{{ $customer->customer_name }}</h3>
+                    <h2>{{ $customer->customer_name }}</h2>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -48,10 +48,24 @@ active
                             <strong>Error!</strong> {{ Session::get('error') }}
                         </div>
                     @endif
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr class="text-primary text-center ">
+                            <td><b>Grand Total</b></td>
+                            <td><b>Total Pay Received</b></td>
+                            <td><b>Balance</b></td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="text-center ">
+                            <td><b> <h1><span style="font-size: 50px;">&#8377;</span> {{ $grand_total + $previous_due}}</h1></b></td>
+                            <td class="text-success"><b><h1><span style="font-size: 50px;">&#8377;</span> {{$payment}}</h1></b></td>
+                            <td class="text-danger"><b><h1><span style="font-size: 50px;">&#8377;</span> {{ ($grand_total +  $previous_due) - $payment }}</h1></b></td>
+                          </tr>
+                        </tbody>
+                      </table>
                     {{-- List Of Selected Date --}}
-                        <form
-                        action="{{ route('sell.selected_date',['customer_id'=>$customer->customer_id]) }}"
-                        method="POST">
+                        <form action="{{ route('sell.selected_date',['customer_id'=>$customer->customer_id]) }}"  method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
@@ -86,6 +100,8 @@ active
                                 <input action="action" onclick="window.history.go(-1); return false;" type="submit"
                                     value="Back" class="btn btn-info pull-right" />
                             </a>
+                            <a href="{{ route('payment.ad' ,['customer_id'=>$customer->customer_id]) }}" class="pull-right">
+                                <button class="btn btn-success mr-2"><b>Add Payment</b></button>
                             <a href="{{route('sell.add')}}"><button class = "btn btn-info pull-right mr-2">Add Sell+</button></a>
                             <input type="text" name="date" id="datepicker" class="form-inline datepicker list_date"
                                 placeholder="Select Date...">
@@ -93,7 +109,7 @@ active
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="example1" class="table table-bordered table-striped table-hover">
+                                <table id="example1" class="table table-bordered table-striped table-hover text-center">
                                     <thead>
                                         <tr>
                                             <th>Sell Date</th>
@@ -113,7 +129,7 @@ active
                                                     <td>{{ \Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y') }}
                                                     </td>
                                                     <td>{{ $sell_product->product->product_name }}</td>
-                                                    <td>{{ $sell_product->quantity }}({{ $sell_product->unit_name }})
+                                                    <td>{{ $sell_product->quantity }}({{ $sell_product->unit->unit_name }})
                                                     </td>
                                                     <td>{{ $sell_product->rate }}</td>
                                                     <td>{{ $sell_product->gst }}</td>
@@ -150,45 +166,19 @@ active
         <hr>
 
         {{-- Payment Detail --}}
+        {{-- {{dd(empty($descriptions) )}} --}}
+        @if(count($descriptions) > 0) 
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <!-- Default box -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title text-success font-weight-bolder">Payment Detail</h3>
-
-                            <a href="{{ route('payment.add') }}" class="pull-right">
-                                <button class="btn btn-success"><b>Add Payment</b></button>
-                            </a>
+                            <h3 class="card-title text-success font-weight-bolder">Discount Description</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="" class="table table-bordered table-striped table-hover ">
-                                    <thead>
-                                        <tr>
-                                            <th>Grand Total </th>
-                                            <th>{{ $grand_total + $previous_due}}</th>
-                                        </tr>
-                                        <tr>
-                                            <th>Payment Received</th>
-                                            {{-- {{dd($payment)}} --}}
-                                            <th>{{ $payment }}</th>
-                                        </tr>
-                                        <tr>
-                                            <th>Balance</th>
-                                            {{-- {{dd(($grand_total +  $previous_due) - $payment)}} --}}
-
-                                            <th>{{ ($grand_total +  $previous_due) - $payment }}</th>
-                                        </tr>
-                                        {{-- <tr>
-                                            <th>Description</th>
-                                            <th></th>
-                                        </tr> --}}
-                                    </thead>
-                                </table>
-                            </div>
+                            
                             <div class="card bg-light">
                                 <div class="card-body">
                                   <table class="table table-bordered">
@@ -216,6 +206,9 @@ active
                     </div>
                     <!-- /.card -->
                 </div>
+            </div>
+        </div>
+        @endif
 
 
     </section>

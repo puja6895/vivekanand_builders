@@ -71,7 +71,7 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table id="example2" class="table table-bordered table-striped table-hover ">
+                    <table id="example2" class="table table-bordered table-striped table-hover text-center">
                       <thead>
                       <tr>
                         {{-- <th>Customer Name</th> --}}
@@ -91,7 +91,7 @@
                          {{-- <td>{{$sell_product->sell_id}}</td> --}}
                          <td>{{$sell->sell_date}}</td>
                          <td>{{$sell_product->product->product_name}}</td>
-                         <td>{{$sell_product->quantity}}({{$sell_product->unit_name}})</td>
+                         <td>{{$sell_product->quantity}} ({{$sell_product->unit->unit_name}})</td>
                          {{-- <td></td> --}}
                          <td>{{$sell_product->rate}}</td>
                          <td>{{$sell_product->gst}}</td>
@@ -117,7 +117,7 @@
                 <div class='card-footer'>
                   <button class="btn  btn-success pull-right font-weight-bold" disabled>
                     Total Amount 
-                    <span> =>
+                    <span> 
                       <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
                     </span><span style="font-size:1.2rem;">&#8377;</span>{{$sell->total_amount}}
                   </button>

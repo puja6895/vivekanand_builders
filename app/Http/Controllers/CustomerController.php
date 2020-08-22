@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Customer;
 use App\Sell;
 use App\Payment;
+use App\PreviousDue;
 use App\Sell_Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -126,7 +127,7 @@ class CustomerController extends Controller
             'customer_mobile'     => 'required|unique:customers,customer_mobile,'.$request->customer_id.',customer_id',
         ]);
 
-
+            // dd($request->customer_id);
         try{
             // DB Transection Begin
             DB::beginTransaction();
@@ -215,12 +216,18 @@ class CustomerController extends Controller
 
     public function list(){
 
-        $lists =DB::select( DB::raw('select customers.customer_id,customers.customer_name,sum(sells.total_amount) as total_amount,total_payment from customers inner join sells on customers.customer_id=sells.customer_id left join (select customer_id,sum(pay_received) as total_payment from sell_payAmounts group by customer_id)sell_payAmounts on sell_payAmounts.customer_id=customers.customer_id where isDeleted = 0 group by customer_id'));
-        // dd($lists);
+        $lists =DB::select( DB::raw('select customers.customer_id,customers.customer_name,previous_due.previous_due_amount,sum(sells.total_amount) as total_amount,total_payment from customers inner join sells on customers.customer_id=sells.customer_id left join previous_due on customers.customer_id = previous_due.customer_id left join (select customer_id,sum(pay_received) as total_payment from sell_payAmounts group by customer_id)sell_payAmounts on sell_payAmounts.customer_id=customers.customer_id where isDeleted = 0 group by customer_id , previous_due_amount'));
+
+        // $previous_due_amount = $lists->previous_due_amount ;
+        // dd($previous_due_amount);
 
         $sell_total_amount = Sell :: sum('total_amount');
 
         $payment_total_amount = Payment :: sum('pay_received');
+
+        // $previous_due_amount = PreviousDue :: sum('previous_due_amount');
+
+        // dd($previous_due_amount);
 
         $total_due_amount = $sell_total_amount - $payment_total_amount;
 

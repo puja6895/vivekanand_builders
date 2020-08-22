@@ -21,8 +21,8 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-              <li class="breadcrumb-item "><a href="{{route('customers')}}">Sales</a></li>
-              <li class="breadcrumb-item "><a href="">Individal_Customer</a></li>
+              <li class="breadcrumb-item "><a href="{{route('payments')}}">Payment</a></li>
+              {{-- <li class="breadcrumb-item "><a href="">Individal_Customer</a></li> --}}
               <li class="breadcrumb-item active">PayAdd</li>
             </ol>
           </div>
@@ -82,7 +82,15 @@
                                 </label>
                               </div>
                               <select required class="form-control" id="customer_id" name="customer_id">
-                                <option selected="" disabled="">Select Customer</option>
+                                {{-- {{dd($select_customer)}} --}}
+                                @if(isset($select_customer))
+                                {{-- {{dd($select_customer->customer_id)}} --}}
+                                <option selected=""  value="{{$select_customer->customer_id}}">{{$select_customer->customer_name}}</option>
+                                @elseif(isset($bills))
+                                <option selected=""  value="{{$bills->customer_id}}">{{$bills->customer->customer_name}}</option>
+                                @else
+                                <option selected="" disabled="" >Select Customer</option>
+                                @endif
                                 @foreach($customers as $customer)
                                 <option value="{{$customer->customer_id}}">{{$customer->customer_name}}</option>
                                 @endforeach
@@ -113,7 +121,11 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Payment Received <span style="color: red;">*</span></label>
                             {{-- {{dd()}} --}}
+                            @if(isset($bills))
+                            <input type="number" name="pay_received" class="form-control {{$errors->has('pay_received') ? 'is-invalid' : ''}}" id="pay_received"  placeholder="Enter Payment Received" value="{{ $bills->due_amount }}">
+                            @else
                             <input type="number" name="pay_received" class="form-control {{$errors->has('pay_received') ? 'is-invalid' : ''}}" id="pay_received"  placeholder="Enter Payment Received" value="{{ old('pay_received') == null ? 0 : old('pay_received') }}">
+                            @endif
                         </div>
 
                         <div class="form-group">
@@ -124,7 +136,11 @@
                         <label for="exampleInputEmail1">Bill Number </label>
                         <select required class="form-control" id="bill_id" name="bill_id">
                           {{-- <option selected="" disabled="">Select Bill Number</option> --}}
+                          @if(isset($bills))
+                          <option selected="" disabled="" value="{{$bills->bill_id}}">{{$bills->bill_no}}</option>
+                          @else
                           <option selected  value="-1">Select Bill Number</option>
+                          @endif
                           @foreach($bill_details as $bill_detail)
                           <option value="{{$bill_detail->bill_id}}">{{$bill_detail->bill_no}}</option>
                           @endforeach

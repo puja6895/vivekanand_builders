@@ -50,7 +50,7 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title text-secondary mr-4">Sales</h3>
-                <a href="{{route('payment.add')}}" class="pull-right">
+                <a href="" class="pull-right">
                   <button class="btn btn-success"><b>Add Payment</b></button>
                 </a>
                 <a href="{{route('sell.add')}}" class="pull-right">
@@ -90,7 +90,7 @@
                             </td>
                             @endif
                             <td>
-                              <a href="{{route('sell.edit',['id'=>$sell->sell_id])}}"><button class="btn  btn-sm btn-info"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                              <a href="{{route('sell.edit',['id'=>$sell->sell_id])}}" class="pl-2"><button class="btn  btn-sm btn-info "><i class="fa fa-edit" aria-hidden="true"></i></button></a>
                             <a href="{{route('sell.destroy',['id'=>$sell->sell_id])}}"><button class="btn  btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
                             </td>
                           </tr>

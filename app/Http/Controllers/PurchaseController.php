@@ -226,8 +226,10 @@ class PurchaseController extends Controller
         $credit = PurchasePayment :: where('purchaser_id',$purchaser_id) 
                                     ->sum('credit');             
         // dd($credit);
+        $freight = PurchasePayment :: where('purchaser_id',$purchaser_id) 
+                                     ->sum('freight'); 
 
-        $grand_total =  $grand_total +  $debit;
+        $grand_total =  ($grand_total +  $debit) - $freight;
         // dd( $grand_total);
 
         $payment =  $payment +  $credit;

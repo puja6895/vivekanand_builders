@@ -34,6 +34,7 @@ class PurchasePaymentController extends Controller
                 
                 $debit = $request->debit;
                 $credit = $request->credit;
+                $freight = $request->freight;
                 $paid_amount   = $request->paid;
 
                 if($debit == ""){
@@ -42,6 +43,10 @@ class PurchasePaymentController extends Controller
 
                 if($credit == ""){
                     $credit = 0;
+                }
+
+                if($freight == ""){
+                    $freight = 0;
                 }
 
                 $paid = $paid_amount + $debit;
@@ -62,6 +67,7 @@ class PurchasePaymentController extends Controller
                 $purchase_payment->credit=$credit;
                 $purchase_payment->paid=$request->paid;
                 $purchase_payment->final_paid= $paid;
+                $purchase_payment->freight= $freight;
                 $purchase_payment->save();
 
 

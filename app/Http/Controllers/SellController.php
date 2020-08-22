@@ -117,8 +117,8 @@ class SellController extends Controller
                     $sell_product->product_id=$product_id[$i];
                     $sell_product->unit_id=$unit_id[$i];
                     // dd($unit_name[$i] ,$sell_product->unit);
-                    $sell_product->unit_name=$sell_product->unit->unit_name; 
-                    $sell_product->productUnitId=$sell_product->product_id.$sell_product->unit->unit_id;
+                    // $sell_product->unit_name=$sell_product->unit->unit_name; 
+                    // $sell_product->productUnitId=$sell_product->product_id.$sell_product->unit->unit_id;
                     $sell_product->rate=$rate[$i];
                     $sell_product->quantity=$quantity[$i];
                     $sell_product->gst=$gst[$i];
@@ -248,6 +248,7 @@ class SellController extends Controller
         try {
             $product_id = $request->product_id;
             $unit_name = $request->unit_name;
+            $unit_id = $request->unit_id;
             $rate = $request->rate;
             $quantity = $request->quantity;
             $gst = $request->gst;
@@ -327,8 +328,9 @@ class SellController extends Controller
                         $sell_product= new Sell_Product;
                         $sell_product->sell_id=$temp_sp->sell_id;
                         $sell_product->product_id=$product_id[$i];
-                        $sell_product->unit_name=$unit_name[$i];
-                       
+                        // dd($unit_id , $unit_name);
+                        $sell_product->unit_id=$unit_id[$i];
+                        // $sell_product->unit_name=$unit_name[$i];
                         $sell_product->rate=$rate[$i];
                         $sell_product->quantity=$quantity[$i];
                         $sell_product->gst=$gst[$i];
@@ -338,45 +340,45 @@ class SellController extends Controller
                         $total_amount+=$amount;
 
                         //Inventory Update
-                        $inventory = Inventory ::where(['date'=>$sell->sell_date,'product_id'=>$product_id[$i], 'unit_name'=>$unit_name[$i]])->get();
-                        // dd($inventory[0]->closing_stock);
+                        // $inventory = Inventory ::where(['date'=>$sell->sell_date,'product_id'=>$product_id[$i], 'unit_name'=>$unit_name[$i]])->get();
+                        // // dd($inventory[0]->closing_stock);
 
-                        if(count($inventory)<=0){
+                        // if(count($inventory)<=0){
 
-                            $inv = new Inventory;
-                            $inv->date = $sell->sell_date;
-                            $inv->product_id = $product_id[$i];
-                            $inv->sell_stock = $quantity[$i];
-                            $inv->unit_name = $unit_name[$i];
-                            $inv->purchase_stock = 0;
+                        //     $inv = new Inventory;
+                        //     $inv->date = $sell->sell_date;
+                        //     $inv->product_id = $product_id[$i];
+                        //     $inv->sell_stock = $quantity[$i];
+                        //     $inv->unit_name = $unit_name[$i];
+                        //     $inv->purchase_stock = 0;
                         
                         
-                            $last_close = Inventory :: where('product_id',$request->product_id[$i])
-                                                    ->where('unit_name' ,$request->unit_name[$i])
-                                                    ->orderBy('date' ,'desc');
-                                                    //   ->first();
+                        //     $last_close = Inventory :: where('product_id',$request->product_id[$i])
+                        //                             ->where('unit_name' ,$request->unit_name[$i])
+                        //                             ->orderBy('date' ,'desc');
+                        //                             //   ->first();
 
-                            // dd($last_close[0]->closing_stock);                          
+                        //     // dd($last_close[0]->closing_stock);                          
 
-                            if($last_close->count() <= 0){
-                                $opening_stock    = 0;
-                            }else{
-                                $opening_stock = $last_close->first()->closing_stock;
-                            }
+                        //     if($last_close->count() <= 0){
+                        //         $opening_stock    = 0;
+                        //     }else{
+                        //         $opening_stock = $last_close->first()->closing_stock;
+                        //     }
 
-                            // dd($opening_stock);
+                        //     // dd($opening_stock);
                             
-                            $inv->opening_stock  = $opening_stock;
-                            $inv->closing_stock =  $opening_stock - $quantity[$i];
+                        //     $inv->opening_stock  = $opening_stock;
+                        //     $inv->closing_stock =  $opening_stock - $quantity[$i];
                             
-                            $inv->save();
+                        //     $inv->save();
 
-                        }else{
+                        // }else{
 
-                            $inv = Inventory::where((['date'=>$sell->sell_date,'product_id'=>$product_id[$i], 'unit_name'=>$unit_name[$i]]))
-                            ->update(['sell_stock' =>  $inventory[0]->sell_stock + $quantity[$i] ,'closing_stock'=> $inventory[0]->closing_stock - $quantity[$i]]);
+                        //     $inv = Inventory::where((['date'=>$sell->sell_date,'product_id'=>$product_id[$i], 'unit_name'=>$unit_name[$i]]))
+                        //     ->update(['sell_stock' =>  $inventory[0]->sell_stock + $quantity[$i] ,'closing_stock'=> $inventory[0]->closing_stock - $quantity[$i]]);
 
-                        }
+                        // }
                     }
                 }
                 

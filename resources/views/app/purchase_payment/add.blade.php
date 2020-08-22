@@ -121,6 +121,11 @@
                         <label for="exampleInputEmail1">Credit Discount</label>
                         <input type="text" name="credit" class="form-control {{$errors->has('credit') ? 'is-invalid' : ''}}" id="credit"  placeholder="Enter Payment Mode" value = 0>
                     </div>
+
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Freight</label>
+                      <input type="text" name="freight" class="form-control {{$errors->has('freight') ? 'is-invalid' : ''}}" id="freight"  placeholder="Enter Payment Mode" value = 0>
+                  </div>
                       
                     </div>
                 <!-- /.card-body -->

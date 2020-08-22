@@ -9,6 +9,24 @@ use Illuminate\Http\Request;
 use DB;
 use View;
 
+ function test(){
+
+    $bill_details = Billdetail::all();
+    $customers = Customer::where('isDeleted',0)->get();
+
+    return(['customers'=>$customers ,'bill_details'=>$bill_details ]);
+
+}
+
+function paymnet_bill(){
+
+    $bill_details = Billdetail::all();
+    $customers = Customer::where('isDeleted',0)->get();
+
+    return(['customers'=>$customers ,'bill_details'=>$bill_details ]);
+
+}
+
 class PaymentController extends Controller
 {
     //
@@ -20,20 +38,40 @@ class PaymentController extends Controller
         
 
     }
+
     public function create(){
-        $bill_details = Billdetail::all();
-        $customers = Customer::where('isDeleted',0)->get();
-        return view :: make('app.payment.add')->with(['customers'=>$customers ,'bill_details'=>$bill_details]);
+        
+        $test  = test();
+        return view :: make('app.payment.add')->with(['customers'=>$test['customers'] ,'bill_details'=>$test['bill_details']]);
+    }
+
+    public function individual($customer_id){
+
+        $select_customer = Customer :: find($customer_id);
+        $test  = test();
+        return view :: make('app.payment.add')->with(['customers'=>$test['customers'] ,'bill_details'=>$test['bill_details'] ,'select_customer'=>$select_customer]);
+
+    }
+
+    public function bill_payment($bill_id){
+
+        $bills = BillDetail :: find($bill_id);
+        // dd($bills->due_amount);
+        $bill_payment = paymnet_bill();
+
+        return view :: make('app.payment.add')->with(['customers'=>$bill_payment['customers'] ,'bill_details'=>$bill_payment['bill_details'] ,'bills'=>$bills]);
+
     }
 
     public function store(Request $request){
-        
+        // dd($request);
         $this->validate($request, [
-            'customer_id' => 'required|exists:customers,customer_id',
+            'customer_id' => 'required|exists:customers',
             'pay_date' => 'required',
             'pay_received' => 'required'
 
         ]);
+        // dd($request->customer_id);
         try{
             DB::beginTransaction();
 
@@ -108,7 +146,8 @@ class PaymentController extends Controller
             DB::rollBack();
             return back()->with('error',$exception->getMessage())->withInput();
 
-        }   
+        }  
+    // }     
 
     }
 

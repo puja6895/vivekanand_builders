@@ -76,6 +76,7 @@
           <th>Debit Discount</th>
           <th>Credit Discount</th>
           <th>Paid Amount</th>
+          <th>Freight</th>
           <th>Final Amount</th>
         </tr>
         </thead>
@@ -88,6 +89,7 @@
               <td>{{$payment->debit}}</td>
               <td>{{$payment->credit}}</td>
               <td>{{$payment->paid}}</td>
+              <td>{{$payment->freight}}</td>
               <td>{{$payment->final_paid}}</td>
           </tr>
          @endforeach
@@ -100,6 +102,7 @@
           <th>Debit Discount</th>
           <th>Credit Discount</th>
           <th>Paid Amount</th>
+          <th>Freight</th>
           <th>Final Amount</th>
         </tr>
         </tfoot>

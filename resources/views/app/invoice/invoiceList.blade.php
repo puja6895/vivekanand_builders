@@ -81,7 +81,7 @@ active
                                     <tbody>
                                         @foreach($bill_details as $bill_detail)
                                             <tr>
-                                                <td>{{ $bill_detail->customer->customer_name }}</td>
+                                                <td><a href="{{route('sell.individual',['id'=>$bill_detail->customer_id])}}">{{ $bill_detail->customer->customer_name }}</a></td>
                                                 <td>{{ $bill_detail->admin->admin_name }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($bill_detail->bill_date)->format('d-m-Y') }}
                                                 <td>{{ $bill_detail->bill_no }}</td>
@@ -89,9 +89,10 @@ active
                                                 <td>{{ $bill_detail->amount }}</td>
                                                 <td><a
                                                         href="{{ route('invoice.view',['bill_id'=>$bill_detail->bill_id]) }}"><button
-                                                            class="btn btn-sm btn-info">View</button></a>
+                                                            class="btn btn-sm btn-info mr-1">View</button></a>
 
-                                                        <a href="{{route('invoice.destroy',['bill_id'=>$bill_detail->bill_id])}}"><button class="btn btn-sm btn-danger">Delete</button></a>
+                                                        <a href="{{route('invoice.destroy',['bill_id'=>$bill_detail->bill_id])}}"><button class="btn btn-sm btn-danger mr-1">Delete</button></a>
+                                                        <a href="{{route('payment.bill_add',['bill_id'=>$bill_detail->bill_id])}}"><button class="btn btn-sm btn-success">Payment</button></a>
                                                 </td>
                                             </tr>
                                         @endforeach

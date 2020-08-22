@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Customer;
 use App\Sell;
 use App\Payment;
+use App\PreviousDue;
 use App\Admin;
 use App\BillDetail;
 use Carbon\Carbon;
@@ -66,6 +67,9 @@ class InvoiceController extends Controller
                                        ->whereBetween('pay_date',array($from_date , $to_date)) 
                                        ->where('status', 0)
                                        ->orderBy('pay_date','asc');
+
+                $previous_due = PreviousDue :: where('customer_id' ,$customer_id)
+                                               ->sum('previous_due_amount');                      
                                        
                
                 $sells = $sell_query->get();
@@ -108,7 +112,7 @@ class InvoiceController extends Controller
                 //     $previous_due_amount = $previous_bill->first()->amount; 
                 // }
                 
-                $due_amount =   $sell_amount  + $previous_due_amount -  $payment_amount; 
+                $due_amount =   $sell_amount  + $previous_due + $previous_due_amount -  $payment_amount; 
                 
                 
                 $current_timestamp = Carbon::now()->format('m-Y');
@@ -178,6 +182,10 @@ class InvoiceController extends Controller
                     ->where('status', 0)
                     ->orderBy('pay_date','asc');
 
+            $previous_due = PreviousDue :: where('customer_id' ,$bills->customer_id)
+                                           ->sum('previous_due_amount');        
+
+
             $sells = $sell_query->get();
             $payments = $payment_query->get();
             // $sum_payments = $payment_query->sum('pay_received');
@@ -207,7 +215,7 @@ class InvoiceController extends Controller
             }
             // dd($previous_due_amount);
 
-            $due_amount =   $sell_amount  + $previous_due_amount -  $payment_amount;
+            $due_amount =   $sell_amount  +  $previous_due + $previous_due_amount -  $payment_amount;
 
             $pdf = PDF::loadView('app.invoice.invoice',['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill,'due_amount'=>$due_amount,'bill_no'=>$bills->bill_no,'date'=>$bills->bill_date,'current_bill'=>$bills,'sum_payments'=>$payment_amount])->setPaper('a4');
                 return $pdf->stream($bills->bill_no);

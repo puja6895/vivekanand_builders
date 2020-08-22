@@ -191,7 +191,7 @@
                             </td>
                             <td>{{ $sell_product->product->product_name }}</td>
 
-                            <td>{{ $sell_product->quantity }} ({{ $sell_product->unit_name }})
+                            <td>{{ $sell_product->quantity }} ({{ $sell_product->unit->unit_name }})
                             </td>
                             <td>{{ $sell_product->rate }}</td>
 
