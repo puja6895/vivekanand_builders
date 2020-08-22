@@ -68,8 +68,9 @@
                         <th>Item</th>
                         <th>From</th>
                         <th>To</th>
-                        <th>Weight</th>
+                        <th>Quantity</th>
                         <th>Rate</th>
+                        <th>Detain Amount</th>
                         <th>Amount</th>
                         <th>Advance</th>
                         <th>Due Amount</th>
@@ -81,22 +82,18 @@
                           <tr>
                           <td>{{$lorry_report->customer->first()->customer_name}}</td>
                           <td>{{$lorry_report->lorry->lorry_no}}</td>
-                          <td>{{\Carbon\Carbon::parse($lorry_report->date)->format('d-m-Y')}}</td>
+                          <td>{{\Carbon\Carbon::parse($lorry_report->lorry_date)->format('d-m-Y')}}</td>
                           <td>{{$lorry_report->product->first()->product_name}}</td>
                           <td>{{$lorry_report->from}}</td>
                           <td>{{$lorry_report->to}}</td>
                           <td>{{$lorry_report->weight}} ({{$lorry_report->unit->first()->unit_name}})</td>
                           <td><b><span>&#8377;</span></b> {{$lorry_report->rate}}</td>
+                          <td><b><span>&#8377;</span></b> {{$lorry_report->detain_amount}}</td>
                           <td><b><span>&#8377;</span></b> {{$lorry_report->amount}}</td>
                           <td><b><span>&#8377;</span></b> {{$lorry_report->advance_amount}}</td>
-                          <td><b><span>&#8377;</span></b> {{$lorry_report->amount - $lorry_report->advance_amount}}</td>
+                          <td><b><span>&#8377;</span></b> {{($lorry_report->amount + $lorry_report->detain_amount)- $lorry_report->advance_amount}}</td>
                           <td>
-                            {{-- @if($lorry_report   ->deleted_at==null)   
-                            <a href="{{route('lorry.edit',['id'=>$lorry->lorry_id])}}" class="mr-2"><button class="btn btn-info btn-sm">Edit</button></a>
-                            <a href="{{route('lorry.destroy',['id'=>$lorry->lorry_id])}}"><button class="btn btn-danger btn-sm">Delete</button></a>
-                          @else
-                          <a href="{{route('lorry.enable',['id'=>$lorry->lorry_id])}}"><button class="btn btn-success btn-sm">Enable</button></a>
-                          @endif --}}
+                            <a href="{{route('lorry_report.destroy',['id'=>$lorry_report->id])}}"><button class="btn  btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
                           </td>
                           </tr>
                         @endforeach                            
@@ -109,8 +106,9 @@
                         <th>Item</th>
                         <th>From</th>
                         <th>To</th>
-                        <th>Weight</th>
+                        <th>Quantity</th>
                         <th>Rate</th>
+                        <th>Detain Amount</th>
                         <th>Amount</th>
                         <th>Advance</th>
                         <th>Due Amount</th>

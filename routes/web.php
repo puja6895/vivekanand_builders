@@ -165,7 +165,7 @@ Route::get('/lorry/enable/{id}', 'LorryController@enable')->name('lorry.enable')
 Route::get('/lorry_report', 'LorryReportController@index')->name('lorry_reports');
 Route::get('/lorry_report/add', 'LorryReportController@create')->name('lorry_report.add');
 Route::post('/lorry_report/store', 'LorryReportController@store')->name('lorry_report.store');
-
+Route::get('/lorry/destroy/{id}', 'LorryReportController@destroy')->name('lorry_report.destroy');
 //Admin
 Route::get('/admin', 'AdminController@index')->name('admins');
 Route::get('/admin/add', 'AdminController@create')->name('admin.add');

@@ -161,6 +161,6 @@ class LorryController extends Controller
         }catch(Exception $exception){
                 DB::rollBack();
                 return back()->with('error',$exception->getMessage())->withInput();
-            }
+        }
     }
 }

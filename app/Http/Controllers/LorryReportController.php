@@ -22,9 +22,8 @@ class LorryReportController extends Controller
     public function index()
     {
         //
-        $lorry_reports = LorryReport::all();
-        // dd($lorry_reports[0]->advance_amount);
-        // $final_amount = ($lorry_reports[0]->amount - $lorry_reports[0]->advance_amount);
+        $lorry_reports = LorryReport::orderBy('lorry_date','desc')->get();
+
         return view::make('app.lorry_report.list')->with(['lorry_reports'=>$lorry_reports]);
     }
 
@@ -72,9 +71,11 @@ class LorryReportController extends Controller
             DB::beginTransaction();
 
             $weight = $request->weight;
+            $detain_amount = $request->detain_amount;
             $rate = $request->rate;
             $amount = $weight * $rate;
 
+                       
             // Save Customer
             $lorry_report = new LorryReport;
             $lorry_report->customer_id = $request->customer_id;
@@ -86,6 +87,8 @@ class LorryReportController extends Controller
             $lorry_report->unit_id = $request->unit_id;
             $lorry_report->weight = $weight;
             $lorry_report->rate = $rate;
+            $lorry_report->detain_days = $request->detain_days;
+            $lorry_report->detain_amount = $detain_amount;
             $lorry_report->amount = $amount;
             $lorry_report->advance_amount = $request->advance_amount;
             $lorry_report->save();
@@ -140,8 +143,27 @@ class LorryReportController extends Controller
      * @param  \App\LorryReport  $lorryReport
      * @return \Illuminate\Http\Response
      */
-    public function destroy(LorryReport $lorryReport)
+    public function destroy(LorryReport $lorryReport,$id)
     {
         //
+        try{
+            //DB Transaction Begin
+            DB:: beginTransaction();
+            $lorry=LorryReport::where('id',$id);
+
+            if($lorry){
+                $lorry->delete();
+                // $default_Product->save();
+
+                DB::commit();
+                return redirect()->route('lorry_reports')->with('success','Lorry Deleted');
+            }else{
+                return back()->with('error','Invalid unit Id');
+            }    
+
+        }catch(Exception $exception){
+                DB::rollBack();
+                return back()->with('error',$exception->getMessage())->withInput();
+        }
     }
 }

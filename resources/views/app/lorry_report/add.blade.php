@@ -185,12 +185,21 @@
                   <span style="color: red;">*</span>
               </label>
               <input type="number" name="advance_amount" required class="form-control  {{$errors->has('advance_amount') ? 'is-invalid' : ''}}" id="advance_amount" placeholder="Enter Advance Amount" value="{{ old('advance_amount')}}">
-              {{-- Error handling
-              @if($errors->has('customer_name'))
-                  <span class="text-danger">{{$errors->first('customer_name')}}</span>
-              @endif --}}
-          </div>
-            
+           </div>
+          
+            <div class="form-group">
+              <label for="detain_days">Detain Days
+                  {{-- <span style="color: red;">*</span> --}}
+              </label>
+              <input type="text" name="detain_days"  class="form-control  {{$errors->has('detain_days') ? 'is-invalid' : ''}}" id="detain_days" placeholder="Detain Days" value="{{ old('detain_days')}}">
+            </div>
+
+            <div class="form-group">
+              <label for="detain_amount">Detain Amount
+                  {{-- <span style="color: red;">*</span> --}}
+              </label>
+              <input type="text" name="detain_amount"  class="form-control  {{$errors->has('detain_amount') ? 'is-invalid' : ''}}" id="detain_amount" placeholder="Enter Detain Amount" value="{{ old('detain_amount')}}">
+            </div>
 
                 </div>
                 <!-- /.card-body -->
