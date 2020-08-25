@@ -93,6 +93,7 @@ class SellController extends Controller
                 // print_r($request);
                 $sell = new Sell;
                 $sell->customer_id = $request->customer_id;
+               
                 $sell->sell_date = Carbon::parse($request->sell_date)->format('Y-m-d');
                 $sell->save();
                 $sell_id = $sell->sell_id;
@@ -174,6 +175,7 @@ class SellController extends Controller
                 $sell->total_amount=$total_amount;
                 $sell->save(); 
                 // Opening Stock 
+                // $customer_name = $sell->customer->customer_name;
                 
                 
             DB::commit();
@@ -439,11 +441,11 @@ class SellController extends Controller
         $sells = Sell::where('customer_id',$customer_id)->orderBy('sell_date','desc')->get();  
         // dd($sells);                     
 
-        $payment = DB::table('sell_payAmounts')
-                      ->where('customer_id',$customer_id)
-                      ->sum('pay_received');
+        $date_payments = DB::table('sell_payAmounts')
+                      ->where('customer_id',$customer_id)->get();
+                      
         // dd($payment);
-
+        $payment = $date_payments->sum('pay_received');
         // $balance = $grand_total - $payment ;
         // dd($balance);
         $descriptions  = Payment::where('customer_id',$customer_id)->where('status',2)->get();
@@ -460,7 +462,7 @@ class SellController extends Controller
         //                      ->get();  
                             //  dd($sell_products);
         $sell_products ;                    
-        return view :: make('app.pos.sell.individual')->with(['customer'=>$customer,'grand_total'=>$grand_total,'payment'=>$payment,'sells'=>$sells ,'descriptions'=>$descriptions,'previous_due'=> $previous_due]);
+        return view :: make('app.pos.sell.individual')->with(['customer'=>$customer,'grand_total'=>$grand_total,'payment'=>$payment,'sells'=>$sells ,'descriptions'=>$descriptions,'previous_due'=> $previous_due, 'date_payments'=>$date_payments ]);
     }
 
     public function individual_sell($sell_id){

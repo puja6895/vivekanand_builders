@@ -82,11 +82,13 @@ class InvoiceController extends Controller
                 // dd($sell_amount);
                 $payment_amount = $payment_query->sum('pay_received');
 
-                $previous_bill_detail = BillDetail::where('customer_id',$customer_id)->whereDate('from_date' ,'<',$from_date)
+                $previous_bill_detail = BillDetail::where('customer_id',$customer_id)
+                                                    ->whereDate('from_date' ,'<',$from_date)
                                                     ->whereDate('to_date', '<',$to_date)
                                                     ->orderBy('from_date','desc');
-
-
+                                                   
+                // dd($previous_bill_detail->first());
+               
                 $previous_bill = $previous_bill_detail->first();
                                             
                 $previous_bill_no = BillDetail::latest()->first();
@@ -96,7 +98,13 @@ class InvoiceController extends Controller
                 }
                 
                 if(!empty($previous_bill)){
-                    $previous_due_amount = $previous_bill->due_amount; 
+
+                    $test = Payment :: where('customer_id',$customer_id)
+                                    ->whereBetween('pay_date' ,array($previous_bill_detail ->first()->bill_date , $from_date))
+                                    ->where('status' , 1)
+                                    ->sum('pay_received'); 
+
+                    $previous_due_amount = $test; 
 
                 }
                 else{
@@ -113,7 +121,7 @@ class InvoiceController extends Controller
                 // }
                 
                 $due_amount =   $sell_amount  + $previous_due + $previous_due_amount -  $payment_amount; 
-                
+                // dd($due_amount ,$payment_amount,$sell_amount,$previous_due_amount);
                 
                 $current_timestamp = Carbon::now()->format('m-Y');
                 $current_date = Carbon::now()->format('d-m-Y');
@@ -147,7 +155,7 @@ class InvoiceController extends Controller
                 
                 DB::commit();
                 // dd($sells);
-                $pdf = PDF::loadView('app.invoice.invoice',['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill,'due_amount'=>$due_amount,'bill_no'=>$nextinvioce_number,'date'=>$current_date,'current_bill'=>$current_bill,'sum_payments'=>$sum_payments])->setPaper('a4');
+                $pdf = PDF::loadView('app.invoice.invoice',['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill,'due_amount'=>$due_amount,'bill_no'=>$nextinvioce_number,'date'=>$current_date,'current_bill'=>$current_bill,'sum_payments'=>$sum_payments ,'previous_due_amount'=>$previous_due_amount])->setPaper('a4');
                 return $pdf->stream($nextinvioce_number);
                 // dd($previous_bill->first());
                 return view :: make('app.invoice.test')->with(['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill,'due_amount'=>$due_amount,'bill_no'=>$nextinvioce_number,'date'=>$current_date,'current_bill'=>$current_bill,'sum_payments'=>$sum_payments]);
@@ -207,9 +215,14 @@ class InvoiceController extends Controller
             // dd($previous_bill);
 
             if(!empty($previous_bill)){
-                // $invoice_number = explode('-',$previous_bill->bill_no);
-                $previous_due_amount = $previous_bill->due_amount; 
-              
+
+                $test = Payment :: where('customer_id',$customer_id)
+                                ->whereBetween('pay_date' ,array($previous_bill_detail ->first()->bill_date , $from_date))
+                                ->where('status' , 1)
+                                ->sum('pay_received'); 
+
+                $previous_due_amount = $test; 
+
             }else{
                 $previous_due_amount = 0;
             }
@@ -217,10 +230,10 @@ class InvoiceController extends Controller
 
             $due_amount =   $sell_amount  +  $previous_due + $previous_due_amount -  $payment_amount;
 
-            $pdf = PDF::loadView('app.invoice.invoice',['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill,'due_amount'=>$due_amount,'bill_no'=>$bills->bill_no,'date'=>$bills->bill_date,'current_bill'=>$bills,'sum_payments'=>$payment_amount])->setPaper('a4');
+            $pdf = PDF::loadView('app.invoice.invoice',['sells'=>$sells,'sub_total'=>$sell_amount,'payments'=>$payments ,'previous_bill'=>$previous_bill,'due_amount'=>$due_amount,'bill_no'=>$bills->bill_no,'date'=>$bills->bill_date,'current_bill'=>$bills,'sum_payments'=>$payment_amount ,'previous_due_amount'=>$previous_due_amount])->setPaper('a4');
                 return $pdf->stream($bills->bill_no);
 
-            return view :: make('app.invoice.invoice')->with(['bills'=>$bills,'sells'=>$sells,'payments'=>$payments,'sub_total'=>$sell_amount,'previous_bill'=> $previous_bill,'due_amount'=>$due_amount,'date'=>$bills->bill_date,'bill_no'=>$bills->bill_no ,'current_bill'=>$bills]);    
+            return view :: make('app.invoice.invoice')->with(['bills'=>$bills,'sells'=>$sells,'payments'=>$payments,'sub_total'=>$sell_amount,'previous_bill'=> $previous_bill,'due_amount'=>$due_amount,'date'=>$bills->bill_date,'bill_no'=>$bills->bill_no ,'current_bill'=>$bills,'previous_due_amount'=>$previous_due_amount]);    
 
 
     }

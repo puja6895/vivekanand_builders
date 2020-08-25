@@ -133,7 +133,14 @@
                           <input type="text" name="pay_mode" class="form-control {{$errors->has('pay_mode') ? 'is-invalid' : ''}}" id="pay_mode" required="" placeholder="Enter Payment Mode" value="{{ old('pay_mode')}}">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Bill Number </label>
+                        <label for="exampleInputEmail1"><div class="form-group">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" name="for_bill" id="defaultCheck1">
+                            <label class="form-check-label" for="defaultCheck1">
+                             For Bill
+                            </label>
+                          </div>
+                        </div> </label>
                         <select required class="form-control" id="bill_id" name="bill_id">
                           {{-- <option selected="" disabled="">Select Bill Number</option> --}}
                           @if(isset($bills))
@@ -164,6 +171,7 @@
                       </section>
                       </div>
                     </div>
+                    
                 <!-- /.card-body -->
                         <div class="card-footer">
                             <button type="submit" class="btn btn-info">Add Payment</button>

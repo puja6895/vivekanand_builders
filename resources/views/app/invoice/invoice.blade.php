@@ -222,7 +222,7 @@
                         <th class="service">BILL NO</th>
                         <th class=>FROM</th>
                         <th>TO</th>
-                        <th>PREVIOUS AMOUNT</th>
+                        <th>PREVIOUS DUE AMOUNT</th>
                         {{-- <th>TOTAL</th> --}}
                     </tr>
                 </thead>
@@ -242,7 +242,7 @@
                             </div>
                         </td>
                         <td>
-                            {{ $previous_bill->due_amount }}
+                            {{ $previous_due_amount }}
                         </td>
                         {{-- <td class="total">$1,040.00</td> --}}
                     </tr>

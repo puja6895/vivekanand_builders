@@ -100,14 +100,73 @@ active
                                 <input action="action" onclick="window.history.go(-1); return false;" type="submit"
                                     value="Back" class="btn btn-info pull-right" />
                             </a>
+                          
                             <a href="{{ route('payment.ad' ,['customer_id'=>$customer->customer_id]) }}" class="pull-right">
                                 <button class="btn btn-success mr-2"><b>Add Payment</b></button>
+
                             <a href="{{route('sell.add')}}"><button class = "btn btn-info pull-right mr-2">Add Sell+</button></a>
+
+                                  <!-- Modal Button -->
+                            <button type="button" class = "btn btn-info pull-right mr-2"  data-toggle="modal" data-target="#myModal">
+                               Payment Detail
+                            </button>
+
                             <input type="text" name="date" id="datepicker" class="form-inline datepicker list_date"
                                 placeholder="Select Date...">
+
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
+                            <div class="card-body">
+                                {{-- Last Sell Modal --}}
+                                <br>
+                                <div class="modal fade" id="myModal">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                          
+                                          <!-- Modal Header -->
+                                          <div class="modal-header">
+                                              <h5 class="modal-title">Payment Detail</h5>
+                                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                          </div>
+                          
+                                          <!-- Modal body -->
+                                          {{-- <form action="add.php" method="post" enctype="multipart/form-data"> --}}
+                                            <div class="table-responsive">
+                                                <table id="example1" class="table table-bordered table-striped table-hover text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Payment Date</th>
+                                                            <th>Payment Received</th>
+                                                            <th>mode</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($date_payments as $date_payment)
+                                                                <tr>
+                                                                    <td>{{ \Carbon\Carbon::parse($date_payment->pay_date)->format('d-m-Y') }}
+                                                                    </td>
+                                                                    <td>{{ $date_payment->pay_received }}</td>
+                                                                    <td>{{ $date_payment->pay_mode }}</td>
+                                                                 </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>Payment Date</th>
+                                                            <th>Payment Received</th>
+                                                            <th>mode</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                          
+                                             
+                                          {{-- </form> --}}
+                          
+                                      </div>
+                                  </div>
+                              </div>
                             <div class="table-responsive">
                                 <table id="example1" class="table table-bordered table-striped table-hover text-center">
                                     <thead>

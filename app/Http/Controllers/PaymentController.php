@@ -59,7 +59,7 @@ class PaymentController extends Controller
         // dd($bills->due_amount);
         $bill_payment = paymnet_bill();
 
-        return view :: make('app.payment.add')->with(['customers'=>$bill_payment['customers'] ,'bill_details'=>$bill_payment['bill_details'] ,'bills'=>$bills]);
+        return view :: make('app.payment.add')->with(['customercustomer_ids'=>$bill_payment['customers'] ,'bill_details'=>$bill_payment['bill_details'] ,'bills'=>$bills]);
 
     }
 
@@ -114,31 +114,34 @@ class PaymentController extends Controller
                     //     ->update(['due_amount'=> $due_amount->due_amount -  $r_pay_recevied ]); 
                     // }                        // dd($bill_due);   
                 }
-                    $payment->customer_id=$request->customer_id;
-                    $payment->pay_date = Carbon::parse($request->pay_date)->format('Y-m-d');
-                    $payment->pay_received=$r_pay_recevied;
-                    $payment->pay_mode=$request->pay_mode;
-                    $payment->save();
+
+                if(isset($request->for_bill ) && $request->for_bill == 1)
+                {
+                    $payment->status = 1;
+                }
+
+                $payment->customer_id=$request->customer_id;
+                $payment->pay_date = Carbon::parse($request->pay_date)->format('Y-m-d');
+                $payment->pay_received=$r_pay_recevied;
+                $payment->pay_mode=$request->pay_mode;
+                $payment->save();
             }    
-                  
-                    
+           
                     // dd( $discount_amount);
                     
-                    if($discount_amount  != null){
-                        
-                        $payment = new Payment;
-                        $payment->status = 2;
-                        $payment->customer_id=$request->customer_id;
-                        $payment->pay_date = Carbon::parse($request->pay_date)->format('Y-m-d');
-                        $payment->pay_received=$discount_amount;
-                        $payment->pay_mode=$request->pay_mode;
-                        $payment->description=$description;
-                        // dd($payment->pay_received);
-                        $payment->save();
+            if($discount_amount  != null){
+                
+                $payment = new Payment;
+                $payment->status = 2;
+                $payment->customer_id=$request->customer_id;
+                $payment->pay_date = Carbon::parse($request->pay_date)->format('Y-m-d');
+                $payment->pay_received=$discount_amount;
+                $payment->pay_mode=$request->pay_mode;
+                $payment->description=$description;
+                // dd($payment->pay_received);
+                $payment->save();
+            }
 
-                        
-                        
-                    }
             DB::commit();
                 return redirect()->route('payment.add')->with('success','Payment Added');
 
