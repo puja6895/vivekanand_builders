@@ -87,8 +87,8 @@ class LorryReportController extends Controller
             $lorry_report->unit_id = $request->unit_id;
             $lorry_report->weight = $weight;
             $lorry_report->rate = $rate;
-            $lorry_report->detain_days = $request->detain_days;
-            $lorry_report->detain_amount = $detain_amount;
+            $lorry_report->detain_days = $request->detain_days || 0;
+            $lorry_report->detain_amount = $detain_amount || 0;
             $lorry_report->amount = $amount;
             $lorry_report->advance_amount = $request->advance_amount;
             $lorry_report->save();

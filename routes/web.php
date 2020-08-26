@@ -54,6 +54,8 @@ Route::get('/gstsell', 'SellController@gstindex')->name('gst_sell');
 Route::get('/gstsell/add', 'SellController@gstcreate')->name('gst_sell.add');
 Route::post('/gstsell/store', 'SellController@gststore')->name('gst_sell.store');
 Route::get('/gstsell/individual/{id}', 'SellController@gstindividual')->name('gst_sell.individual');
+Route::get('/gstsell/gstdestroy/{id}', 'SellController@gstdestroy')->name('gstsell.destroy');
+
 // Route::get('/sell/individual_sell/{id}', 'SellController@individual_sell')->name('sell.individual_sell');
 // Route::post('/sell/selected_date/{customer_id}', 'SellController@selected_date')->name('sell.selected_date');
 
@@ -69,6 +71,7 @@ Route::get('/payment/destroy/{id}', 'PaymentController@destroy')->name('payment.
 Route::get('/gstpayment', 'GstPaymentController@index')->name('gstpayments');
 Route::get('/gstpayment/add/', 'GstPaymentController@create')->name('gstpayment.add');
 Route::post('/gstpayment/store', 'GstPaymentController@store')->name('gstpayment.store');
+Route::get('/gstpayment/destroy/{id}', 'GstPaymentController@destroy')->name('gstpayment.destroy');
 
 //customer
 Route::get('/customer', 'CustomerController@index')->name('customers');
@@ -146,6 +149,7 @@ Route::post('/purchase/store', 'PurchaseController@store')->name('purchase.store
 Route::get('/purchase/individual/{id}', 'PurchaseController@individual')->name('purchase.individual');
 // Route::get('/sell/individual_sell/{id}', 'SellController@individual_sell')->name('sell.individual_sell');
 // Route::post('/sell/selected_date/{customer_id}', 'SellController@selected_date')->name('sell.selected_date');
+Route::get('/purchase/destroy/{id}', 'PurchaseController@destroy')->name('purchase.destroy');
 
 //Purchase Payments
 Route::get('/purchase/puchase_payment', 'PurchasePaymentController@index')->name('purchase_payments');
@@ -165,7 +169,7 @@ Route::get('/lorry/enable/{id}', 'LorryController@enable')->name('lorry.enable')
 Route::get('/lorry_report', 'LorryReportController@index')->name('lorry_reports');
 Route::get('/lorry_report/add', 'LorryReportController@create')->name('lorry_report.add');
 Route::post('/lorry_report/store', 'LorryReportController@store')->name('lorry_report.store');
-Route::get('/lorry/destroy/{id}', 'LorryReportController@destroy')->name('lorry_report.destroy');
+Route::get('/lorry_report/destroy/{id}', 'LorryReportController@destroy')->name('lorry_report.destroy');
 //Admin
 Route::get('/admin', 'AdminController@index')->name('admins');
 Route::get('/admin/add', 'AdminController@create')->name('admin.add');

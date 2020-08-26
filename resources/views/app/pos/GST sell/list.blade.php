@@ -69,6 +69,7 @@
                         <th>Sell Date</th>
                         <th>Amount</th>
                         <th>Status</th>
+                        <th>Action</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -87,6 +88,9 @@
                               <span class="badge badge-success">Billed</span>
                             </td>
                             @endif
+                            <td>
+                            <a href="{{route('gstsell.destroy',['id'=>$gstsell->id])}}"><button class="btn  btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                            </td>
                           </tr>
                         @endforeach 
 
@@ -98,6 +102,7 @@
                           <th>Sell Date</th>
                           <th>Amount</th>
                           <th>Status</th>
+                          <th>Action</th>
                           {{-- <th>Total Amount</th> --}}
                         </tr>
                       </tfoot>

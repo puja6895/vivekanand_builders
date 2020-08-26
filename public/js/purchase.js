@@ -19,6 +19,7 @@ $(document).ready(function () {
 
         cols += '<td style="width:15rem"><input class="form-control" readonly  value="' + $('#product_id0').children("option:selected").text() + '" type="text" name="product_name[]" required="" placeholder="Product"><input type="hidden" value="' + $('#product_id0').children("option:selected").val() + '" name="product_id[]" value=""></td>';
 
+        // cols += '<td style="width:8rem"><input readonly class="form-control" type="text" name="unit_name[]" placeholder="Unit" required value="' + $('#unit_id0').children("option:selected").text() + '"> <input type="hidden" name="unit_id[]" value="' + $('#unit_id0').children("option:selected").val() + '" ></td>';
         cols += '<td style="width:8rem"><input readonly class="form-control" type="text" name="unit_name[]" placeholder="Unit" required value="' + $('#unit_id0').children("option:selected").text() + '"> <input type="hidden" name="unit_id[]" value="' + $('#unit_id0').children("option:selected").val() + '" ></td>';
 
         cols += '<td "><input readonly class="form-control" type="number" name="quantity[]" value="' + $('#quantity0').val() + '" required></td>';
@@ -85,7 +86,7 @@ function setDefault() {
         success: function (response) {
             // console.log(response);
             $(".loading").hide();
-            $("#unit_id0").val(response.unit_name).change();
+            $("#unit_id0").val(response.unit_id).change();
             console.log(response.unit_name);
             // $("#unit_id0").attr('disabled', true);
             // $('#rate0').val(response.sell_price);

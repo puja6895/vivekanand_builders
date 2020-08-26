@@ -61,13 +61,13 @@
                   <div class="col-md-6">
                     <div class="form-group {{ $errors->has('customer_id') ? ' has-error' : '' }}">
                       <label>Customer <span style="color: red;">*</span></label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
+                      {{-- <div class="input-group"> --}}
+                        {{-- <div class="input-group-prepend">
                           <label class="input-group-text" for="customer_id">
                               <i class="fa fa-user"></i>
                           </label>
-                        </div>
-                        <select required class="form-control" id="customer_id" name="customer_id">
+                        </div> --}}
+                        <select required class="form-control select2" id="customer_id" name="customer_id">
                           <option selected="" disabled="">Select Customer</option>
                           @foreach($customers as $customer)
                           <option value="{{$customer->customer_id}}">{{$customer->customer_name}}</option>
@@ -79,7 +79,7 @@
                               <strong>{{ $errors->first('customer_id') }}</strong>
                           </span>
                           @endif --}}
-                      </div>
+                      {{-- </div> --}}
                     </div>
                   </div>
 
@@ -87,19 +87,19 @@
                   <div class="col-md-6">
                     <div class="form-group {{ $errors->has('sell_date') ? ' has-error' : '' }}">
                       <label>Sell Date <span style="color: red;">*</span></label>
-                      <div class="input-group">
+                      {{-- <div class="input-group">
                         <div class="input-group-prepend">
                           <label class="input-group-text" for="datepicker">
                             <i class="fa fa-calendar"></i>
                           </label>
-                        </div>
+                        </div> --}}
                         <input type="text" name="sell_date" class="form-control datepicker list_date" id="datepicker" required="" placeholder="dd-mm-yyyy">
                         @if ($errors->has('sell_date'))
                         <span class="help-block">
                             <strong>{{ $errors->first('sell_date') }}</strong>
                         </span>
                         @endif
-                      </div>
+                      {{-- </div> --}}
                     </div>
                   </div>
                 </div>
@@ -159,7 +159,7 @@
                             <select required name="unit_id0" id="unit_id0" class="form-control select2" >
                               <option value="0"> Unit </option>
                               @foreach($units as $unit)
-                                <option value="{{$unit->unit_name}}">{{$unit->unit_name}}</option>
+                                <option value="{{$unit->unit_id}}">{{$unit->unit_name}}</option>
                               @endforeach
                             </select>
                           </td>
@@ -201,7 +201,7 @@
                           <td>
                             <button type="button" data-toggle="tooltip" title="Add Product" class="btn btn-success pull-right" id="addrow"> 
                                 <i class="fa fa-plus"></i>
-                                Add
+                               
                             </button>
                         </td>
                         </tr>
@@ -272,5 +272,8 @@
             <!-- /.card -->
 @endsection  
 @section('scripts')
-<script type="text/javascript" src="{{asset('js/sell.js')}}"></script>   
-@endsection           
+<script type="text/javascript" src="{{asset('js/sell.js')}}"></script>  
+<script>
+  defaultDate()
+</script> 
+@endsection              

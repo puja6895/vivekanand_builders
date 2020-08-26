@@ -111,8 +111,26 @@ class GstPaymentController extends Controller
      * @param  \App\GstPayment  $gstPayment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(GstPayment $gstPayment)
+    public function destroy(GstPayment $gstPayment,$id)
     {
         //
+        try{
+            $payment = GstPayment::find($id);
+            if($payment){
+                $payment->delete();
+
+                DB::commit();
+
+                // Return To Listing Page
+                return redirect()->route('gstpayments')->with('success','Payment ID no '.$payment->id.' Deleted');
+
+            }else{
+                return back()->with('error','Invalid Sell ID');
+            }
+
+        }catch(Exception $exception){
+            DB::rollBack();
+            return back()->with('error',$exception->getMessage())->withInput();
+        }
     }
 }

@@ -125,7 +125,7 @@ class PurchaserController extends Controller
             $purchaser = Purchaser::find($request->purchaser_id);
             $purchaser->purchaser_name = $request->purchaser_name;
             $purchaser->purchaser_email = $request->purchaser_email;
-            $purchaser->purchaser_mobile = $request->purchaser_mobile;
+            $purchaser->purchaser_mobile = $request->purchaser_mobile ||0;
             $purchaser->purchaser_address = $request->purchaser_address;
             $purchaser->company = $request->company_name;
             $purchaser->save();

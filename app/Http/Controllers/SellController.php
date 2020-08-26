@@ -590,7 +590,7 @@ class SellController extends Controller
        
             try {
                 $product_id = $request->product_id;
-                $unit_name = $request->unit_name;
+                $unit_id = $request->unit_id;
                 $rate = $request->rate;
                 $quantity = $request->quantity;
                 $gst = $request->gst;
@@ -623,7 +623,7 @@ class SellController extends Controller
                     $sell_product= new GstSellProduct;
                     $sell_product->sell_id=$gst_sell_id;
                     $sell_product->product_id=$product_id[$i];
-                    $sell_product->unit_name=$unit_name[$i];
+                    $sell_product->unit_id=$unit_id[$i];
                    
                     $sell_product->rate=$rate[$i];
                     $sell_product->quantity=$quantity[$i];
@@ -666,7 +666,32 @@ class SellController extends Controller
         //             ->select('products.product_name','sells.sell_date','sell_products.product_id','sell_products.quantity','sell_products.unit_name','sell_products.rate','sell_products.gst','sell_products.amount')
 
         //             ->get();  
-    }  
+    } 
+    
+    public function gstdestroy(Sell $sell, $id)
+    {
+        //
+        try{
+            $gst_sell = GstSell::find($id);
+            if($gst_sell){
+                $gst_sell->gstsell_products()->delete();
+                $gst_sell->delete();
+
+                DB::commit();
+
+                // Return To Listing Page
+                return redirect()->route('gst_sell')->with('success','Sell ID no '.$gst_sell->id.' Deleted');
+
+            }else{
+                return back()->with('error','Invalid Sell ID');
+            }
+
+        }catch(Exception $exception){
+            DB::rollBack();
+            return back()->with('error',$exception->getMessage())->withInput();
+        }
+    }
+    
     
     public function test(){
         // $sell_products = Sell_Product::all();

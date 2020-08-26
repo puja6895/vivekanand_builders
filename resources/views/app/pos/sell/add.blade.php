@@ -269,7 +269,7 @@
                           <td>
                             <button type="button" data-toggle="tooltip" title="Add Product" class="btn btn-success pull-right" id="addrow"> 
                                 <i class="fa fa-plus"></i>
-                                Add
+                              
                             </button>
                         </td>
                         </tr>

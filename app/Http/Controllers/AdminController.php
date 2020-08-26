@@ -104,8 +104,27 @@ class AdminController extends Controller
      * @param  \App\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Admin $admin)
+    public function destroy(Admin $admin,$id)
     {
         //
+        try{
+            //DB Transaction Begin
+            DB:: beginTransaction();
+            $admin=Admin::where('admin_id',$id);
+
+            if($admin){
+                $admin->delete();
+                // $default_Product->save();
+
+                DB::commit();
+                return redirect()->route('admins')->with('success','Admin Deleted');
+            }else{
+                return back()->with('error','Invalid unit Id');
+            }    
+
+        }catch(Exception $exception){
+                DB::rollBack();
+                return back()->with('error',$exception->getMessage())->withInput();
+        }
     }
 }

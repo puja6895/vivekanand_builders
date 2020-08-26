@@ -84,7 +84,9 @@
               <td>{{$gstayment->pay_date}}</td>
               <td>{{$gstayment->pay_received}}</td>
               <td>{{$gstayment->pay_mode}}</td>
-              <td></td>
+              <td>
+                <a href="{{route('gstpayment.destroy',['id'=>$gstayment->id])}}"><button class="btn  btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+              </td>
           </tr>
          @endforeach
         </tbody>

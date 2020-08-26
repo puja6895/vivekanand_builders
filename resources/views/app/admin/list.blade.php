@@ -71,12 +71,7 @@
                           <tr>
                           <td>{{$admin->admin_name}}</td>
                           <td>
-                            @if($admin->isDeleted==null)   
-                            <a href="{{route('admin.edit',['id'=>$admin->admin_id])}}" class="mr-2"><button class="btn btn-info btn-sm">Edit</button></a>
-                            <a href="{{route('admin.destroy',['id'=>$admin->admin_id])}}"><button class="btn btn-danger btn-sm">Disable</button></a>
-                          @else
-                          <a href="{{route('admin.enable',['id'=>$admin->admin_id])}}"><button class="btn btn-success btn-sm">Enable</button></a>
-                          @endif
+                            <a href="{{route('admin.destroy',['id'=>$admin->admin_id])}}"><button class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
                           </td>
                           </tr>
                         @endforeach                            

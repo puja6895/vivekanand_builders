@@ -73,7 +73,7 @@ class PurchaseController extends Controller
             $quantity = $request->quantity;
             $gst = $request->gst;
             $product_name = $request->product_name;
-            $unit_name = $request->unit_name;
+            // $unit_name = $request->unit_name;
         //DB Transection
          DB::beginTransaction();
             // print_r($request);
@@ -95,7 +95,7 @@ class PurchaseController extends Controller
                     $purchase_product->purchase_id=$purchase_id;
                     $purchase_product->product_id=$product_id[$i];
                     $purchase_product->unit_id=$unit_id[$i];
-                    $purchase_product->productUnitId=$purchase_product->product_id.$purchase_product->unit_id;
+                    // $purchase_product->productUnitId=$purchase_product->product_id.$purchase_product->unit_id;
                     // dd($purchase_product);
                     $purchase_product->rate=$rate[$i];
                     $purchase_product->quantity=$quantity[$i];
@@ -200,9 +200,28 @@ class PurchaseController extends Controller
      * @param  \App\Purchase  $purchase
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Purchase $purchase)
+    public function destroy(Purchase $purchase,$id)
     {
         //
+        try{
+            $purchase = Purchase::find($id);
+            if($purchase){
+                $purchase->purchase_products()->delete();
+                $purchase->delete();
+
+                DB::commit();
+
+                // Return To Listing Page
+                return redirect()->route('purchase')->with('success','Purchase ID no '.$purchase->id.' Deleted');
+
+            }else{
+                return back()->with('error','Invalid Sell ID');
+            }
+
+        }catch(Exception $exception){
+            DB::rollBack();
+            return back()->with('error',$exception->getMessage())->withInput();
+        }
     }
     public function individual($purchaser_id){
         
