@@ -78,24 +78,25 @@
                           {{-- <form action="add.php" method="post" enctype="multipart/form-data"> --}}
                             <div class=row>
                               <div class="table-responsive">
-                                  <table class="table table-borderless col-md-12" >
-                                    <thead>
-                                      <tr>
-                                        {{-- <th>Customer Name</th>
-                                        <th>Sell Date</th>
-                                        <th>Amount</th>
-                                        <th>Action</th> --}}
-                                        <th>Customer Name</th>
-                                        <th>Sell Date</th>
-                                        <th>Product Name</th>
-                                        <th>Quantity</th>
-                                        <th>Rate</th>
-                                        <th>GST%</th>
-                                        <th>Amount</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      {{-- @foreach($sells as $sell) --}}
+                                <table class="table table-borderless col-md-12" >
+                                  <thead>
+                                    <tr>
+                                      {{-- <th>Customer Name</th>
+                                      <th>Sell Date</th>
+                                      <th>Amount</th>
+                                      <th>Action</th> --}}
+                                      <th>Customer Name</th>
+                                      <th>Sell Date</th>
+                                      <th>Product Name</th>
+                                      <th>Quantity</th>
+                                      <th>Rate</th>
+                                      <th>GST%</th>
+                                      <th>Amount</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {{-- @foreach($sells as $sell) --}}
+                                    @if(empty($sell))
                                       @foreach($sells->sell_products as $sell_product)
                                       <tr>
                                         <td><a href="{{route('sell.individual',['id'=>$sells->customer_id])}}">{{$sells->customer->customer_name}}</a></td>
@@ -113,8 +114,13 @@
                                         <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id])}}"><button class="btn btn-sm btn-info">View</button></a></td> --}}
                                       </tr>
                                       @endforeach
-                                    </tbody>
-                                  </table>
+                                    @else
+                                      <tr class="text-center text-bold text-danger">
+                                        <td colspan="7">No Data Available</td>
+                                      </tr>
+                                    @endif
+                                  </tbody>
+                                </table>
                               </div>
                             </div>
           

@@ -233,7 +233,7 @@ class SellController extends Controller
      */
     public function update(Request $request, Sell $sell)
     {
-        //
+
         $this->validate($request, [
             // 'customer_id' => 'required|exists:customers,customer_id',
 			'sell_date' => 'required',
@@ -246,34 +246,30 @@ class SellController extends Controller
             
         ]);
         
-        
         try {
-            $product_id = $request->product_id;
+            $product_id = empty($request->product_id) ? [] : $request->product_id;
             $unit_name = $request->unit_name;
             $unit_id = $request->unit_id;
             $rate = $request->rate;
             $quantity = $request->quantity;
             $gst = $request->gst;
             $product_name = $request->product_name;
-            $sell_product_id = $request->sell_product_id;
+            $sell_product_id = empty($request->sell_product_id) ? [] : $request->sell_product_id;
+            $sell_id = $request->sell_id;
 
             // $sell_date = Carbon::parse($request->sell_date)->format('Y-m-d');
-
-            //DB Transection
+            // dd($sell_product_id,$product_id);
+            //DB Transaction
              DB::beginTransaction();
                 
-                $temp_sp = Sell_Product::where('sell_products_id',$sell_product_id[0])->first();
-                $sell = Sell::find($temp_sp->sell_id);
+                $sell = Sell::find($sell_id);
 
-                $all_old_sp = DB::table('sell_products')->where('sell_id',$sell->sell_id)->get();
+                $all_old_sp = DB::table('sell_products')->where('sell_id',$sell_id)->get();
                 
-                // dd(count($all_old_sp));
-                
-                
-                // $total_amount=0;
                 $gst_amount=0;
                 $total_amount=0;
                 
+                // For updating existing sell_products
                 for ($i = 0; $i < count($sell_product_id); $i++){
                     // dd($sell_product);
                     $old_sp = DB::table('sell_products')->where('sell_products_id',$sell_product_id[0])->first();
@@ -296,18 +292,9 @@ class SellController extends Controller
                             );
                             
                     $total_amount+=$amount;
-
-                    //Inventory Update
-                    // dd($sell->sell_date,$old_sp->product_id,$old_sp->unit_name);
-                    // $inventory = Inventory ::where(['date'=>$sell->sell_date,'product_id'=>$old_sp->product_id, 'unit_name'=>$old_sp->unit_name])->first();
-                    // if(!empty($inventory)){
-
-                    //     Inventory::where((['date'=>$sell->sell_date,'product_id'=>$old_sp->product_id, 'unit_name'=>$old_sp->unit_name]))
-                    //     ->update(['sell_stock' =>  $inventory->sell_stock - $quant_diff ,'closing_stock'=> $inventory->closing_stock + $quant_diff]);
-                    // }
-                
                 }
-
+                
+                // For deleting sell_products
                 for( $i = 0; $i < count($all_old_sp); $i++ ) {
                     $delete_flag = 1;
                     for ($j=0; $j < count($sell_product_id) ; $j++) { 
@@ -320,17 +307,18 @@ class SellController extends Controller
                         Sell_Product::where('sell_products_id',$all_old_sp[$i]->sell_products_id)->delete();
                     }
                 }
+
                 // For the new enteries in products
                 if(count($sell_product_id) - count($product_id) < 0){
-                    for ($j = 0,$i=count($sell_product_id); $j < (count($sell_product_id) + count($product_id) - 2); $j++,$i++){
+                    for ($j = 0,$i=count($sell_product_id); $j < abs(count($sell_product_id) - count($product_id)); $j++,$i++){
                         $amount = $rate[$i] * $quantity[$i];
                         $gst_amount=$amount*($gst[$i]/100);
                         $amount+=$gst_amount;
 
                         $sell_product= new Sell_Product;
-                        $sell_product->sell_id=$temp_sp->sell_id;
+                        $sell_product->sell_id=$sell_id;
                         $sell_product->product_id=$product_id[$i];
-                        // dd($unit_id , $unit_name);
+                        // dd($unit_id[$i] , $unit_name[$i]);
                         $sell_product->unit_id=$unit_id[$i];
                         // $sell_product->unit_name=$unit_name[$i];
                         $sell_product->rate=$rate[$i];
@@ -341,57 +329,14 @@ class SellController extends Controller
                         
                         $total_amount+=$amount;
 
-                        //Inventory Update
-                        // $inventory = Inventory ::where(['date'=>$sell->sell_date,'product_id'=>$product_id[$i], 'unit_name'=>$unit_name[$i]])->get();
-                        // // dd($inventory[0]->closing_stock);
-
-                        // if(count($inventory)<=0){
-
-                        //     $inv = new Inventory;
-                        //     $inv->date = $sell->sell_date;
-                        //     $inv->product_id = $product_id[$i];
-                        //     $inv->sell_stock = $quantity[$i];
-                        //     $inv->unit_name = $unit_name[$i];
-                        //     $inv->purchase_stock = 0;
-                        
-                        
-                        //     $last_close = Inventory :: where('product_id',$request->product_id[$i])
-                        //                             ->where('unit_name' ,$request->unit_name[$i])
-                        //                             ->orderBy('date' ,'desc');
-                        //                             //   ->first();
-
-                        //     // dd($last_close[0]->closing_stock);                          
-
-                        //     if($last_close->count() <= 0){
-                        //         $opening_stock    = 0;
-                        //     }else{
-                        //         $opening_stock = $last_close->first()->closing_stock;
-                        //     }
-
-                        //     // dd($opening_stock);
-                            
-                        //     $inv->opening_stock  = $opening_stock;
-                        //     $inv->closing_stock =  $opening_stock - $quantity[$i];
-                            
-                        //     $inv->save();
-
-                        // }else{
-
-                        //     $inv = Inventory::where((['date'=>$sell->sell_date,'product_id'=>$product_id[$i], 'unit_name'=>$unit_name[$i]]))
-                        //     ->update(['sell_stock' =>  $inventory[0]->sell_stock + $quantity[$i] ,'closing_stock'=> $inventory[0]->closing_stock - $quantity[$i]]);
-
-                        // }
                     }
                 }
                 
-                $sell_update = Sell::where('sell_id',$temp_sp->sell_id)
+                $sell_update = Sell::where('sell_id',$sell_id)
                                     ->update(['total_amount' => $total_amount]);
-                // $sell->total_amount=$total_amount;
-                // $sell->save(); 
-                
                 
             DB::commit();
-            return redirect()->route('sell.individual_sell',[$temp_sp->sell_id])->with('success','Sell Updated');
+            return redirect()->route('sell.individual_sell',[$sell_id])->with('success','Sell Updated');
             
         }catch(Exception $exception){
             DB::rollBack();

@@ -237,6 +237,7 @@ active
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <input type="hidden" name="sell_id" value="{{$sells->sell_id }}">                                                
                                                     @foreach($sells->sell_products as $sell_product)
                                                     
                                                     <tr>
