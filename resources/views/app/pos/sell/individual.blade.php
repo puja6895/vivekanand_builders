@@ -183,6 +183,9 @@ active
                                     <tbody>
                                         @foreach($sells as $sell)
                                             @foreach($sell->sell_products as $sell_product)
+                                            @if(!isset($sell_product->product))
+                                                {{dd($sell_product)}}
+                                            @endif
                                                 <tr>
                                                     {{-- <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id]) }}">{{ $sell->sell_id }}</td> --}}
                                                     <td>{{ \Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y') }}

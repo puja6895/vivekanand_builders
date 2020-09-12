@@ -211,7 +211,7 @@
         </table>
         @if(!empty($previous_bill))
         {{-- {{dd($previous_bill->due_amount )}} --}}
-        @if($previous_bill->due_amount != 0)
+        @if($previous_due_amount != 0)
             <hr>
             <p style=" padding: 10px; font-size: 0.9em; ">
                 <b>PREVIOUS BILL DETAILS : </b>

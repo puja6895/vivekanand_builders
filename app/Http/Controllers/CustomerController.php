@@ -218,7 +218,7 @@ class CustomerController extends Controller
 
         $lists =DB::select( DB::raw('select customers.customer_id,customers.customer_name,previous_due.previous_due_amount,sum(sells.total_amount) as total_amount,total_payment from customers inner join sells on customers.customer_id=sells.customer_id left join previous_due on customers.customer_id = previous_due.customer_id left join (select customer_id,sum(pay_received) as total_payment from sell_payAmounts group by customer_id)sell_payAmounts on sell_payAmounts.customer_id=customers.customer_id where isDeleted = 0 group by customer_id , previous_due_amount'));
 
-        // $previous_due_amount = $lists->previous_due_amount ;
+        // $previous_due_amount = PreviousDue :: sum('previous_due_amount') ;
         // dd($previous_due_amount);
 
         $sell_total_amount = Sell :: sum('total_amount');

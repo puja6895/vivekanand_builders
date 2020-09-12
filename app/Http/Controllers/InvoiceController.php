@@ -216,7 +216,7 @@ class InvoiceController extends Controller
 
             if(!empty($previous_bill)){
 
-                $test = Payment :: where('customer_id',$customer_id)
+                $test = Payment :: where('customer_id',$bills->customer_id)
                                 ->whereBetween('pay_date' ,array($previous_bill_detail ->first()->bill_date , $from_date))
                                 ->where('status' , 1)
                                 ->sum('pay_received'); 
