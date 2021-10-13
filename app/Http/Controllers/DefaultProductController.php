@@ -44,6 +44,7 @@ class DefaultProductController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         //
         //Validate
 		$this->validate($request, [

@@ -102,10 +102,16 @@ Route::get('/category/edit/{id}', 'CategoryController@edit')->name('category.edi
 Route::post('/category/update', 'CategoryController@update')->name('category.update');
 Route::get('/category/destroy/{id}', 'CategoryController@destroy')->name('category.destroy');
 Route::get('/category/enable/{id}', 'CategoryController@enable')->name('category.enable');
+
 // Previous Due
 Route::get('/previous_due', 'CategoryController@list')->name('previous_due');
 Route::get('/previous_due/add_due', 'CategoryController@add')->name('previousdue.add');
 Route::post('/previous_due/store', 'CategoryController@previousdue_store')->name('previousdue.previousdue_store');
+Route::get('/previous_due/delete/{id}', 'CategoryController@delete')->name('previousdue.delete');
+
+Route::get('/purcahse_pre_due', 'CategoryController@preDueList')->name('purcahse_pre_due');
+Route::get('/purcahse_pre_due/add_pre_due', 'CategoryController@pre_due_add')->name('purcahse_pre_due.add_pre_due');
+Route::post('/purcahse_pre_due/store_pre_due', 'CategoryController@store_pre_due')->name('purcahse_pre_due.store_pre_due');
 
 //Product
 Route::get('/product', 'ProductController@index')->name('products');
@@ -170,6 +176,8 @@ Route::get('/lorry_report', 'LorryReportController@index')->name('lorry_reports'
 Route::get('/lorry_report/add', 'LorryReportController@create')->name('lorry_report.add');
 Route::post('/lorry_report/store', 'LorryReportController@store')->name('lorry_report.store');
 Route::get('/lorry_report/destroy/{id}', 'LorryReportController@destroy')->name('lorry_report.destroy');
+Route::get('/lorry_report/indivisual_lorry/{id}', 'LorryReportController@indivisualLorryList')->name('lorry_report.indivisual_lorry');
+
 //Admin
 Route::get('/admin', 'AdminController@index')->name('admins');
 Route::get('/admin/add', 'AdminController@create')->name('admin.add');

@@ -66,12 +66,13 @@ class SellController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         //
         $this->validate($request, [
             'customer_id' => 'required|exists:customers,customer_id',
 			'sell_date' => 'required',
 			'product_id' => 'required|array|min:1',
-			// 'unit_id' => 'required|array|min:1',
+			'unit_id' => 'required|array|min:1',
 			'rate' => 'required|array|min:1',
 			'quantity' => 'required|array|min:1',
 			'gst' => 'required|array|min:1',

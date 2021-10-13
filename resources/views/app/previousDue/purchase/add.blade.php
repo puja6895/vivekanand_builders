@@ -2,7 +2,7 @@
 
 @section('title',' Previous Due')
 
-@section('Sell Previous Due')
+@section('Purchase Previous Due')
     active    
 @endsection
 
@@ -56,24 +56,23 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" id="quickForm" method="POST" action="{{route('previousdue.previousdue_store')}}" >
+              <form role="form" id="quickForm" method="POST" action="{{route('purcahse_pre_due.store_pre_due')}}" >
                 @csrf
                 <div class="card-body">
                     <div class="row">
-                        {{-- Customer Name --}}
                         <div class="col-md-6">
-                          <div class="form-group {{ $errors->has('customer_id') ? ' has-error' : '' }}">
-                            <label>Customer <span style="color: red;">*</span></label>
+                          <div class="form-group {{ $errors->has('purchaser_id') ? ' has-error' : '' }}">
+                            <label>Purchaser </label>
                             {{-- <div class="input-group">
                               <div class="input-group-prepend">
-                                <label class="input-group-text" for="customer_id">
+                                <label class="input-group-text" for="purchaser_id">
                                     <i class="fa fa-user"></i>
                                 </label>
                               </div> --}}
-                              <select required class="form-control select2" id="customer_id" name="customer_id">
-                                <option selected="" disabled="">Select Customer</option>
-                                @foreach($customers as $customer)
-                                <option value="{{$customer->customer_id}}">{{$customer->customer_name}}</option>
+                              <select required class="form-control select2" id="purchaser_id" name="purchaser_id">
+                                <option selected="" disabled="">Select purchasers</option>
+                                @foreach($purchasers as $purchaser)
+                                <option value="{{$purchaser->purchaser_id}}">{{$purchaser->purchaser_name}}</option>
                                 @endforeach
                               </select>
                             {{-- </div> --}}

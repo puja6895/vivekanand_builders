@@ -91,8 +91,11 @@
                          {{-- <td>{{$sell_product->sell_id}}</td> --}}
                          <td>{{$sell->sell_date}}</td>
                          <td>{{$sell_product->product->product_name}}</td>
-                         <td>{{$sell_product->quantity}} ({{$sell_product->unit->unit_name}})</td>
-                         {{-- <td></td> --}}
+                         @if(!empty($sell_product->unit && $sell_product->unit->unit_name))
+                              <td>{{ $sell_product->quantity }} ({{ $sell_product->unit->unit_name }})
+                          @else    
+                              <td>{{ $sell_product->quantity }}
+                          @endif 
                          <td>{{$sell_product->rate}}</td>
                          <td>{{$sell_product->gst}}</td>
                          <td>{{$sell_product->amount}}</td>

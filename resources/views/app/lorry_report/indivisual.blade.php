@@ -6,7 +6,7 @@
     active    
 @endsection
 
-@section('Lorry-Add Lorry')
+@section('Lorry-Lorry Report')
     active    
 @endsection
 
@@ -18,12 +18,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h3>Lorry</h3>
+            <h3>{{$lorry_name}}</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-            <li class="breadcrumb-item active">Lorry</li>
+            <li class="breadcrumb-item active">Indivisual Report</li>
             {{-- <li class="breadcrumb-item"><a href="#">Layout</a></li> --}}
             </ol>
           </div>
@@ -52,8 +52,8 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title text-secondary">Lorry</h3>
-              <a href="{{route('lorry.add')}}" class="pull-right">
-                  <button class="btn btn-info"><b>Add New+</b></button>
+              <a href="{{route('lorries')}}" class="pull-right">
+                  <button class="btn btn-info"><b>Back</b></button>
               </a>
               </div>
                 <!-- /.card-header -->
@@ -62,29 +62,54 @@
                     <table id="example1" class="table table-bordered table-striped table-hover ">
                       <thead>
                       <tr>
-                        <th>Lorry Name</th>
+                        <th>Customer Name</th>
+                        <th>Date</th>
+                        <th>Item</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Quantity</th>
+                        <th>Rate</th>
+                        <th>Detain Amount</th>
+                        <th>Amount</th>
+                        <th>Advance</th>
+                        <th>Due Amount</th>
                         <th>Action</th>
                       </tr>
                       </thead>
                       <tbody>
-                        @foreach($lorries as $lorry)
+                        @foreach($lorry_reports as $lorry_report)
                           <tr>
-                          <td>{{$lorry->lorry_no}}</td>
+                          <td>{{$lorry_report->customer->first()->customer_name}}</td>
+                          <td>{{\Carbon\Carbon::parse($lorry_report->lorry_date)->format('d-m-Y')}}</td>
+                          <td>{{$lorry_report->product->first()->product_name}}</td>
+                          <td>{{$lorry_report->from}}</td>
+                          <td>{{$lorry_report->to}}</td>
+                          <td>{{$lorry_report->weight}} ({{$lorry_report->unit->first()->unit_name}})</td>
+                          <td><b><span>&#8377;</span></b> {{$lorry_report->rate}}</td>
+                          <td><b><span>&#8377;</span></b> {{$lorry_report->detain_amount}}</td>
+                          <td><b><span>&#8377;</span></b> {{$lorry_report->amount}}</td>
+                          <td><b><span>&#8377;</span></b> {{$lorry_report->advance_amount}}</td>
+                          <td><b><span>&#8377;</span></b> {{($lorry_report->amount + $lorry_report->detain_amount)- $lorry_report->advance_amount}}</td>
                           <td>
-                            @if($lorry->deleted_at==null)   
-                            <a href="{{route('lorry_report.indivisual_lorry',['id'=>$lorry->lorry_id])}}" class="mr-2"><button class="btn btn-info btn-sm">Indivisual Report</button></a>
-                            <a href="{{route('lorry.edit',['id'=>$lorry->lorry_id])}}" class="mr-2"><button class="btn btn-info btn-sm"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
-                            <a href="{{route('lorry.destroy',['id'=>$lorry->lorry_id])}}"><button class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
-                          @else
-                          <a href="{{route('lorry.enable',['id'=>$lorry->lorry_id])}}"><button class="btn btn-success btn-sm">Enable</button></a>
-                          @endif
+                            <a href="{{route('lorry_report.destroy',['id'=>$lorry_report->id])}}"><button class="btn  btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
                           </td>
                           </tr>
                         @endforeach                            
                       </tbody>
                       <tfoot>
                       <tr>
-                        <th>Lorry Name</th>
+                        <th>Customer Name</th>
+                        <th>Vehical No</th>
+                        <th>Date</th>
+                        <th>Item</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Quantity</th>
+                        <th>Rate</th>
+                        <th>Detain Amount</th>
+                        <th>Amount</th>
+                        <th>Advance</th>
+                        <th>Due Amount</th>
                         <th>Action</th>
                       </tr>
                       </tfoot>

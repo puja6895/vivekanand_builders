@@ -95,25 +95,26 @@
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {{-- @foreach($sells as $sell) --}}
                                     @if(empty($sell))
-                                      @foreach($sells->sell_products as $sell_product)
-                                      <tr>
-                                        <td><a href="{{route('sell.individual',['id'=>$sells->customer_id])}}">{{$sells->customer->customer_name}}</a></td>
-                                        <td>{{ \Carbon\Carbon::parse($sells->sell_date)->format('d-m-Y') }}
-                                        </td>
-                                        <td>{{ $sell_product->product->product_name }}</td>
-                                        <td>{{ $sell_product->quantity }}({{ $sell_product->unit_name }})
-                                        </td>
-                                        <td>{{ $sell_product->rate }}</td>
-                                        <td>{{ $sell_product->gst }}</td>
-                                        <td>{{ $sell_product->amount }}</td>
-                                        {{-- <td>{{$sell->customer->customer_name}}</td>
-                                        <td>{{\Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y')}}</td>
-                                        <td>{{$sell->total_amount}}</td>
-                                        <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id])}}"><button class="btn btn-sm btn-info">View</button></a></td> --}}
-                                      </tr>
-                                      @endforeach
+                                      @if(!empty($sells->sell_products))
+                                        @foreach($sells->sell_products as $sell_product)
+                                        <tr>
+                                          <td><a href="{{route('sell.individual',['id'=>$sells->customer_id])}}">{{$sells->customer->customer_name}}</a></td>
+                                          <td>{{ \Carbon\Carbon::parse($sells->sell_date)->format('d-m-Y') }}
+                                          </td>
+                                          <td>{{ $sell_product->product->product_name }}</td>
+                                          <td>{{ $sell_product->quantity }}({{ $sell_product->unit_name }})
+                                          </td>
+                                          <td>{{ $sell_product->rate }}</td>
+                                          <td>{{ $sell_product->gst }}</td>
+                                          <td>{{ $sell_product->amount }}</td>
+                                          {{-- <td>{{$sell->customer->customer_name}}</td>
+                                          <td>{{\Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y')}}</td>
+                                          <td>{{$sell->total_amount}}</td>
+                                          <td><a href="{{route('sell.individual_sell',['id'=>$sell->sell_id])}}"><button class="btn btn-sm btn-info">View</button></a></td> --}}
+                                        </tr>
+                                        @endforeach
+                                        @endif
                                     @else
                                       <tr class="text-center text-bold text-danger">
                                         <td colspan="7">No Data Available</td>

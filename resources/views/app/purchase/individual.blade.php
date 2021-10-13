@@ -47,6 +47,22 @@
                 <strong>Error!</strong> {{Session::get('error')}}
             </div>
           @endif
+          <table class="table table-borderless">
+                        <thead>
+                          <tr class="text-primary text-center ">
+                            <td><b>Grand Total</b></td>
+                            <td><b>Total Pay Received</b></td>
+                            <td><b>Balance</b></td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="text-center ">
+                          <td><b> <h1><span style="font-size: 50px;">&#8377;</span> {{ $grand_total + $previous_due}}</h1></b></td>
+                          <td class="text-success"><b><h1><span style="font-size: 50px;">&#8377;</span> {{$payment}}</h1></b></td>
+                            <td class="text-danger"><b><h1><span style="font-size: 50px;">&#8377;</span> {{ ($grand_total +  $previous_due) - $payment }}</h1></b></td>
+                          </tr>
+                        </tbody>
+                      </table>
           {{-- List Of Selected Date --}}
           <form action="" method="POST">
             @csrf

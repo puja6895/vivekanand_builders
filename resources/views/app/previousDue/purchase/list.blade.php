@@ -1,12 +1,8 @@
 @extends('layouts.home')
 
-@section('title','Lorry')
+@section('title',' Previous Due')
 
-@section('Lorry')
-    active    
-@endsection
-
-@section('Lorry-Add Lorry')
+@section('Purchase Previous Due')
     active    
 @endsection
 
@@ -18,12 +14,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h3>Lorry</h3>
+            <h3>Previous Due</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-            <li class="breadcrumb-item active">Lorry</li>
+            <li class="breadcrumb-item active">Previous Due</li>
             {{-- <li class="breadcrumb-item"><a href="#">Layout</a></li> --}}
             </ol>
           </div>
@@ -51,8 +47,8 @@
           @endif
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title text-secondary">Lorry</h3>
-              <a href="{{route('lorry.add')}}" class="pull-right">
+                <h3 class="card-title text-secondary">Previous Dues</h3>
+              <a href="{{route('purcahse_pre_due.add_pre_due')}}" class="pull-right">
                   <button class="btn btn-info"><b>Add New+</b></button>
               </a>
               </div>
@@ -62,31 +58,28 @@
                     <table id="example1" class="table table-bordered table-striped table-hover ">
                       <thead>
                       <tr>
-                        <th>Lorry Name</th>
-                        <th>Action</th>
+                        <th>Purchaser Name</th>
+                        <th>Date</th>
+                        <th>Previous Due Amount</th>
                       </tr>
                       </thead>
                       <tbody>
-                        @foreach($lorries as $lorry)
-                          <tr>
-                          <td>{{$lorry->lorry_no}}</td>
+                      @foreach($lists as $list)
+                        <tr>
                           <td>
-                            @if($lorry->deleted_at==null)   
-                            <a href="{{route('lorry_report.indivisual_lorry',['id'=>$lorry->lorry_id])}}" class="mr-2"><button class="btn btn-info btn-sm">Indivisual Report</button></a>
-                            <a href="{{route('lorry.edit',['id'=>$lorry->lorry_id])}}" class="mr-2"><button class="btn btn-info btn-sm"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
-                            <a href="{{route('lorry.destroy',['id'=>$lorry->lorry_id])}}"><button class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
-                          @else
-                          <a href="{{route('lorry.enable',['id'=>$lorry->lorry_id])}}"><button class="btn btn-success btn-sm">Enable</button></a>
-                          @endif
+                          <a href="{{route('purchase.individual',['id'=>$list->purchaser_id])}}">{{$list->purchaser->purchaser_name}}</a>
                           </td>
-                          </tr>
-                        @endforeach                            
-                      </tbody>
-                      <tfoot>
-                      <tr>
-                        <th>Lorry Name</th>
-                        <th>Action</th>
-                      </tr>
+                          <td>{{\Carbon\Carbon::parse($list->previous_due_date)->format('d-m-Y')}}</td>
+                          <td>{{$list->previous_due_amount}}</td>
+                        </tr>
+                        @endforeach
+                        <tbody>
+                      </tfoot>
+                        <tr>
+                            <th>Purchaser Name</th>
+                            <th>Date</th>
+                            <th>Previous Due Amount</th>
+                        </tr>
                       </tfoot>
                     </table>
                   </div>

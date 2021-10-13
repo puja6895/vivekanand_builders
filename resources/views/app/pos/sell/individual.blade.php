@@ -191,7 +191,12 @@ active
                                                     <td>{{ \Carbon\Carbon::parse($sell->sell_date)->format('d-m-Y') }}
                                                     </td>
                                                     <td>{{ $sell_product->product->product_name }}</td>
-                                                    <td>{{ $sell_product->quantity }}({{ $sell_product->unit->unit_name }})
+                                                    @if(!empty($sell_product->unit && $sell_product->unit->unit_name))
+                                                        <td>{{ $sell_product->quantity }} ({{ $sell_product->unit->unit_name }})
+                                                    @else    
+                                                        <td>{{ $sell_product->quantity }}
+                                                    @endif    
+                                                        
                                                     </td>
                                                     <td>{{ $sell_product->rate }}</td>
                                                     <td>{{ $sell_product->gst }}</td>

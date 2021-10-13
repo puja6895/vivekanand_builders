@@ -27,6 +27,22 @@ class LorryReportController extends Controller
         return view::make('app.lorry_report.list')->with(['lorry_reports'=>$lorry_reports]);
     }
 
+    public function indivisualLorryList($id){
+
+        $lorry_reports = LorryReport::where('lorry_id', $id)->orderBy('lorry_date','desc')->get();
+        // dd($lorry_reports);
+        // $lorry_name = '';
+        // if(count($lorry_reports) > 0){
+
+            $lorries=  Lorry::where('lorry_id', $id)->first();
+            $lorry_name = $lorries->lorry_no;
+            // dd($lorry_name);
+        // }
+
+        return view::make('app.lorry_report.indivisual')->with(['lorry_reports'=>$lorry_reports, 'lorry_name'=>$lorry_name]);
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -470,7 +470,7 @@
                             </ul>
                         </li>
 
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="{{route('previous_due')}}" class="nav-link @yield(' Previous Due')">
                                 <i class="nav-icon fa fa-money"></i>
                                 <p>
@@ -478,6 +478,35 @@
                                     {{-- <i class="right fa fa-angle-left"></i> --}}
                                 </p>
                             </a>
+                        </li> -->
+
+                        <li class="nav-item has-treeview ">
+                            <a href="#" class="nav-link @yield(' Previous Due')">
+                                <i class="fa fa-users nav-icon" aria-hidden="true"></i>
+                                <p>
+                                    Previous Due
+                                    <i class="fa fa-angle-left right"></i>
+                                    {{-- <span class="badge badge-info right">6</span> --}}
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('previous_due')}}"
+                                        class="nav-link  @yield('Sell Previous Due')">
+                                        <i class="fa fa-circle-thin nav-icon"></i>
+                                        <p>Sell  Previous Due</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('purcahse_pre_due')}}"
+                                        class="nav-link  @yield('Purchase Previous Due')">
+                                        <i class="fa fa-circle-thin nav-icon"></i>
+                                        <p> Purchase Previous Due</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="nav-item has-treeview ">

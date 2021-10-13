@@ -2,7 +2,7 @@
 
 @section('title',' Previous Due')
 
-@section(' Previous Due')
+@section('Sell Previous Due')
     active    
 @endsection
 
@@ -47,7 +47,7 @@
           @endif
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title text-secondary">Lorry</h3>
+                <h3 class="card-title text-secondary">Previous Dues</h3>
               <a href="{{route('previousdue.add')}}" class="pull-right">
                   <button class="btn btn-info"><b>Add New+</b></button>
               </a>
@@ -61,23 +61,27 @@
                         <th>Customer Name</th>
                         <th>Date</th>
                         <th>Previous Due Amount</th>
+                        <th>Action</th>
                       </tr>
                       </thead>
                       <tbody>
                         @foreach($lists as $list)
-                          <tr>
-                            <td>{{$list->customer->customer_name}}</td>
-                            <td>{{\Carbon\Carbon::parse($list->previous_due_date)->format('d-m-Y')}}</td>
-                            <td>{{$list->previous_due_amount}}</td>
-                          </tr>
-                        @endforeach                            
-                      </tbody>
-                      <tfoot>
-                      <tr>
-                        <th>Customer Name</th>
-                        <th>Date</th>
-                        <th>Previous Due Amount</th>
-                      </tr>
+                        <tr>
+                          <td><a href="{{route('sell.individual',['id'=>$list->customer_id])}}">{{$list->customer->customer_name}}</a></td>
+                          <td>{{\Carbon\Carbon::parse($list->previous_due_date)->format('d-m-Y')}}</td>
+                          <td>{{$list->previous_due_amount}}</td>
+                          <td>
+                            <a href="{{route('previousdue.delete', ['id'=>$list->id])}}"><button class="btn  btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                          </td>
+                        </tr>
+                        @endforeach
+                        <tbody>
+                      </tfoot>
+                        <tr>
+                          <th>Customer Name</th>
+                          <th>Date</th>
+                          <th>Previous Due Amount</th>
+                        </tr>
                       </tfoot>
                     </table>
                   </div>

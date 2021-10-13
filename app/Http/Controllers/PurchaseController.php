@@ -9,6 +9,7 @@ use App\Purchaser;
 use App\Product;
 use App\Inventory;
 use App\Unit;
+use App\PurchaserPreDue;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use View;
@@ -231,6 +232,16 @@ class PurchaseController extends Controller
                           ->where('purchaser_id',$purchaser_id)
                           ->sum('total_amount');
         // dd($grand_total);
+
+        $previous_due = PurchaserPreDue :: where('purchaser_id',$purchaser_id)->sum('previous_due_amount');
+
+        $date_payments = DB::table('sell_payAmounts')
+                      ->where('customer_id',$purchaser_id)->get();
+                      
+        // dd($payment);
+        $payment = $date_payments->sum('final_paid');
+        // dd($payment);
+
         $purchases = Purchase::where('purchaser_id',$purchaser_id)->get();  
         // dd($sells[0]->sell_products);                     
 
@@ -257,7 +268,7 @@ class PurchaseController extends Controller
         // $balance = ($grand_total -  $payment);
         // dd($balance);
         $sell_products ;                    
-        return view :: make('app.purchase.individual')->with(['purchaser'=>$purchaser,'grand_total'=>$grand_total,'purchases'=>$purchases,'payment'=>$payment]);
+        return view :: make('app.purchase.individual')->with(['purchaser'=>$purchaser,'grand_total'=>$grand_total,'purchases'=>$purchases,'payment'=>$payment,'previous_due'=>$previous_due,'payment'=>$payment]);
     }
 
     public function individual_sell($sell_id){

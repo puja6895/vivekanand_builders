@@ -49,6 +49,7 @@
                 <strong>Error!</strong> {{Session::get('error')}}
             </div>
           @endif
+          
             <div class="card">
     <div class="card-header">
       <h3 class="card-title text-success text-bold">Active Purchasers</h3>
