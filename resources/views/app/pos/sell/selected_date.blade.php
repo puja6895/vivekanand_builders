@@ -142,7 +142,7 @@
                            <td>{{$sell_product->sell_date}}</td>
                            {{-- <td></td> --}}
                            <td>{{$sell_product->product_name}}</td>
-                           <td>{{$sell_product->quantity}}({{$sell_product->unit_name}})</td>
+                           <td>{{$sell_product->quantity}}({{$sell_product->unit_id}})</td>
                            <td>{{$sell_product->rate}}</td>
                            <td>{{$sell_product->gst}}</td>
                            <td>{{$sell_product->amount}}</td>

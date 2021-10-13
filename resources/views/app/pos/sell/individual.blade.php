@@ -80,8 +80,8 @@ active
                                         </div>
                                         <input type="text" name="from_date" class="form-control datepicker mr-3"
                                             id="datepicker" required="" placeholder="dd-mm-yyyy">
-                                        <input type="text" name="to_date" class="form-control datepicker mr-3"
-                                            id="datepicker" placeholder="dd-mm-yyyy">
+                                        {{-- <input type="text" name="to_date" class="form-control datepicker mr-3"
+                                            id="datepicker" placeholder="dd-mm-yyyy"> --}}
                                         <button class="btn btn-info">Submit</button>
                                         {{-- @if ($errors->has('sell_date'))
                     <span class="help-block">

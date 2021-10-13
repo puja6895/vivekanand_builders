@@ -468,7 +468,7 @@ class SellController extends Controller
                                 ->join('products','sell_products.product_id' ,'=', 'products.product_id')
                                 ->where('customer_id',$customer_id)
                                 ->whereBetween('sell_date',array($from_date,$to_date))
-                                ->select('products.product_name','unit_name','quantity','rate','gst','amount','sells.sell_date')
+                                ->select('products.product_name','unit_id','quantity','rate','gst','amount','sells.sell_date')
                                 ->get();
                 // dd($sell_product);
             
